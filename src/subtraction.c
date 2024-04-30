@@ -20,10 +20,14 @@ takum8_subtraction(takum8 a, takum8 b)
 
 	if (a > 0) {
 		if (b > 0) {
-			if (a > b) {	
-				return codec_takum8_from_s_and_l(0, la + 2 * log1pf(-powf(SQRTE, lb - la)));
+			if (a > b) {
+				return codec_takum8_from_s_and_l(
+					0,
+					la + 2 * log1pf(-powf(SQRTE, lb - la)));
 			} else {
-				return codec_takum8_from_s_and_l(1, lb + 2 * log1pf(-powf(SQRTE, la - lb)));
+				return codec_takum8_from_s_and_l(
+					1,
+					lb + 2 * log1pf(-powf(SQRTE, la - lb)));
 			}
 		} else if (b < 0) {
 			return takum8_addition(a, -b);
@@ -57,10 +61,14 @@ takum16_subtraction(takum16 a, takum16 b)
 
 	if (a > 0) {
 		if (b > 0) {
-			if (a > b) {	
-				return codec_takum16_from_s_and_l(0, la + 2 * log1pf(-powf(SQRTE, lb - la)));
+			if (a > b) {
+				return codec_takum16_from_s_and_l(
+					0,
+					la + 2 * log1pf(-powf(SQRTE, lb - la)));
 			} else {
-				return codec_takum16_from_s_and_l(1, lb + 2 * log1pf(-powf(SQRTE, la - lb)));
+				return codec_takum16_from_s_and_l(
+					1,
+					lb + 2 * log1pf(-powf(SQRTE, la - lb)));
 			}
 		} else if (b < 0) {
 			return takum16_addition(a, -b);
@@ -94,10 +102,14 @@ takum32_subtraction(takum32 a, takum32 b)
 
 	if (a > 0) {
 		if (b > 0) {
-			if (a > b) {	
-				return codec_takum32_from_s_and_l(0, la + 2 * log1p(-pow(SQRTE, lb - la)));
+			if (a > b) {
+				return codec_takum32_from_s_and_l(
+					0,
+					la + 2 * log1p(-pow(SQRTE, lb - la)));
 			} else {
-				return codec_takum32_from_s_and_l(1, lb + 2 * log1p(-pow(SQRTE, la - lb)));
+				return codec_takum32_from_s_and_l(
+					1,
+					lb + 2 * log1p(-pow(SQRTE, la - lb)));
 			}
 		} else if (b < 0) {
 			return takum32_addition(a, -b);
@@ -131,10 +143,14 @@ takum64_subtraction(takum64 a, takum64 b)
 
 	if (a > 0) {
 		if (b > 0) {
-			if (a > b) {	
-				return codec_takum64_from_s_and_l(0, la + 2 * log1pl(-powl(SQRTE, lb - la)));
+			if (a > b) {
+				return codec_takum64_from_s_and_l(
+					0,
+					la + 2 * log1pl(-powl(SQRTE, lb - la)));
 			} else {
-				return codec_takum64_from_s_and_l(1, lb + 2 * log1pl(-powl(SQRTE, la - lb)));
+				return codec_takum64_from_s_and_l(
+					1,
+					lb + 2 * log1pl(-powl(SQRTE, la - lb)));
 			}
 		} else if (b < 0) {
 			return takum64_addition(a, -b);

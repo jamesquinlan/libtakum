@@ -6,8 +6,9 @@
 UTIL_UNARY_FLOAT_WRAPPER(sin, sin)
 
 /*
- * We extend to long double and multiply the argument with pi, returning a rounded long double.
- * sinpil() is still good enough as we have at least 5 bits of wiggle room anyway.
+ * We extend to long double and multiply the argument with pi, returning a
+ * rounded long double. sinpil() is still good enough as we have at least 5 bits
+ * of wiggle room anyway.
  */
 static float
 sinpif(float f)

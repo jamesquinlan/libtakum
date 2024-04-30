@@ -9,7 +9,8 @@
 int
 main(void)
 {
-	takum32 twentyseven, ten, euler, pi, two, three, sixtyseven, sixteen, res1, res2, res3;
+	takum32 twentyseven, ten, euler, pi, two, three, sixtyseven, sixteen,
+		res1, res2, res3;
 
 	twentyseven = takum32_from_float32(27.0);
 	ten = takum32_from_float32(10.0);
@@ -36,7 +37,7 @@ main(void)
 	res2 = takum32_division(sixtyseven, sixteen);
 
 	res1 = takum32_power(res1, res2);
-	
+
 	printf("res=%.8f\n", takum32_to_float32(res1));
 
 #if 0

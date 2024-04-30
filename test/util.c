@@ -6,5 +6,4 @@
 void
 stub(void)
 {
-
 }

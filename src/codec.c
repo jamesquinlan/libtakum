@@ -1,8 +1,8 @@
 /* See LICENSE file for copyright and license details. */
 #include <float.h>
+#include <math.h>
 #include <stdbool.h>
 #include <stdint.h>
-#include <math.h>
 
 #include "../takum.h"
 
@@ -14,22 +14,22 @@
  * unsigned integer to the c bias
  */
 static const int16_t c_bias_lut[] = {
-	 [0] = -255, /* 0 000 → D=0, r=7, -2^(r+1)+1 */
-	 [1] = -127, /* 0 001 → D=0, r=6, -2^(r+1)+1 */
-	 [2] =  -63, /* 0 010 → D=0, r=5, -2^(r+1)+1 */
-	 [3] =  -31, /* 0 011 → D=0, r=4, -2^(r+1)+1 */
-	 [4] =  -15, /* 0 100 → D=0, r=3, -2^(r+1)+1 */
-	 [5] =   -7, /* 0 101 → D=0, r=2, -2^(r+1)+1 */
-	 [6] =   -3, /* 0 110 → D=0, r=1, -2^(r+1)+1 */
-	 [7] =   -1, /* 0 111 → D=0, r=0, -2^(r+1)+1 */
-	 [8] =    0, /* 1 000 → D=1, r=0, 2^r-1 */
-	 [9] =    1, /* 1 001 → D=1, r=1, 2^r-1 */
-	[10] =    3, /* 1 010 → D=1, r=2, 2^r-1 */
-	[11] =    7, /* 1 011 → D=1, r=3, 2^r-1 */
-	[12] =   15, /* 1 100 → D=1, r=4, 2^r-1 */
-	[13] =   31, /* 1 101 → D=1, r=5, 2^r-1 */
-	[14] =   63, /* 1 110 → D=1, r=6, 2^r-1 */
-	[15] =  127, /* 1 111 → D=1, r=7, 2^r-1 */
+	[0] = -255, /* 0 000 → D=0, r=7, -2^(r+1)+1 */
+	[1] = -127, /* 0 001 → D=0, r=6, -2^(r+1)+1 */
+	[2] = -63,  /* 0 010 → D=0, r=5, -2^(r+1)+1 */
+	[3] = -31,  /* 0 011 → D=0, r=4, -2^(r+1)+1 */
+	[4] = -15,  /* 0 100 → D=0, r=3, -2^(r+1)+1 */
+	[5] = -7,   /* 0 101 → D=0, r=2, -2^(r+1)+1 */
+	[6] = -3,   /* 0 110 → D=0, r=1, -2^(r+1)+1 */
+	[7] = -1,   /* 0 111 → D=0, r=0, -2^(r+1)+1 */
+	[8] = 0,    /* 1 000 → D=1, r=0, 2^r-1 */
+	[9] = 1,    /* 1 001 → D=1, r=1, 2^r-1 */
+	[10] = 3,   /* 1 010 → D=1, r=2, 2^r-1 */
+	[11] = 7,   /* 1 011 → D=1, r=3, 2^r-1 */
+	[12] = 15,  /* 1 100 → D=1, r=4, 2^r-1 */
+	[13] = 31,  /* 1 101 → D=1, r=5, 2^r-1 */
+	[14] = 63,  /* 1 110 → D=1, r=6, 2^r-1 */
+	[15] = 127, /* 1 111 → D=1, r=7, 2^r-1 */
 };
 
 /*
@@ -38,22 +38,22 @@ static const int16_t c_bias_lut[] = {
  * of the first 16 bit fragment
  */
 static const uint8_t p_lut[] = {
-	 [0] =  4, /* 0 000 → D=0, r=7 */
-	 [1] =  5, /* 0 001 → D=0, r=6 */
-	 [2] =  6, /* 0 010 → D=0, r=5 */
-	 [3] =  7, /* 0 011 → D=0, r=4 */
-	 [4] =  8, /* 0 100 → D=0, r=3 */
-	 [5] =  9, /* 0 101 → D=0, r=2 */
-	 [6] = 10, /* 0 110 → D=0, r=1 */
-	 [7] = 11, /* 0 111 → D=0, r=0 */
-	 [8] = 11, /* 1 000 → D=1, r=0 */
-	 [9] = 10, /* 1 001 → D=1, r=1 */
-	[10] =  9, /* 1 010 → D=1, r=2 */
-	[11] =  8, /* 1 011 → D=1, r=3 */
-	[12] =  7, /* 1 100 → D=1, r=4 */
-	[13] =  6, /* 1 101 → D=1, r=5 */
-	[14] =  5, /* 1 110 → D=1, r=6 */
-	[15] =  4, /* 1 111 → D=1, r=7 */
+	[0] = 4,  /* 0 000 → D=0, r=7 */
+	[1] = 5,  /* 0 001 → D=0, r=6 */
+	[2] = 6,  /* 0 010 → D=0, r=5 */
+	[3] = 7,  /* 0 011 → D=0, r=4 */
+	[4] = 8,  /* 0 100 → D=0, r=3 */
+	[5] = 9,  /* 0 101 → D=0, r=2 */
+	[6] = 10, /* 0 110 → D=0, r=1 */
+	[7] = 11, /* 0 111 → D=0, r=0 */
+	[8] = 11, /* 1 000 → D=1, r=0 */
+	[9] = 10, /* 1 001 → D=1, r=1 */
+	[10] = 9, /* 1 010 → D=1, r=2 */
+	[11] = 8, /* 1 011 → D=1, r=3 */
+	[12] = 7, /* 1 100 → D=1, r=4 */
+	[13] = 6, /* 1 101 → D=1, r=5 */
+	[14] = 5, /* 1 110 → D=1, r=6 */
+	[15] = 4, /* 1 111 → D=1, r=7 */
 };
 
 static inline uint_fast8_t
@@ -102,7 +102,7 @@ codec_takum8_to_l(takum8 t)
 	 */
 	M = in.bits << get_c_and_return_shift(((uint16_t)in.bits) << 8, &c);
 
-	/* 
+	/*
 	 * Convert c and M to floats and add them. The
 	 * conversions and the addition are lossless as
 	 * |c| is at most 8 bits, M is at most 3 bits,
@@ -134,7 +134,7 @@ codec_takum16_to_l(takum16 t)
 	 */
 	M = in.bits << get_c_and_return_shift(in.bits, &c);
 
-	/* 
+	/*
 	 * Convert c and M to floats and add them. The
 	 * conversions and the addition are lossless as
 	 * |c| is at most 8 bits, M is at most 11 bits,
@@ -165,7 +165,7 @@ codec_takum32_to_l(takum32 t)
 	 */
 	M = in.bits << get_c_and_return_shift((uint16_t)(in.bits >> 16), &c);
 
-	/* 
+	/*
 	 * Convert c and M to floats and add them. The
 	 * conversions and the addition are lossless as
 	 * |c| is at most 8 bits, M is at most 27 bits,
@@ -196,14 +196,15 @@ codec_takum64_to_l(takum64 t)
 	 */
 	M = in.bits << get_c_and_return_shift((uint16_t)(in.bits >> 48), &c);
 
-	/* 
+	/*
 	 * Convert c and M to floats and add them. The
 	 * conversions and the addition are lossless as
 	 * |c| is at most 8 bits, M is at most 27 bits,
 	 * which easily fits in the 52 bits provided by
 	 * float64.
 	 */
-	return (1 - 2 * (t < 0)) * ((long double)c + ldexpl((long double)M, -64));
+	return (1 - 2 * (t < 0)) *
+	       ((long double)c + ldexpl((long double)M, -64));
 }
 
 static uint_fast8_t
@@ -245,6 +246,7 @@ float32_fraction_to_rounded_bits(float f, uint_fast8_t num_bits)
 		} fu = {
 			.val = f,
 		};
+
 		int q;
 
 		/*
@@ -252,8 +254,7 @@ float32_fraction_to_rounded_bits(float f, uint_fast8_t num_bits)
 		 * First mask out the fraction bits and add the
 		 * implicit 1 bit
 		 */
-		F = (fu.bits & ((UINT32_C(1) << 23) - 1)) |
-		    (UINT32_C(1) << 23);
+		F = (fu.bits & ((UINT32_C(1) << 23) - 1)) | (UINT32_C(1) << 23);
 
 		/* shift to the left until the 1 bit is the MSB */
 		F <<= 9 - 1;
@@ -275,7 +276,8 @@ float32_fraction_to_rounded_bits(float f, uint_fast8_t num_bits)
 		 * before with clamping
 		 */
 		F = (F >> (32 - num_bits)) +
-		    (num_bits != 0) * ((F & (UINT32_C(1) << (32 - num_bits - 1))) != 0);
+		    (num_bits != 0) *
+		            ((F & (UINT32_C(1) << (32 - num_bits - 1))) != 0);
 	}
 
 	return F;
@@ -300,6 +302,7 @@ float64_fraction_to_rounded_bits(double f, uint_fast8_t num_bits)
 		} fu = {
 			.val = f,
 		};
+
 		int q;
 
 		/*
@@ -307,8 +310,7 @@ float64_fraction_to_rounded_bits(double f, uint_fast8_t num_bits)
 		 * First mask out the fraction bits and add the
 		 * implicit 1 bit
 		 */
-		F = (fu.bits & ((UINT64_C(1) << 52) - 1)) |
-		    (UINT64_C(1) << 52);
+		F = (fu.bits & ((UINT64_C(1) << 52) - 1)) | (UINT64_C(1) << 52);
 
 		/* shift to the left until the 1 bit is the MSB */
 		F <<= 12 - 1;
@@ -330,7 +332,8 @@ float64_fraction_to_rounded_bits(double f, uint_fast8_t num_bits)
 		 * before with clamping
 		 */
 		F = (F >> (64 - num_bits)) +
-		    (num_bits != 0) * ((F & (UINT64_C(1) << (64 - num_bits - 1))) != 0);
+		    (num_bits != 0) *
+		            ((F & (UINT64_C(1) << (64 - num_bits - 1))) != 0);
 	}
 
 	return F;
@@ -351,38 +354,40 @@ extended_float_fraction_to_rounded_bits(long double f, uint_fast8_t num_bits)
 	} else {
 		union {
 			long double val;
+
 			struct __attribute__((__packed__)) {
-				#if LDBL_MANT_DIG == 53 && LDBL_MAX_EXP == 1024
-					#error "Extended float must be >64 bits long"
-				#elif LDBL_MANT_DIG == 64 && LDBL_MAX_EXP == 16384
-					/* 80-bit long double */
-					#if __BYTE_ORDER == __BIG_ENDIAN
-						uint64_t fraction;
-						uint16_t sign_exp;
-					#else
-						uint16_t sign_exp;
-						uint64_t fraction;
-					#endif
-				#elif LDBL_MANT_DIG == 113 && LDBL_MAX_EXP == 16384
-					/* 128-bit long double */
-					#if __BYTE_ORDER == __BIG_ENDIAN
-						uint16_t fraction_reallydontcare;
-						uint32_t fraction_dontcare;
-						uint64_t fraction;
-						uint16_t sign_exp;
-					#else
-						uint16_t sign_exp;
-						uint64_t fraction;
-						uint32_t fraction_dontcare;
-						uint16_t fraction_reallydontcare;
-					#endif
-				#else
-					#error "Unimplemented extended float format"
-				#endif
+#if LDBL_MANT_DIG == 53 && LDBL_MAX_EXP == 1024
+#error "Extended float must be >64 bits long"
+#elif LDBL_MANT_DIG == 64 && LDBL_MAX_EXP == 16384
+/* 80-bit long double */
+#if __BYTE_ORDER == __BIG_ENDIAN
+				uint64_t fraction;
+				uint16_t sign_exp;
+#else
+				uint16_t sign_exp;
+				uint64_t fraction;
+#endif
+#elif LDBL_MANT_DIG == 113 && LDBL_MAX_EXP == 16384
+/* 128-bit long double */
+#if __BYTE_ORDER == __BIG_ENDIAN
+				uint16_t fraction_reallydontcare;
+				uint32_t fraction_dontcare;
+				uint64_t fraction;
+				uint16_t sign_exp;
+#else
+				uint16_t sign_exp;
+				uint64_t fraction;
+				uint32_t fraction_dontcare;
+				uint16_t fraction_reallydontcare;
+#endif
+#else
+#error "Unimplemented extended float format"
+#endif
 			} bits;
 		} fu = {
 			.val = f,
 		};
+
 		int q;
 
 		/*
@@ -391,23 +396,23 @@ extended_float_fraction_to_rounded_bits(long double f, uint_fast8_t num_bits)
 		 */
 		frexpl(f, &q);
 
-		#if LDBL_MANT_DIG == 64 && LDBL_MAX_EXP == 16384
-			/* 80-bit long double, has explicit 1 */
-			F = fu.bits.fraction;
-		#else
-			/*
-			 * 128-bit long double, has implicit 1
-			 *
-			 * We shift one to the right (we don't care about
-			 * rounding because we don't need that kind of
-			 * precision) and add the implicit 1 bit. The 1 bit
-			 * is automatically the MSB.
-			 */
-			F = (fu.bits.fraction >> 1) | (UINT64_C(1) << 63);
+#if LDBL_MANT_DIG == 64 && LDBL_MAX_EXP == 16384
+		/* 80-bit long double, has explicit 1 */
+		F = fu.bits.fraction;
+#else
+		/*
+		 * 128-bit long double, has implicit 1
+		 *
+		 * We shift one to the right (we don't care about
+		 * rounding because we don't need that kind of
+		 * precision) and add the implicit 1 bit. The 1 bit
+		 * is automatically the MSB.
+		 */
+		F = (fu.bits.fraction >> 1) | (UINT64_C(1) << 63);
 
-			/* We correct q to reflect our shift */
-			q++;
-		#endif
+		/* We correct q to reflect our shift */
+		q++;
+#endif
 
 		/*
 		 * If q = 0 we would be done here (because then the
@@ -426,11 +431,13 @@ extended_float_fraction_to_rounded_bits(long double f, uint_fast8_t num_bits)
 		 * before with clamping
 		 */
 		F = (F >> (64 - num_bits)) +
-		    (num_bits != 0) * ((F & (UINT64_C(1) << (64 - num_bits - 1))) != 0);
+		    (num_bits != 0) *
+		            ((F & (UINT64_C(1) << (64 - num_bits - 1))) != 0);
 	}
 
 	return F;
 }
+
 takum8
 codec_takum8_from_s_and_l(bool s, float l)
 {
@@ -474,9 +481,10 @@ codec_takum8_from_s_and_l(bool s, float l)
 	M = float32_fraction_to_rounded_bits(m, p);
 
 	/* Assemble and return */
-	return (s << (8 - 1)) |
-	       (DR << (8 - 5)) |
-	       ((((uint8_t)(c - c_bias_lut[DR])) >> ((p_lut[DR] <= 8) * (8 - p_lut[DR]))) << p) |
+	return (s << (8 - 1)) | (DR << (8 - 5)) |
+	       ((((uint8_t)(c - c_bias_lut[DR])) >>
+	         ((p_lut[DR] <= 8) * (8 - p_lut[DR])))
+	        << p) |
 	       M;
 }
 
@@ -522,10 +530,8 @@ codec_takum16_from_s_and_l(bool s, float l)
 	M = float32_fraction_to_rounded_bits(m, p);
 
 	/* Assemble and return */
-	return (((uint16_t)s) << (16 - 1)) |
-	       (((uint16_t)DR) << (16 - 5)) |
-	       (((uint16_t)(c - c_bias_lut[DR])) << p) |
-	       ((uint16_t)M);
+	return (((uint16_t)s) << (16 - 1)) | (((uint16_t)DR) << (16 - 5)) |
+	       (((uint16_t)(c - c_bias_lut[DR])) << p) | ((uint16_t)M);
 }
 
 takum32
@@ -570,10 +576,8 @@ codec_takum32_from_s_and_l(bool s, double l)
 	M = float64_fraction_to_rounded_bits(m, p);
 
 	/* Assemble and return */
-	return (((uint32_t)s) << (32 - 1)) |
-	       (((uint32_t)DR) << (32 - 5)) |
-	       (((uint32_t)(c - c_bias_lut[DR])) << p) |
-	       ((uint32_t)M);
+	return (((uint32_t)s) << (32 - 1)) | (((uint32_t)DR) << (32 - 5)) |
+	       (((uint32_t)(c - c_bias_lut[DR])) << p) | ((uint32_t)M);
 }
 
 takum64
@@ -584,7 +588,8 @@ codec_takum64_from_s_and_l(bool s, long double l)
 	uint64_t M;
 	int_fast16_t c;
 	long double cpm, m;
-	const long double bound = 254.999999999999999777955395074968691915273666381835938L;
+	const long double bound =
+		254.999999999999999777955395074968691915273666381835938L;
 
 	if (isnan(l) || (isinf(l) && l > 0)) {
 		return TAKUM64_NAR;
@@ -618,8 +623,6 @@ codec_takum64_from_s_and_l(bool s, long double l)
 	M = extended_float_fraction_to_rounded_bits(m, p);
 
 	/* Assemble and return */
-	return (((uint64_t)s) << (64 - 1)) |
-	       (((uint64_t)DR) << (64 - 5)) |
-	       (((uint64_t)(c - c_bias_lut[DR])) << p) |
-	       ((uint64_t)M);
+	return (((uint64_t)s) << (64 - 1)) | (((uint64_t)DR) << (64 - 5)) |
+	       (((uint64_t)(c - c_bias_lut[DR])) << p) | ((uint64_t)M);
 }

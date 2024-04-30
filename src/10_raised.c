@@ -27,9 +27,9 @@ ten_raisedl(long double f)
 UTIL_UNARY_FLOAT_WRAPPER(10_raised, ten_raised)
 
 /*
- * This implementation is a bit of a hack by extending the arguments to long double,
- * however this is not enough to always get correct results as you would need around 512
- * fraction bits to cover all cases.
+ * This implementation is a bit of a hack by extending the arguments to long
+ * double, however this is not enough to always get correct results as you would
+ * need around 512 fraction bits to cover all cases.
  */
 static float
 ten_raised_minus_1f(float f)

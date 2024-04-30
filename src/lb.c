@@ -6,9 +6,9 @@
 UTIL_UNARY_FLOAT_WRAPPER(lb, log2)
 
 /*
- * This implementation is a bit of a hack by extending the arguments to long double,
- * however this is not enough to always get correct results as you would need around 512
- * fraction bits to cover all cases.
+ * This implementation is a bit of a hack by extending the arguments to long
+ * double, however this is not enough to always get correct results as you would
+ * need around 512 fraction bits to cover all cases.
  */
 #undef log21p
 #undef log21p

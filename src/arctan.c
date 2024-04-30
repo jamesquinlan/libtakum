@@ -6,8 +6,9 @@
 UTIL_UNARY_FLOAT_WRAPPER(arctan, atan)
 
 /*
- * We extend to long double and multiply the argument with pi, returning a rounded long double.
- * arctanpil() is still good enough as we have at least 5 bits of wiggle room anyway.
+ * We extend to long double and multiply the argument with pi, returning a
+ * rounded long double. arctanpil() is still good enough as we have at least 5
+ * bits of wiggle room anyway.
  */
 static float
 arctanpif(float f)
