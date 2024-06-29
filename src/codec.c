@@ -11,7 +11,7 @@
 
 /*
  * This 32 byte LUT maps (D R2 R1 R0) interpreted as a 4-bit
- * unsigned integer to the c bias
+ * unsigned integer to the characteristic bias
  */
 static const int16_t c_bias_lut[] = {
 	[0] = -255, /* 0 000 → D=0, r=7, -2^(r+1)+1 */
@@ -89,7 +89,7 @@ codec_takum8_to_l(takum8 t)
 	int_fast16_t c;
 	uint8_t M;
 
-	/* Catch edge-cases */
+	/* Catch special cases */
 	if (t == 0) {
 		return -INFINITY;
 	} else if (t == TAKUM8_NAR) {
@@ -121,7 +121,7 @@ codec_takum16_to_l(takum16 t)
 	int_fast16_t c;
 	uint16_t M;
 
-	/* Catch edge-cases */
+	/* Catch special cases */
 	if (t == 0) {
 		return -INFINITY;
 	} else if (t == TAKUM16_NAR) {
@@ -153,7 +153,7 @@ codec_takum32_to_l(takum32 t)
 	int_fast16_t c;
 	uint32_t M;
 
-	/* Catch edge-cases */
+	/* Catch special cases */
 	if (t == 0) {
 		return -INFINITY;
 	} else if (t == TAKUM32_NAR) {
@@ -184,7 +184,7 @@ codec_takum64_to_l(takum64 t)
 	int_fast16_t c;
 	uint64_t M;
 
-	/* Catch edge-cases */
+	/* Catch special cases */
 	if (t == 0) {
 		return -INFINITY;
 	} else if (t == TAKUM64_NAR) {
@@ -199,9 +199,9 @@ codec_takum64_to_l(takum64 t)
 	/*
 	 * Convert c and M to floats and add them. The
 	 * conversions and the addition are lossless as
-	 * |c| is at most 8 bits, M is at most 27 bits,
-	 * which easily fits in the 52 bits provided by
-	 * float64.
+	 * |c| is at most 8 bits, M is at most 59 bits,
+	 * which easily fits in the 64 bits provided by
+	 * extended float.
 	 */
 	return (1 - 2 * (t < 0)) *
 	       ((long double)c + ldexpl((long double)M, -64));
@@ -446,7 +446,7 @@ codec_takum8_from_s_and_l(bool s, float l)
 	uint32_t M;
 	int_fast16_t c;
 	float cpm, m;
-	const float bound = 254.9375f;
+	const float bound = 239.0f;
 
 	if (isnan(l) || (isinf(l) && l > 0)) {
 		return TAKUM8_NAR;
