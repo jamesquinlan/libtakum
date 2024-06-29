@@ -24,8 +24,8 @@ BUILD_CFLAGS   = $(CFLAGS)
 BUILD_LDFLAGS  = $(LDFLAGS)
 BUILD_LDLIBS  = $(LDLIBS)
 
-SHFLAGS   = -fPIC #-ffreestanding
-SOFLAGS   = -shared -Wl,--soname=libtakum.so.$(VERSION_MAJOR).$(VERSION_MINOR) # -nostdlib after shared
+SHFLAGS   = -fPIC #-ffreestanding; SOFLAGS: -nostdlib after shared
+SOFLAGS   = -shared -Wl,--soname=libtakum.so.$(VERSION_MAJOR).$(VERSION_MINOR)
 SOSYMLINK = true
 
 # tools (unset $LDCONFIG to not call ldconfig(1) after install/uninstall)
