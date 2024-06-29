@@ -5,6 +5,7 @@ DESTDIR   =
 PREFIX    = /usr/local
 INCPREFIX = $(PREFIX)/include
 LIBPREFIX = $(PREFIX)/lib
+LICPREFIX = $(PREFIX)/share/licenses
 MANPREFIX = $(PREFIX)/share/man
 PCPREFIX  = $(LIBPREFIX)/pkgconfig
 
