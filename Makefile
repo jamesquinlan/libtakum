@@ -189,8 +189,8 @@ install: all
 	mkdir -p "$(DESTDIR)$(MANPREFIX)/man3"
 	mkdir -p "$(DESTDIR)$(MANPREFIX)/man7"
 	cp -f LICENSE "$(DESTDIR)$(LICPREFIX)/libtakum"
-	cp -f $(MAN3:=.3) "$(DESTDIR)$(MANPREFIX)/man3"
-	cp -f $(MAN7:=.7) "$(DESTDIR)$(MANPREFIX)/man7"
+	#cp -f $(MAN3:=.3) "$(DESTDIR)$(MANPREFIX)/man3"
+	#cp -f $(MAN7:=.7) "$(DESTDIR)$(MANPREFIX)/man7"
 	cp -f $(ANAME) "$(DESTDIR)$(LIBPREFIX)"
 	cp -f $(SONAME) "$(DESTDIR)$(LIBPREFIX)/$(SONAME)"
 	if [ "$(SOSYMLINK)" = "true" ]; then i=0; while [ "$$i" -le $(VERSION_MINOR) ]; do ln -sf "$(SONAME)" "$(DESTDIR)$(LIBPREFIX)/libtakum.so.$(VERSION_MAJOR).$$i"; i=$$((i+1)); done; fi
