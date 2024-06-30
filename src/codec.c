@@ -178,6 +178,7 @@ codec_takum32_to_l(takum32 t)
 long double
 codec_takum64_to_l(takum64 t)
 {
+#if LDBL_MANT_DIG >= 64
 	const union takum_internal_takum64_union in = {
 		.value = t,
 	};
@@ -205,6 +206,12 @@ codec_takum64_to_l(takum64 t)
 	 */
 	return (1 - 2 * (t < 0)) *
 	       ((long double)c + ldexpl((long double)M, -64));
+#else
+#pragma message "Extended float format is too small to hold what takum64 offers, takum64 decoding is stubbed"
+	(void)t;
+
+	return NAN;
+#endif
 }
 
 static uint_fast8_t
@@ -357,7 +364,8 @@ extended_float_fraction_to_rounded_bits(long double f, uint_fast8_t num_bits)
 
 			struct __attribute__((__packed__)) {
 #if LDBL_MANT_DIG == 53 && LDBL_MAX_EXP == 1024
-#error "Extended float must be >64 bits long"
+/* 64-bit long double, i.e. double is equal to long double */
+				uint64_t sign_exp_fraction;
 #elif LDBL_MANT_DIG == 64 && LDBL_MAX_EXP == 16384
 /* 80-bit long double */
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -381,7 +389,7 @@ extended_float_fraction_to_rounded_bits(long double f, uint_fast8_t num_bits)
 				uint16_t fraction_reallydontcare;
 #endif
 #else
-#error "Unimplemented extended float format"
+				char junk;
 #endif
 			} bits;
 		} fu = {
@@ -396,10 +404,16 @@ extended_float_fraction_to_rounded_bits(long double f, uint_fast8_t num_bits)
 		 */
 		frexpl(f, &q);
 
-#if LDBL_MANT_DIG == 64 && LDBL_MAX_EXP == 16384
+#if LDBL_MANT_DIG == 53 && LDBL_MAX_EXP == 1024
+		/* 64-bit double, lower 52 bits are fractions, implicit 1 */
+		F = ((UINT64_C(0x000fffffffffffff) & fu.bits.sign_exp_fraction) << 11) | (UINT64_C(1) << 63);
+
+		/* We correct q to reflect our shift from 1.xxx... to 0.1xxx... */
+		q++;
+#elif LDBL_MANT_DIG == 64 && LDBL_MAX_EXP == 16384
 		/* 80-bit long double, has explicit 1 */
 		F = fu.bits.fraction;
-#else
+#elif LDBL_MANT_DIG == 113 && LDBL_MAX_EXP == 16384
 		/*
 		 * 128-bit long double, has implicit 1
 		 *
@@ -410,8 +424,11 @@ extended_float_fraction_to_rounded_bits(long double f, uint_fast8_t num_bits)
 		 */
 		F = (fu.bits.fraction >> 1) | (UINT64_C(1) << 63);
 
-		/* We correct q to reflect our shift */
+		/* We correct q to reflect our shift from 1.xxx... to 0.1xxx... */
 		q++;
+#else
+		(void)fu;
+		F = 0;
 #endif
 
 		/*
@@ -583,6 +600,9 @@ codec_takum32_from_s_and_l(bool s, double l)
 takum64
 codec_takum64_from_s_and_l(bool s, long double l)
 {
+#if (LDBL_MANT_DIG == 53 && LDBL_MAX_EXP == 1024)  || \
+    (LDBL_MANT_DIG == 64 && LDBL_MAX_EXP == 16384) || \
+    (LDBL_MANT_DIG == 113 && LDBL_MAX_EXP == 16384)
 	uint_fast8_t DR;
 	uint8_t p;
 	uint64_t M;
@@ -625,4 +645,11 @@ codec_takum64_from_s_and_l(bool s, long double l)
 	/* Assemble and return */
 	return (((uint64_t)s) << (64 - 1)) | (((uint64_t)DR) << (64 - 5)) |
 	       (((uint64_t)(c - c_bias_lut[DR])) << p) | ((uint64_t)M);
+#else
+#pragma message "Unimplemented extended float format, takum64 encoding is stubbed"
+	(void)s;
+	(void)l;
+
+	return TAKUM64_NAR;
+#endif
 }
