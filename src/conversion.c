@@ -52,8 +52,8 @@ takum64_from_float32(float f)
 	} else if (!isfinite(f)) {
 		return TAKUM64_NAR;
 	} else {
-		return codec_takum32_from_s_and_l(
-			f < 0, (long double)(2 * logf(fabsf(f))));
+		return takum64_from_takum32(codec_takum32_from_s_and_l(
+			f < 0, (long double)(2 * logf(fabsf(f)))));
 	}
 }
 
