@@ -1,5 +1,11 @@
 /* See LICENSE file for copyright and license details. */
+#define cospif _cospif
+#define cospi _cospi
+#define cospil _cospil
 #include <math.h>
+#undef cospif
+#undef cospi
+#undef cospil
 
 #include "util.h"
 

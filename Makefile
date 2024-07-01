@@ -4,7 +4,7 @@
 .SUFFIXES:
 
 VERSION_MAJOR = 0
-VERSION_MINOR = 0
+VERSION_MINOR = 1
 VERSION_PATCH = 0
 MAN_DATE = 2024-04-10
 
@@ -184,11 +184,13 @@ test: $(TEST:=$(BINSUFFIX))
 
 install: all
 	mkdir -p "$(DESTDIR)$(LIBPREFIX)"
+	mkdir -p "$(DESTDIR)$(LICPREFIX)/libtakum"
 	mkdir -p "$(DESTDIR)$(INCPREFIX)"
 	mkdir -p "$(DESTDIR)$(MANPREFIX)/man3"
 	mkdir -p "$(DESTDIR)$(MANPREFIX)/man7"
-	cp -f $(MAN3:=.3) "$(DESTDIR)$(MANPREFIX)/man3"
-	cp -f $(MAN7:=.7) "$(DESTDIR)$(MANPREFIX)/man7"
+	cp -f LICENSE "$(DESTDIR)$(LICPREFIX)/libtakum"
+	#cp -f $(MAN3:=.3) "$(DESTDIR)$(MANPREFIX)/man3"
+	#cp -f $(MAN7:=.7) "$(DESTDIR)$(MANPREFIX)/man7"
 	cp -f $(ANAME) "$(DESTDIR)$(LIBPREFIX)"
 	cp -f $(SONAME) "$(DESTDIR)$(LIBPREFIX)/$(SONAME)"
 	if [ "$(SOSYMLINK)" = "true" ]; then i=0; while [ "$$i" -le $(VERSION_MINOR) ]; do ln -sf "$(SONAME)" "$(DESTDIR)$(LIBPREFIX)/libtakum.so.$(VERSION_MAJOR).$$i"; i=$$((i+1)); done; fi
@@ -201,6 +203,8 @@ install: all
 uninstall:
 	for m in $(MAN3:=.3); do rm -f "$(DESTDIR)$(MANPREFIX)/man3/`basename $$m`"; done
 	for m in $(MAN7:=.7); do rm -f "$(DESTDIR)$(MANPREFIX)/man7/`basename $$m`"; done
+	rm -f "$(DESTDIR)$(LICPREFIX)/libtakum/LICENSE"
+	rmdir "$(DESTDIR)$(LICPREFIX)/libtakum"
 	rm -f "$(DESTDIR)$(LIBPREFIX)/$(ANAME)"
 	rm -f "$(DESTDIR)$(LIBPREFIX)/$(SONAME)"
 	if [ "$(SOSYMLINK)" = "true" ]; then i=0; while [ "$$i" -le $(VERSION_MINOR) ]; do rm -f "$(DESTDIR)$(LIBPREFIX)/libtakum.so.$(VERSION_MAJOR).$$i"; i=$$((i+1)); done; fi

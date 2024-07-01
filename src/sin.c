@@ -1,5 +1,11 @@
 /* See LICENSE file for copyright and license details. */
+#define sinpif _sinpif
+#define sinpi _sinpi
+#define sinpil _sinpil
 #include <math.h>
+#undef sinpif
+#undef sinpi
+#undef sinpil
 
 #include "util.h"
 

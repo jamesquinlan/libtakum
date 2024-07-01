@@ -1,5 +1,11 @@
 /* See LICENSE file for copyright and license details. */
+#define tanpif _tanpif
+#define tanpi _tanpi
+#define tanpil _tanpil
 #include <math.h>
+#undef tanpif
+#undef tanpi
+#undef tanpil
 
 #include "util.h"
 
