@@ -43,7 +43,7 @@ takum8_subtraction(takum8 a, takum8 b)
 			return a;
 		}
 	} else { /* a == 0 */
-		return b;
+		return -b;
 	}
 }
 
@@ -84,7 +84,7 @@ takum16_subtraction(takum16 a, takum16 b)
 			return a;
 		}
 	} else { /* a == 0 */
-		return b;
+		return -b;
 	}
 }
 
@@ -125,7 +125,7 @@ takum32_subtraction(takum32 a, takum32 b)
 			return a;
 		}
 	} else { /* a == 0 */
-		return b;
+		return -b;
 	}
 }
 
@@ -166,6 +166,6 @@ takum64_subtraction(takum64 a, takum64 b)
 			return a;
 		}
 	} else { /* a == 0 */
-		return b;
+		return -b;
 	}
 }
