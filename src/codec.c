@@ -532,7 +532,6 @@ codec_takum8_from_s_and_l(bool s, float l)
 takum16
 codec_takum16_from_s_and_l(bool s, float l)
 {
-printf("takum16_from_s_and_l: s=%i, l=%f\n", s, l);
 	uint_fast8_t DR;
 	uint8_t p;
 	uint32_t M;
@@ -571,7 +570,6 @@ printf("takum16_from_s_and_l: s=%i, l=%f\n", s, l);
 
 	/* Determine mantissa bits */
 	M = float32_fraction_to_rounded_bits(m, p, &carry);
-printf("\tfraction_to_rounded: M=%u, p=%u, carry=%u\n", M, p, carry);
 
 	/*
 	 * Assemble, optionally apply the carry to SDR which is guaranteed
