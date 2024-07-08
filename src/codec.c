@@ -235,9 +235,10 @@ get_DR_from_c(int_fast16_t c)
 }
 
 static inline uint32_t
-float32_fraction_to_rounded_bits(float f, uint_fast8_t num_bits)
+float32_fraction_to_rounded_bits(float f, uint_fast8_t num_bits, bool *carry)
 {
 	uint32_t F;
+	bool round_up;
 
 	/*
 	 * This function converts f in [0,1) to a num_bit fixed
@@ -246,6 +247,7 @@ float32_fraction_to_rounded_bits(float f, uint_fast8_t num_bits)
 	 */
 	if (f == 0) {
 		F = 0;
+		*carry = false;
 	} else {
 		union {
 			float val;
@@ -282,18 +284,24 @@ float32_fraction_to_rounded_bits(float f, uint_fast8_t num_bits)
 		 * never be zero (under- or overflow) as we ensured this
 		 * before with clamping
 		 */
-		F = (F >> (32 - num_bits)) +
-		    (num_bits != 0) *
-		            ((F & (UINT32_C(1) << (32 - num_bits - 1))) != 0);
+		round_up = (num_bits != 0) * ((F & (UINT32_C(1) << (32 - num_bits - 1))) != 0);
+		F = (F >> (32 - num_bits)) + round_up;
+
+		/* detect carry */
+		*carry = F & (UINT32_C(1) << num_bits);
+
+		/* clear out any possible overflow */
+		F &= (UINT32_C(1) << num_bits) - 1;
 	}
 
 	return F;
 }
 
 static inline uint64_t
-float64_fraction_to_rounded_bits(double f, uint_fast8_t num_bits)
+float64_fraction_to_rounded_bits(double f, uint_fast8_t num_bits, bool *carry)
 {
 	uint64_t F;
+	bool round_up;
 
 	/*
 	 * This function converts f in [0,1) to a num_bit fixed
@@ -302,6 +310,7 @@ float64_fraction_to_rounded_bits(double f, uint_fast8_t num_bits)
 	 */
 	if (f == 0) {
 		F = 0;
+		*carry = false;
 	} else {
 		union {
 			double val;
@@ -338,18 +347,24 @@ float64_fraction_to_rounded_bits(double f, uint_fast8_t num_bits)
 		 * never be zero (under- or overflow) as we ensured this
 		 * before with clamping
 		 */
-		F = (F >> (64 - num_bits)) +
-		    (num_bits != 0) *
-		            ((F & (UINT64_C(1) << (64 - num_bits - 1))) != 0);
+		round_up = (num_bits != 0) * ((F & (UINT64_C(1) << (64 - num_bits - 1))) != 0);
+		F = (F >> (64 - num_bits)) + round_up;
+
+		/* detect carry */
+		*carry = F & (UINT64_C(1) << num_bits);
+
+		/* clear out any possible overflow */
+		F &= (UINT64_C(1) << num_bits) - 1;
 	}
 
 	return F;
 }
 
 static inline uint64_t
-extended_float_fraction_to_rounded_bits(long double f, uint_fast8_t num_bits)
+extended_float_fraction_to_rounded_bits(long double f, uint_fast8_t num_bits, bool *carry)
 {
 	uint64_t F;
+	bool round_up;
 
 	/*
 	 * This function converts f in [0,1) to a num_bit fixed
@@ -358,6 +373,7 @@ extended_float_fraction_to_rounded_bits(long double f, uint_fast8_t num_bits)
 	 */
 	if (f == 0) {
 		F = 0;
+		*carry = false;
 	} else {
 		union {
 			long double val;
@@ -447,9 +463,14 @@ extended_float_fraction_to_rounded_bits(long double f, uint_fast8_t num_bits)
 		 * never be zero (under- or overflow) as we ensured this
 		 * before with clamping
 		 */
-		F = (F >> (64 - num_bits)) +
-		    (num_bits != 0) *
-		            ((F & (UINT64_C(1) << (64 - num_bits - 1))) != 0);
+		round_up = (num_bits != 0) * ((F & (UINT64_C(1) << (64 - num_bits - 1))) != 0);
+		F = (F >> (64 - num_bits)) + round_up;
+
+		/* detect carry */
+		*carry = F & (UINT64_C(1) << num_bits);
+
+		/* clear out any possible overflow */
+		F &= (UINT64_C(1) << num_bits) - 1;
 	}
 
 	return F;
@@ -464,6 +485,7 @@ codec_takum8_from_s_and_l(bool s, float l)
 	int_fast16_t c;
 	float cpm, m;
 	const float bound = 239.0f;
+	bool carry;
 
 	if (isnan(l) || (isinf(l) && l > 0)) {
 		return TAKUM8_NAR;
@@ -495,25 +517,29 @@ codec_takum8_from_s_and_l(bool s, float l)
 	p = (p_lut[DR] > 8) * (p_lut[DR] - 8);
 
 	/* Determine mantissa bits */
-	M = float32_fraction_to_rounded_bits(m, p);
+	M = float32_fraction_to_rounded_bits(m, p, &carry);
 
-	/* Assemble and return */
-	return (s << (8 - 1)) | (DR << (8 - 5)) |
+	/*
+	 * Assemble, optionally apply the carry to SDR which is guaranteed
+	 * not to yield NaR as we bounded l earlier and return
+	 */
+	return ((((uint8_t)s) << (8 - 1)) | (DR << (8 - 5)) |
 	       ((((uint8_t)(c - c_bias_lut[DR])) >>
 	         ((p_lut[DR] <= 8) * (8 - p_lut[DR])))
-	        << p) |
-	       M;
+	        << p) | M) + (((uint8_t)carry) << (8 - 5));
 }
 
 takum16
 codec_takum16_from_s_and_l(bool s, float l)
 {
+printf("takum16_from_s_and_l: s=%i, l=%f\n", s, l);
 	uint_fast8_t DR;
 	uint8_t p;
 	uint32_t M;
 	int_fast16_t c;
 	float cpm, m;
 	const float bound = 254.9375f;
+	bool carry;
 
 	if (isnan(l) || (isinf(l) && l > 0)) {
 		return TAKUM16_NAR;
@@ -544,11 +570,16 @@ codec_takum16_from_s_and_l(bool s, float l)
 	p = p_lut[DR];
 
 	/* Determine mantissa bits */
-	M = float32_fraction_to_rounded_bits(m, p);
+	M = float32_fraction_to_rounded_bits(m, p, &carry);
+printf("\tfraction_to_rounded: M=%u, p=%u, carry=%u\n", M, p, carry);
 
-	/* Assemble and return */
-	return (((uint16_t)s) << (16 - 1)) | (((uint16_t)DR) << (16 - 5)) |
-	       (((uint16_t)(c - c_bias_lut[DR])) << p) | ((uint16_t)M);
+	/*
+	 * Assemble, optionally apply the carry to SDR which is guaranteed
+	 * not to yield NaR as we bounded l earlier and return
+	 */
+	return ((((uint16_t)s) << (16 - 1)) | (((uint16_t)DR) << (16 - 5)) |
+	       (((uint16_t)(c - c_bias_lut[DR])) << p) | ((uint16_t)M)) +
+	       (((uint16_t)carry) << (16 - 5));
 }
 
 takum32
@@ -560,6 +591,7 @@ codec_takum32_from_s_and_l(bool s, double l)
 	int_fast16_t c;
 	double cpm, m;
 	const double bound = 254.99999904632568359375;
+	bool carry;
 
 	if (isnan(l) || (isinf(l) && l > 0)) {
 		return TAKUM32_NAR;
@@ -590,11 +622,12 @@ codec_takum32_from_s_and_l(bool s, double l)
 	p = p_lut[DR] + 16;
 
 	/* Determine mantissa bits */
-	M = float64_fraction_to_rounded_bits(m, p);
+	M = float64_fraction_to_rounded_bits(m, p, &carry);
 
 	/* Assemble and return */
-	return (((uint32_t)s) << (32 - 1)) | (((uint32_t)DR) << (32 - 5)) |
-	       (((uint32_t)(c - c_bias_lut[DR])) << p) | ((uint32_t)M);
+	return ((((uint32_t)s) << (32 - 1)) | (((uint32_t)DR) << (32 - 5)) |
+	       (((uint32_t)(c - c_bias_lut[DR])) << p) | ((uint32_t)M)) +
+	       (((uint32_t)carry) << (32 - 5));
 }
 
 takum64
@@ -610,6 +643,7 @@ codec_takum64_from_s_and_l(bool s, long double l)
 	long double cpm, m;
 	const long double bound =
 		254.999999999999999777955395074968691915273666381835938L;
+	bool carry;
 
 	if (isnan(l) || (isinf(l) && l > 0)) {
 		return TAKUM64_NAR;
@@ -640,11 +674,12 @@ codec_takum64_from_s_and_l(bool s, long double l)
 	p = p_lut[DR] + 48;
 
 	/* Determine mantissa bits */
-	M = extended_float_fraction_to_rounded_bits(m, p);
+	M = extended_float_fraction_to_rounded_bits(m, p, &carry);
 
 	/* Assemble and return */
-	return (((uint64_t)s) << (64 - 1)) | (((uint64_t)DR) << (64 - 5)) |
-	       (((uint64_t)(c - c_bias_lut[DR])) << p) | ((uint64_t)M);
+	return ((((uint64_t)s) << (64 - 1)) | (((uint64_t)DR) << (64 - 5)) |
+	       (((uint64_t)(c - c_bias_lut[DR])) << p) | ((uint64_t)M)) +
+	       (((uint64_t)carry) << (64 - 5));
 #else
 #pragma message "Unimplemented extended float format, takum64 encoding is stubbed"
 	(void)s;
