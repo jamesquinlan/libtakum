@@ -11,6 +11,10 @@ takum8_addition(takum8 a, takum8 b)
 {
 	float la, lb;
 
+	if (a == TAKUM8_NAR || b == TAKUM8_NAR) {
+		return TAKUM8_NAR;
+	}
+
 	la = codec_takum8_to_l(a);
 	lb = codec_takum8_to_l(b);
 
@@ -47,6 +51,10 @@ takum16
 takum16_addition(takum16 a, takum16 b)
 {
 	float la, lb;
+
+	if (a == TAKUM16_NAR || b == TAKUM16_NAR) {
+		return TAKUM16_NAR;
+	}
 
 	la = codec_takum16_to_l(a);
 	lb = codec_takum16_to_l(b);
@@ -85,6 +93,10 @@ takum32_addition(takum32 a, takum32 b)
 {
 	double la, lb;
 
+	if (a == TAKUM32_NAR || b == TAKUM32_NAR) {
+		return TAKUM32_NAR;
+	}
+
 	la = codec_takum32_to_l(a);
 	lb = codec_takum32_to_l(b);
 
@@ -119,6 +131,10 @@ takum64
 takum64_addition(takum64 a, takum64 b)
 {
 	long double la, lb;
+
+	if (a == TAKUM64_NAR || b == TAKUM64_NAR) {
+		return TAKUM64_NAR;
+	}
 
 	la = codec_takum64_to_l(a);
 	lb = codec_takum64_to_l(b);
