@@ -528,10 +528,10 @@ takum64 takum64_hypotenuse(takum64, takum64);
 		union takum_internal_takum##TO##_union out = {                 \
 			.bits = (in.bits >> (FROM - TO)) +                     \
 			        ((in.bits & UINT##FROM##_C(0x80)               \
-			                            << (FROM - 2 * TO)) ==     \
-			         UINT##FROM##_C(0x80) << (FROM - 2 * TO)),     \
+			                            << (FROM - TO - 8)) ==     \
+			         UINT##FROM##_C(0x80) << (FROM - TO - 8)),     \
 		};                                                             \
-                                                                               \
+		                                                               \
 		/* saturate over-/underflows */                                \
 		out.bits += (((out.bits == 0) & (in.bits != 0)) -              \
 		             ((out.value == TAKUM##TO##_NAR) &                 \
