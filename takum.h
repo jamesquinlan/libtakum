@@ -536,8 +536,8 @@ takum64 takum64_hypotenuse(takum64, takum64);
 		out.bits += (((out.bits == 0) & (in.bits != 0)) -              \
 		             ((out.value == TAKUM##TO##_NAR) &                 \
 		              (in.value != TAKUM##FROM##_NAR))) *              \
-		            (1 - 2 * (out.bits & (UINT##TO##_C(0x80) != 0)));  \
-                                                                               \
+		            (1 - 2 * (in.value < 0));                          \
+		                                                               \
 		return out.value;                                              \
 	} while (0);
 
