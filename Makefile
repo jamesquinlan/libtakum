@@ -54,6 +54,7 @@ SRC =\
 	src/ln\
 	src/multiplication\
 	src/power\
+	src/precision\
 	src/sec\
 	src/sech\
 	src/sin\
