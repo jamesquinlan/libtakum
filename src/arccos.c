@@ -10,12 +10,6 @@ UTIL_UNARY_FLOAT_WRAPPER(arccos, acos)
  * rounded long double. arccospil() is still good enough as we have at least 5
  * bits of wiggle room anyway.
  */
-static float
-arccospif(float f)
-{
-	return (float)(acosl((long double)f) / PI);
-}
-
 static double
 arccospi(double f)
 {

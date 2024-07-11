@@ -3,12 +3,6 @@
 
 #include "util.h"
 
-static float
-hypotenusef(float a, float b)
-{
-	return sqrtf(a * a + b * b);
-}
-
 static double
 hypotenuse(double a, float b)
 {

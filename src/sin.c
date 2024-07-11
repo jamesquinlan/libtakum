@@ -1,9 +1,7 @@
 /* See LICENSE file for copyright and license details. */
-#define sinpif _sinpif
-#define sinpi _sinpi
+#define sinpi  _sinpi
 #define sinpil _sinpil
 #include <math.h>
-#undef sinpif
 #undef sinpi
 #undef sinpil
 
@@ -16,12 +14,6 @@ UTIL_UNARY_FLOAT_WRAPPER(sin, sin)
  * rounded long double. sinpil() is still good enough as we have at least 5 bits
  * of wiggle room anyway.
  */
-static float
-sinpif(float f)
-{
-	return (float)sinl(PI * (long double)f);
-}
-
 static double
 sinpi(double f)
 {

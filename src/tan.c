@@ -1,9 +1,7 @@
 /* See LICENSE file for copyright and license details. */
-#define tanpif _tanpif
-#define tanpi _tanpi
+#define tanpi  _tanpi
 #define tanpil _tanpil
 #include <math.h>
-#undef tanpif
 #undef tanpi
 #undef tanpil
 
@@ -16,12 +14,6 @@ UTIL_UNARY_FLOAT_WRAPPER(tan, tan)
  * rounded long double. sinpil() is still good enough as we have at least 5 bits
  * of wiggle room anyway.
  */
-static float
-tanpif(float f)
-{
-	return (float)tanl(PI * (long double)f);
-}
-
 static double
 tanpi(double f)
 {

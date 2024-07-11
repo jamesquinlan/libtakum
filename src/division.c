@@ -13,7 +13,6 @@
  * is interpreted as NaR, for regular a and
  * a = -Inf, and a - NaN = NaN in all cases.
  */
-
 takum8
 takum8_division(takum8 a, takum8 b)
 {

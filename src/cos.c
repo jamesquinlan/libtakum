@@ -1,9 +1,7 @@
 /* See LICENSE file for copyright and license details. */
-#define cospif _cospif
-#define cospi _cospi
+#define cospi  _cospi
 #define cospil _cospil
 #include <math.h>
-#undef cospif
 #undef cospi
 #undef cospil
 
@@ -16,12 +14,6 @@ UTIL_UNARY_FLOAT_WRAPPER(cos, cos)
  * rounded long double. sinpil() is still good enough as we have at least 5 bits
  * of wiggle room anyway.
  */
-static float
-cospif(float f)
-{
-	return (float)cosl(PI * (long double)f);
-}
-
 static double
 cospi(double f)
 {
