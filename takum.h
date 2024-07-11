@@ -165,6 +165,12 @@ takum64_sign(takum64 t)
 	                   (t >= 0) * UINT64_C(0x4000000000000000));
 }
 
+/* Precision */
+uint8_t takum8_precision(takum8);
+uint8_t takum16_precision(takum16);
+uint8_t takum32_precision(takum32);
+uint8_t takum64_precision(takum64);
+
 /* Addition */
 takum8 takum8_addition(takum8, takum8);
 takum16 takum16_addition(takum16, takum16);

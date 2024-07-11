@@ -4,9 +4,9 @@
 .SUFFIXES:
 
 VERSION_MAJOR = 0
-VERSION_MINOR = 1
-VERSION_PATCH = 2
-MAN_DATE = 2024-07-09
+VERSION_MINOR = 2
+VERSION_PATCH = 0
+MAN_DATE = 2024-07-11
 
 include config.mk
 
@@ -54,6 +54,7 @@ SRC =\
 	src/ln\
 	src/multiplication\
 	src/power\
+	src/precision\
 	src/sec\
 	src/sech\
 	src/sin\
