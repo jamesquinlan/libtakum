@@ -207,7 +207,8 @@ codec_takum64_to_l(takum64 t)
 	return (1 - 2 * (t < 0)) *
 	       ((long double)c + ldexpl((long double)M, -64));
 #else
-#pragma message "Extended float format is too small to hold what takum64 offers, takum64 decoding is stubbed"
+#pragma message                                                                \
+	"Extended float format is too small to hold what takum64 offers, takum64 decoding is stubbed"
 	(void)t;
 
 	return NAN;
@@ -284,7 +285,8 @@ float32_fraction_to_rounded_bits(float f, uint_fast8_t num_bits, bool *carry)
 		 * never be zero (under- or overflow) as we ensured this
 		 * before with clamping
 		 */
-		round_up = (num_bits != 0) * ((F & (UINT32_C(1) << (32 - num_bits - 1))) != 0);
+		round_up = (num_bits != 0) *
+		           ((F & (UINT32_C(1) << (32 - num_bits - 1))) != 0);
 		F = (F >> (32 - num_bits)) + round_up;
 
 		/* detect carry */
@@ -347,7 +349,8 @@ float64_fraction_to_rounded_bits(double f, uint_fast8_t num_bits, bool *carry)
 		 * never be zero (under- or overflow) as we ensured this
 		 * before with clamping
 		 */
-		round_up = (num_bits != 0) * ((F & (UINT64_C(1) << (64 - num_bits - 1))) != 0);
+		round_up = (num_bits != 0) *
+		           ((F & (UINT64_C(1) << (64 - num_bits - 1))) != 0);
 		F = (F >> (64 - num_bits)) + round_up;
 
 		/* detect carry */
@@ -361,7 +364,8 @@ float64_fraction_to_rounded_bits(double f, uint_fast8_t num_bits, bool *carry)
 }
 
 static inline uint64_t
-extended_float_fraction_to_rounded_bits(long double f, uint_fast8_t num_bits, bool *carry)
+extended_float_fraction_to_rounded_bits(long double f, uint_fast8_t num_bits,
+                                        bool *carry)
 {
 	uint64_t F;
 	bool round_up;
@@ -380,7 +384,8 @@ extended_float_fraction_to_rounded_bits(long double f, uint_fast8_t num_bits, bo
 
 			struct __attribute__((__packed__)) {
 #if LDBL_MANT_DIG == 53 && LDBL_MAX_EXP == 1024
-/* 64-bit long double, i.e. double is equal to long double */
+				/* 64-bit long double, i.e. double is equal to
+				 * long double */
 				uint64_t sign_exp_fraction;
 #elif LDBL_MANT_DIG == 64 && LDBL_MAX_EXP == 16384
 /* 80-bit long double */
@@ -422,9 +427,14 @@ extended_float_fraction_to_rounded_bits(long double f, uint_fast8_t num_bits, bo
 
 #if LDBL_MANT_DIG == 53 && LDBL_MAX_EXP == 1024
 		/* 64-bit double, lower 52 bits are fractions, implicit 1 */
-		F = ((UINT64_C(0x000fffffffffffff) & fu.bits.sign_exp_fraction) << 11) | (UINT64_C(1) << 63);
+		F = ((UINT64_C(0x000fffffffffffff) & fu.bits.sign_exp_fraction)
+		     << 11) |
+		    (UINT64_C(1) << 63);
 
-		/* We correct q to reflect our shift from 1.xxx... to 0.1xxx... */
+		/*
+		 * We correct q to reflect our shift from 1.xxx... to
+		 * 0.1xxx...
+		 */
 		q++;
 #elif LDBL_MANT_DIG == 64 && LDBL_MAX_EXP == 16384
 		/* 80-bit long double, has explicit 1 */
@@ -440,7 +450,10 @@ extended_float_fraction_to_rounded_bits(long double f, uint_fast8_t num_bits, bo
 		 */
 		F = (fu.bits.fraction >> 1) | (UINT64_C(1) << 63);
 
-		/* We correct q to reflect our shift from 1.xxx... to 0.1xxx... */
+		/*
+		 * We correct q to reflect our shift from 1.xxx... to
+		 * 0.1xxx...
+		 */
 		q++;
 #else
 		(void)fu;
@@ -463,7 +476,8 @@ extended_float_fraction_to_rounded_bits(long double f, uint_fast8_t num_bits, bo
 		 * never be zero (under- or overflow) as we ensured this
 		 * before with clamping
 		 */
-		round_up = (num_bits != 0) * ((F & (UINT64_C(1) << (64 - num_bits - 1))) != 0);
+		round_up = (num_bits != 0) *
+		           ((F & (UINT64_C(1) << (64 - num_bits - 1))) != 0);
 		F = (F >> (64 - num_bits)) + round_up;
 
 		/* detect carry */
@@ -524,9 +538,11 @@ codec_takum8_from_s_and_l(bool s, float l)
 	 * not to yield NaR as we bounded l earlier and return
 	 */
 	return ((((uint8_t)s) << (8 - 1)) | (DR << (8 - 5)) |
-	       ((((uint8_t)(c - c_bias_lut[DR])) >>
-	         ((p_lut[DR] <= 8) * (8 - p_lut[DR])))
-	        << p) | M) + (((uint8_t)carry) << (8 - 5));
+	        ((((uint8_t)(c - c_bias_lut[DR])) >>
+	          ((p_lut[DR] <= 8) * (8 - p_lut[DR])))
+	         << p) |
+	        M) +
+	       (((uint8_t)carry) << (8 - 5));
 }
 
 takum16
@@ -576,7 +592,7 @@ codec_takum16_from_s_and_l(bool s, float l)
 	 * not to yield NaR as we bounded l earlier and return
 	 */
 	return ((((uint16_t)s) << (16 - 1)) | (((uint16_t)DR) << (16 - 5)) |
-	       (((uint16_t)(c - c_bias_lut[DR])) << p) | ((uint16_t)M)) +
+	        (((uint16_t)(c - c_bias_lut[DR])) << p) | ((uint16_t)M)) +
 	       (((uint16_t)carry) << (16 - 5));
 }
 
@@ -624,16 +640,16 @@ codec_takum32_from_s_and_l(bool s, double l)
 
 	/* Assemble and return */
 	return ((((uint32_t)s) << (32 - 1)) | (((uint32_t)DR) << (32 - 5)) |
-	       (((uint32_t)(c - c_bias_lut[DR])) << p) | ((uint32_t)M)) +
+	        (((uint32_t)(c - c_bias_lut[DR])) << p) | ((uint32_t)M)) +
 	       (((uint32_t)carry) << (32 - 5));
 }
 
 takum64
 codec_takum64_from_s_and_l(bool s, long double l)
 {
-#if (LDBL_MANT_DIG == 53 && LDBL_MAX_EXP == 1024)  || \
-    (LDBL_MANT_DIG == 64 && LDBL_MAX_EXP == 16384) || \
-    (LDBL_MANT_DIG == 113 && LDBL_MAX_EXP == 16384)
+#if (LDBL_MANT_DIG == 53 && LDBL_MAX_EXP == 1024) ||                           \
+	(LDBL_MANT_DIG == 64 && LDBL_MAX_EXP == 16384) ||                      \
+	(LDBL_MANT_DIG == 113 && LDBL_MAX_EXP == 16384)
 	uint_fast8_t DR;
 	uint8_t p;
 	uint64_t M;
@@ -676,10 +692,11 @@ codec_takum64_from_s_and_l(bool s, long double l)
 
 	/* Assemble and return */
 	return ((((uint64_t)s) << (64 - 1)) | (((uint64_t)DR) << (64 - 5)) |
-	       (((uint64_t)(c - c_bias_lut[DR])) << p) | ((uint64_t)M)) +
+	        (((uint64_t)(c - c_bias_lut[DR])) << p) | ((uint64_t)M)) +
 	       (((uint64_t)carry) << (64 - 5));
 #else
-#pragma message "Unimplemented extended float format, takum64 encoding is stubbed"
+#pragma message                                                                \
+	"Unimplemented extended float format, takum64 encoding is stubbed"
 	(void)s;
 	(void)l;
 

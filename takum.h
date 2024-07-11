@@ -531,13 +531,13 @@ takum64 takum64_hypotenuse(takum64, takum64);
 			                            << (FROM - TO - 8)) ==     \
 			         UINT##FROM##_C(0x80) << (FROM - TO - 8)),     \
 		};                                                             \
-		                                                               \
+                                                                               \
 		/* saturate over-/underflows */                                \
 		out.bits += (((out.bits == 0) & (in.bits != 0)) -              \
 		             ((out.value == TAKUM##TO##_NAR) &                 \
 		              (in.value != TAKUM##FROM##_NAR))) *              \
 		            (1 - 2 * (in.value < 0));                          \
-		                                                               \
+                                                                               \
 		return out.value;                                              \
 	} while (0);
 
