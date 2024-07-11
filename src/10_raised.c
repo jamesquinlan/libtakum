@@ -6,12 +6,6 @@
 /*
  * Define exp10 using pow
  */
-static float
-ten_raisedf(float f)
-{
-	return (float)powl(10.0L, (long double)f);
-}
-
 static double
 ten_raised(double f)
 {
@@ -31,12 +25,6 @@ UTIL_UNARY_FLOAT_WRAPPER(10_raised, ten_raised)
  * double, however this is not enough to always get correct results as you would
  * need around 512 fraction bits to cover all cases.
  */
-static float
-ten_raised_minus_1f(float f)
-{
-	return (float)(powl(10.0L, (long double)f) - 1.0L);
-}
-
 static double
 ten_raised_minus_1(double f)
 {

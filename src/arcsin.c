@@ -10,12 +10,6 @@ UTIL_UNARY_FLOAT_WRAPPER(arcsin, asin)
  * rounded long double. arcsinpil() is still good enough as we have at least 5
  * bits of wiggle room anyway.
  */
-static float
-arcsinpif(float f)
-{
-	return (float)(asinl((long double)f) / PI);
-}
-
 static double
 arcsinpi(double f)
 {

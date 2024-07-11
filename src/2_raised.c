@@ -10,12 +10,6 @@ UTIL_UNARY_FLOAT_WRAPPER(2_raised, exp2)
  * double, however this is not enough to always get correct results as you would
  * need around 512 fraction bits to cover all cases.
  */
-static float
-two_raised_minus_1f(float f)
-{
-	return (float)(exp2l((long double)f) - 1.0L);
-}
-
 static double
 two_raised_minus_1(double f)
 {

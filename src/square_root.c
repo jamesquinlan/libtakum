@@ -10,7 +10,6 @@
  * The case NaR is automatically covered given
  * NaN/2=NaN holds.
  */
-
 takum8
 takum8_square_root(takum8 t)
 {

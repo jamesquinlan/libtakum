@@ -20,14 +20,23 @@ takum8_addition(takum8 a, takum8 b)
 
 	if (a > 0) {
 		if (b > 0) {
+			/*
+			 * We convert to double as float doesn't have
+			 * sufficient dynamic range for the intermediate
+			 * result.
+			 */
 			if (a > b) {
 				return codec_takum8_from_s_and_l(
 					0,
-					la + 2 * log1pf(powf(SQRTE, lb - la)));
+					la + 2 * (float)log1p(pow(
+							 SQRTE,
+							 (double)(lb - la))));
 			} else {
 				return codec_takum8_from_s_and_l(
 					0,
-					lb + 2 * log1pf(powf(SQRTE, la - lb)));
+					lb + 2 * (float)log1p(pow(
+							 SQRTE,
+							 (double)(la - lb))));
 			}
 		} else if (b < 0) {
 			return takum8_subtraction(a, -b);
@@ -61,14 +70,23 @@ takum16_addition(takum16 a, takum16 b)
 
 	if (a > 0) {
 		if (b > 0) {
+			/*
+			 * We convert to double as float doesn't have
+			 * sufficient dynamic range for the intermediate
+			 * result.
+			 */
 			if (a > b) {
 				return codec_takum16_from_s_and_l(
 					0,
-					la + 2 * log1pf(powf(SQRTE, lb - la)));
+					la + 2 * (float)log1p(pow(
+							 SQRTE,
+							 (double)(lb - la))));
 			} else {
 				return codec_takum16_from_s_and_l(
 					0,
-					lb + 2 * log1pf(powf(SQRTE, la - lb)));
+					lb + 2 * (float)log1p(pow(
+							 SQRTE,
+							 (double)(la - lb))));
 			}
 		} else if (b < 0) {
 			return takum16_subtraction(a, -b);

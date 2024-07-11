@@ -10,17 +10,20 @@
 #undef LEN
 #define LEN(x) (sizeof(x) / sizeof(*(x)))
 
+/*
+ * Even though just in regard to the number of significand digits we could
+ * use float32 for both takum8 and takum16, float32 has insufficient dynamic
+ * range in both cases.
+ */
 #define UTIL_UNARY_FLOAT_WRAPPER(NAME, FLOATFUNC)                              \
 	takum8 takum8_##NAME(takum8 t)                                         \
 	{                                                                      \
-		return takum8_from_float32(                                    \
-			FLOATFUNC##f(takum8_to_float32(t)));                   \
+		return takum8_from_float64(FLOATFUNC(takum8_to_float64(t)));   \
 	}                                                                      \
                                                                                \
 	takum16 takum16_##NAME(takum16 t)                                      \
 	{                                                                      \
-		return takum16_from_float32(                                   \
-			FLOATFUNC##f(takum16_to_float32(t)));                  \
+		return takum16_from_float64(FLOATFUNC(takum16_to_float64(t))); \
 	}                                                                      \
                                                                                \
 	takum32 takum32_##NAME(takum32 t)                                      \
@@ -37,22 +40,22 @@
 #define UTIL_BINARY_FLOAT_WRAPPER(NAME, FLOATFUNC)                             \
 	takum8 takum8_##NAME(takum8 a, takum8 b)                               \
 	{                                                                      \
-		float fa, fb;                                                  \
+		double fa, fb;                                                 \
                                                                                \
-		fa = takum8_to_float32(a);                                     \
-		fb = takum8_to_float32(b);                                     \
+		fa = takum8_to_float64(a);                                     \
+		fb = takum8_to_float64(b);                                     \
                                                                                \
-		return takum8_from_float32(FLOATFUNC##f(fa, fb));              \
+		return takum8_from_float64(FLOATFUNC(fa, fb));                 \
 	}                                                                      \
                                                                                \
 	takum16 takum16_##NAME(takum16 a, takum16 b)                           \
 	{                                                                      \
-		float fa, fb;                                                  \
+		double fa, fb;                                                 \
                                                                                \
-		fa = takum16_to_float32(a);                                    \
-		fb = takum16_to_float32(b);                                    \
+		fa = takum16_to_float64(a);                                    \
+		fb = takum16_to_float64(b);                                    \
                                                                                \
-		return takum16_from_float32(FLOATFUNC##f(fa, fb));             \
+		return takum16_from_float64(FLOATFUNC(fa, fb));                \
 	}                                                                      \
                                                                                \
 	takum32 takum32_##NAME(takum32 a, takum32 b)                           \
