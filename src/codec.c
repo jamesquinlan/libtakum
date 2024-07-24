@@ -490,56 +490,7 @@ extended_float_fraction_to_rounded_bits(long double f, uint_fast8_t num_bits,
 takum8
 codec_takum8_from_s_and_l(bool s, float l)
 {
-	uint_fast8_t DR;
-	uint8_t p;
-	uint32_t M;
-	int_fast16_t c;
-	float cpm, m;
-	const float bound = 239.0f;
-	bool carry;
-
-	if (isnan(l) || (isinf(l) && l > 0)) {
-		return TAKUM8_NAR;
-	} else if (isinf(l) && l < 0) {
-		return 0;
-	}
-
-	/*
-	 * Clamp l to representable exponents,
-	 * the maximum 01111111 has l=239.0
-	 */
-	l = (l < -bound) ? -bound : (l > bound) ? bound : l;
-
-	/* Apply sign to l to obtain c + m (cpm) */
-	cpm = (1 - 2 * s) * l;
-
-	/* Obtain c and m from cpm */
-	c = floorf(cpm);
-	m = cpm - c;
-
-	/* Determine DR */
-	DR = get_DR_from_c(c);
-
-	/*
-	 * Determine p, but keep in mind that p_lut is for a 16-bit
-	 * takum. Thus we need to subtract 8 to obtain the count for
-	 * takum 8.
-	 */
-	p = (p_lut[DR] > 8) * (p_lut[DR] - 8);
-
-	/* Determine mantissa bits */
-	M = float32_fraction_to_rounded_bits(m, p, &carry);
-
-	/*
-	 * Assemble, optionally apply the carry to SDR which is guaranteed
-	 * not to yield NaR as we bounded l earlier and return
-	 */
-	return ((((uint8_t)s) << (8 - 1)) | (DR << (8 - 5)) |
-	        ((((uint8_t)(c - c_bias_lut[DR])) >>
-	          ((p_lut[DR] <= 8) * (8 - p_lut[DR])))
-	         << p) |
-	        M) +
-	       (((uint8_t)carry) << p);
+	return takum8_from_takum16(codec_takum16_from_s_and_l(s, l));
 }
 
 takum16
