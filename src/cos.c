@@ -7,23 +7,26 @@
 
 #include "util.h"
 
-UTIL_UNARY_FLOAT_WRAPPER(cos, cos)
+/* no need to fix the result */
+#define RESULT_FIXER_MACRO(arg, res) (res)
+
+UTIL_UNARY_FLOAT_WRAPPER(cos, cos, RESULT_FIXER_MACRO)
 
 /*
  * We extend to long double and multiply the argument with pi, returning a
- * rounded long double. sinpil() is still good enough as we have at least 5 bits
+ * rounded long double. cospil() is still good enough as we have at least 5 bits
  * of wiggle room anyway.
  */
-static double
-cospi(double f)
-{
-	return (double)cosl(PI * (long double)f);
-}
-
 static long double
 cospil(long double f)
 {
 	return cosl(PI * f);
 }
 
-UTIL_UNARY_FLOAT_WRAPPER(cos_pi_times, cospi)
+static double
+cospi(double f)
+{
+	return (double)cospil((long double)f);
+}
+
+UTIL_UNARY_FLOAT_WRAPPER(cos_pi_times, cospi, RESULT_FIXER_MACRO)

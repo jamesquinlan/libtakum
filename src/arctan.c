@@ -3,7 +3,10 @@
 
 #include "util.h"
 
-UTIL_UNARY_FLOAT_WRAPPER(arctan, atan)
+/* no need to fix the result */
+#define RESULT_FIXER_MACRO(arg, res) (res)
+
+UTIL_UNARY_FLOAT_WRAPPER(arctan, atan, RESULT_FIXER_MACRO)
 
 /*
  * We extend to long double and multiply the argument with pi, returning a
@@ -22,4 +25,4 @@ arctanpil(long double f)
 	return atanl(f) / PI;
 }
 
-UTIL_UNARY_FLOAT_WRAPPER(arctan_over_pi, arctanpi)
+UTIL_UNARY_FLOAT_WRAPPER(arctan_over_pi, arctanpi, RESULT_FIXER_MACRO)

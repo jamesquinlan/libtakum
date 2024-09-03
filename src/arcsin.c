@@ -3,7 +3,10 @@
 
 #include "util.h"
 
-UTIL_UNARY_FLOAT_WRAPPER(arcsin, asin)
+/* no need to fix the result */
+#define RESULT_FIXER_MACRO(arg, res) (res)
+
+UTIL_UNARY_FLOAT_WRAPPER(arcsin, asin, RESULT_FIXER_MACRO)
 
 /*
  * We extend to long double and multiply the argument with pi, returning a
@@ -22,4 +25,4 @@ arcsinpil(long double f)
 	return asinl(f) / PI;
 }
 
-UTIL_UNARY_FLOAT_WRAPPER(arcsin_over_pi, arcsinpi)
+UTIL_UNARY_FLOAT_WRAPPER(arcsin_over_pi, arcsinpi, RESULT_FIXER_MACRO)

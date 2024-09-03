@@ -3,7 +3,10 @@
 
 #include "util.h"
 
-UTIL_BINARY_FLOAT_WRAPPER(arctan2, atan2)
+/* no need to fix the result */
+#define RESULT_FIXER_MACRO(a, b, res) (res)
+
+UTIL_BINARY_FLOAT_WRAPPER(arctan2, atan2, RESULT_FIXER_MACRO)
 
 /*
  * We extend to long double and multiply the argument with pi, returning a
@@ -22,4 +25,4 @@ arctan2pil(long double a, long double b)
 	return atan2l(a, b) / PI;
 }
 
-UTIL_BINARY_FLOAT_WRAPPER(arctan2_over_pi, arctan2pi)
+UTIL_BINARY_FLOAT_WRAPPER(arctan2_over_pi, arctan2pi, RESULT_FIXER_MACRO)
