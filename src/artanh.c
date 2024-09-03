@@ -3,4 +3,7 @@
 
 #include "util.h"
 
-UTIL_UNARY_FLOAT_WRAPPER(artanh, atanh)
+/* no need to fix the result, as infinities for +-1 are 'true' infinities */
+#define RESULT_FIXER_MACRO(arg, res) (res)
+
+UTIL_UNARY_FLOAT_WRAPPER(artanh, atanh, RESULT_FIXER_MACRO)

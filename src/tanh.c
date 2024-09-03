@@ -3,4 +3,7 @@
 
 #include "util.h"
 
-UTIL_UNARY_FLOAT_WRAPPER(tanh, tanh)
+/* no need to fix the result */
+#define RESULT_FIXER_MACRO(arg, res) (res)
+
+UTIL_UNARY_FLOAT_WRAPPER(tanh, tanh, RESULT_FIXER_MACRO)

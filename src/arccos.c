@@ -3,7 +3,10 @@
 
 #include "util.h"
 
-UTIL_UNARY_FLOAT_WRAPPER(arccos, acos)
+/* no need to fix the result */
+#define RESULT_FIXER_MACRO(arg, res) (res)
+
+UTIL_UNARY_FLOAT_WRAPPER(arccos, acos, RESULT_FIXER_MACRO)
 
 /*
  * We extend to long double and multiply the argument with pi, returning a
@@ -22,4 +25,4 @@ arccospil(long double f)
 	return acosl(f) / PI;
 }
 
-UTIL_UNARY_FLOAT_WRAPPER(arccos_over_pi, arccospi)
+UTIL_UNARY_FLOAT_WRAPPER(arccos_over_pi, arccospi, RESULT_FIXER_MACRO)
