@@ -46,6 +46,8 @@ SRC =\
 	src/coth\
 	src/csc\
 	src/csch\
+	src/integer_power\
+	src/integer_root\
 	src/division\
 	src/exp\
 	src/hypotenuse\
