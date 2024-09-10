@@ -201,11 +201,23 @@ takum16 takum16_square_root(takum16);
 takum32 takum32_square_root(takum32);
 takum64 takum64_square_root(takum64);
 
+/* Integer Root */
+takum8 takum8_integer_root(takum8, int64_t);
+takum16 takum16_integer_root(takum16, int64_t);
+takum32 takum32_integer_root(takum32, int64_t);
+takum64 takum64_integer_root(takum64, int64_t);
+
 /* Power */
 takum8 takum8_power(takum8, takum8);
 takum16 takum16_power(takum16, takum16);
 takum32 takum32_power(takum32, takum32);
 takum64 takum64_power(takum64, takum64);
+
+/* Integer Power */
+takum8 takum8_integer_power(takum8, int64_t);
+takum16 takum16_integer_power(takum16, int64_t);
+takum32 takum32_integer_power(takum32, int64_t);
+takum64 takum64_integer_power(takum64, int64_t);
 
 /* Exponential Function */
 takum8 takum8_exp(takum8);

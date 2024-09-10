@@ -4,8 +4,8 @@
 .SUFFIXES:
 
 VERSION_MAJOR = 0
-VERSION_MINOR = 2
-VERSION_PATCH = 2
+VERSION_MINOR = 3
+VERSION_PATCH = 0
 MAN_DATE = 2024-07-11
 
 include config.mk
@@ -46,6 +46,8 @@ SRC =\
 	src/coth\
 	src/csc\
 	src/csch\
+	src/integer_power\
+	src/integer_root\
 	src/division\
 	src/exp\
 	src/hypotenuse\
