@@ -37,31 +37,6 @@ union takum_internal_takum64_union {
 #define TAKUM32_NAR (INT32_C(-2147483647) - INT32_C(1))
 #define TAKUM64_NAR (INT64_C(-9223372036854775807) - INT64_C(1))
 
-/* Negation */
-static inline takum8
-takum8_negation(takum8 t)
-{
-	return -t;
-}
-
-static inline takum16
-takum16_negation(takum16 t)
-{
-	return -t;
-}
-
-static inline takum32
-takum32_negation(takum32 t)
-{
-	return -t;
-}
-
-static inline takum64
-takum64_negation(takum64 t)
-{
-	return -t;
-}
-
 /* Inversion */
 static inline takum8
 takum8_inversion(takum8 t)
