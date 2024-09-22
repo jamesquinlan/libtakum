@@ -6,7 +6,7 @@
 VERSION_MAJOR = 0
 VERSION_MINOR = 3
 VERSION_PATCH = 0
-MAN_DATE = 2024-07-11
+MAN_DATE = 2024-09-22
 
 include config.mk
 
@@ -69,9 +69,300 @@ SRC =\
 TEST =\
 	test/roundtrip\
 
-MAN_TEMPLATE =
+MAN_TEMPLATE =\
+	man/template/conversion_from_float.sh\
+	man/template/conversion_to_float.sh\
+	man/template/math_function.sh\
 
-MAN3 =
+MAN3 =\
+	man/takum8_10_raised\
+	man/takum16_10_raised\
+	man/takum32_10_raised\
+	man/takum64_10_raised\
+	man/takum8_10_raised_minus_1\
+	man/takum16_10_raised_minus_1\
+	man/takum32_10_raised_minus_1\
+	man/takum64_10_raised_minus_1\
+	man/takum8_2_raised\
+	man/takum16_2_raised\
+	man/takum32_2_raised\
+	man/takum64_2_raised\
+	man/takum8_2_raised_minus_1\
+	man/takum16_2_raised_minus_1\
+	man/takum32_2_raised_minus_1\
+	man/takum64_2_raised_minus_1\
+	man/takum8_absolute\
+	man/takum16_absolute\
+	man/takum32_absolute\
+	man/takum64_absolute\
+	man/takum8_addition\
+	man/takum16_addition\
+	man/takum32_addition\
+	man/takum64_addition\
+	man/takum8_arccos\
+	man/takum16_arccos\
+	man/takum32_arccos\
+	man/takum64_arccos\
+	man/takum8_arccos_over_pi\
+	man/takum16_arccos_over_pi\
+	man/takum32_arccos_over_pi\
+	man/takum64_arccos_over_pi\
+	man/takum8_arccot\
+	man/takum16_arccot\
+	man/takum32_arccot\
+	man/takum64_arccot\
+	man/takum8_arccot_over_pi\
+	man/takum16_arccot_over_pi\
+	man/takum32_arccot_over_pi\
+	man/takum64_arccot_over_pi\
+	man/takum8_arccsc\
+	man/takum16_arccsc\
+	man/takum32_arccsc\
+	man/takum64_arccsc\
+	man/takum8_arccsc_over_pi\
+	man/takum16_arccsc_over_pi\
+	man/takum32_arccsc_over_pi\
+	man/takum64_arccsc_over_pi\
+	man/takum8_arcosh\
+	man/takum16_arcosh\
+	man/takum32_arcosh\
+	man/takum64_arcosh\
+	man/takum8_arcoth\
+	man/takum16_arcoth\
+	man/takum32_arcoth\
+	man/takum64_arcoth\
+	man/takum8_arcsch\
+	man/takum16_arcsch\
+	man/takum32_arcsch\
+	man/takum64_arcsch\
+	man/takum8_arcsec\
+	man/takum16_arcsec\
+	man/takum32_arcsec\
+	man/takum64_arcsec\
+	man/takum8_arcsec_over_pi\
+	man/takum16_arcsec_over_pi\
+	man/takum32_arcsec_over_pi\
+	man/takum64_arcsec_over_pi\
+	man/takum8_arcsin\
+	man/takum16_arcsin\
+	man/takum32_arcsin\
+	man/takum64_arcsin\
+	man/takum8_arcsin_over_pi\
+	man/takum16_arcsin_over_pi\
+	man/takum32_arcsin_over_pi\
+	man/takum64_arcsin_over_pi\
+	man/takum8_arctan2\
+	man/takum16_arctan2\
+	man/takum32_arctan2\
+	man/takum64_arctan2\
+	man/takum8_arctan2_over_pi\
+	man/takum16_arctan2_over_pi\
+	man/takum32_arctan2_over_pi\
+	man/takum64_arctan2_over_pi\
+	man/takum8_arctan\
+	man/takum16_arctan\
+	man/takum32_arctan\
+	man/takum64_arctan\
+	man/takum8_arctan_over_pi\
+	man/takum16_arctan_over_pi\
+	man/takum32_arctan_over_pi\
+	man/takum64_arctan_over_pi\
+	man/takum8_arsech\
+	man/takum16_arsech\
+	man/takum32_arsech\
+	man/takum64_arsech\
+	man/takum8_arsinh\
+	man/takum16_arsinh\
+	man/takum32_arsinh\
+	man/takum64_arsinh\
+	man/takum8_artanh\
+	man/takum16_artanh\
+	man/takum32_artanh\
+	man/takum64_artanh\
+	man/takum8_cos\
+	man/takum16_cos\
+	man/takum32_cos\
+	man/takum64_cos\
+	man/takum8_cos_pi_times\
+	man/takum16_cos_pi_times\
+	man/takum32_cos_pi_times\
+	man/takum64_cos_pi_times\
+	man/takum8_cosh\
+	man/takum16_cosh\
+	man/takum32_cosh\
+	man/takum64_cosh\
+	man/takum8_cot\
+	man/takum16_cot\
+	man/takum32_cot\
+	man/takum64_cot\
+	man/takum8_cot_pi_times\
+	man/takum16_cot_pi_times\
+	man/takum32_cot_pi_times\
+	man/takum64_cot_pi_times\
+	man/takum8_coth\
+	man/takum16_coth\
+	man/takum32_coth\
+	man/takum64_coth\
+	man/takum8_csc\
+	man/takum16_csc\
+	man/takum32_csc\
+	man/takum64_csc\
+	man/takum8_csc_pi_times\
+	man/takum16_csc_pi_times\
+	man/takum32_csc_pi_times\
+	man/takum64_csc_pi_times\
+	man/takum8_csch\
+	man/takum16_csch\
+	man/takum32_csch\
+	man/takum64_csch\
+	man/takum8_division\
+	man/takum16_division\
+	man/takum32_division\
+	man/takum64_division\
+	man/takum8_exp\
+	man/takum16_exp\
+	man/takum32_exp\
+	man/takum64_exp\
+	man/takum8_exp_minus_1\
+	man/takum16_exp_minus_1\
+	man/takum32_exp_minus_1\
+	man/takum64_exp_minus_1\
+	man/takum8_from_extended_float\
+	man/takum16_from_extended_float\
+	man/takum32_from_extended_float\
+	man/takum64_from_extended_float\
+	man/takum8_from_float32\
+	man/takum16_from_float32\
+	man/takum32_from_float32\
+	man/takum64_from_float32\
+	man/takum8_from_float64\
+	man/takum16_from_float64\
+	man/takum32_from_float64\
+	man/takum64_from_float64\
+	man/takum16_from_takum8\
+	man/takum32_from_takum8\
+	man/takum64_from_takum8\
+	man/takum8_from_takum16\
+	man/takum32_from_takum16\
+	man/takum64_from_takum16\
+	man/takum8_from_takum32\
+	man/takum16_from_takum32\
+	man/takum64_from_takum32\
+	man/takum8_from_takum64\
+	man/takum16_from_takum64\
+	man/takum32_from_takum64\
+	man/takum8_hypotenuse\
+	man/takum16_hypotenuse\
+	man/takum32_hypotenuse\
+	man/takum64_hypotenuse\
+	man/takum8_integer_power\
+	man/takum16_integer_power\
+	man/takum32_integer_power\
+	man/takum64_integer_power\
+	man/takum8_integer_root\
+	man/takum16_integer_root\
+	man/takum32_integer_root\
+	man/takum64_integer_root\
+	man/takum8_inversion\
+	man/takum16_inversion\
+	man/takum32_inversion\
+	man/takum64_inversion\
+	man/takum8_lb\
+	man/takum16_lb\
+	man/takum32_lb\
+	man/takum64_lb\
+	man/takum8_lb_1_plus\
+	man/takum16_lb_1_plus\
+	man/takum32_lb_1_plus\
+	man/takum64_lb_1_plus\
+	man/takum8_lg\
+	man/takum16_lg\
+	man/takum32_lg\
+	man/takum64_lg\
+	man/takum8_lg_1_plus\
+	man/takum16_lg_1_plus\
+	man/takum32_lg_1_plus\
+	man/takum64_lg_1_plus\
+	man/takum8_ln\
+	man/takum16_ln\
+	man/takum32_ln\
+	man/takum64_ln\
+	man/takum8_ln_1_plus\
+	man/takum16_ln_1_plus\
+	man/takum32_ln_1_plus\
+	man/takum64_ln_1_plus\
+	man/takum8_multiplication\
+	man/takum16_multiplication\
+	man/takum32_multiplication\
+	man/takum64_multiplication\
+	man/takum8_power\
+	man/takum16_power\
+	man/takum32_power\
+	man/takum64_power\
+	man/takum8_precision\
+	man/takum16_precision\
+	man/takum32_precision\
+	man/takum64_precision\
+	man/takum8_sec\
+	man/takum16_sec\
+	man/takum32_sec\
+	man/takum64_sec\
+	man/takum8_sec_pi_times\
+	man/takum16_sec_pi_times\
+	man/takum32_sec_pi_times\
+	man/takum64_sec_pi_times\
+	man/takum8_sech\
+	man/takum16_sech\
+	man/takum32_sech\
+	man/takum64_sech\
+	man/takum8_sign\
+	man/takum16_sign\
+	man/takum32_sign\
+	man/takum64_sign\
+	man/takum8_sin\
+	man/takum16_sin\
+	man/takum32_sin\
+	man/takum64_sin\
+	man/takum8_sin_pi_times\
+	man/takum16_sin_pi_times\
+	man/takum32_sin_pi_times\
+	man/takum64_sin_pi_times\
+	man/takum8_sinh\
+	man/takum16_sinh\
+	man/takum32_sinh\
+	man/takum64_sinh\
+	man/takum8_square_root\
+	man/takum16_square_root\
+	man/takum32_square_root\
+	man/takum64_square_root\
+	man/takum8_subtraction\
+	man/takum16_subtraction\
+	man/takum32_subtraction\
+	man/takum64_subtraction\
+	man/takum8_tan\
+	man/takum16_tan\
+	man/takum32_tan\
+	man/takum64_tan\
+	man/takum8_tan_pi_times\
+	man/takum16_tan_pi_times\
+	man/takum32_tan_pi_times\
+	man/takum64_tan_pi_times\
+	man/takum8_tanh\
+	man/takum16_tanh\
+	man/takum32_tanh\
+	man/takum64_tanh\
+	man/takum8_to_extended_float\
+	man/takum16_to_extended_float\
+	man/takum32_to_extended_float\
+	man/takum64_to_extended_float\
+	man/takum8_to_float32\
+	man/takum16_to_float32\
+	man/takum32_to_float32\
+	man/takum64_to_float32\
+	man/takum8_to_float64\
+	man/takum16_to_float64\
+	man/takum32_to_float64\
+	man/takum64_to_float64\
 
 MAN7 =
 
@@ -134,7 +425,294 @@ test/roundtrip$(BINSUFFIX): test/roundtrip.o test/util.o $(ANAME)
 
 gen/addition.h: gen/addition$(BINSUFFIX)
 
-man/x.3: man/x.sh Makefile config.mk
+man/takum8_10_raised.3: man/takum8_10_raised.sh man/takum64_10_raised.sh man/template/math_function.sh Makefile config.mk
+man/takum16_10_raised.3: man/takum16_10_raised.sh man/takum64_10_raised.sh man/template/math_function.sh Makefile config.mk
+man/takum32_10_raised.3: man/takum32_10_raised.sh man/takum64_10_raised.sh man/template/math_function.sh Makefile config.mk
+man/takum64_10_raised.3: man/takum64_10_raised.sh man/template/math_function.sh Makefile config.mk
+man/takum8_10_raised_minus_1.3: man/takum8_10_raised_minus_1.sh man/takum64_10_raised_minus_1.sh man/template/math_function.sh Makefile config.mk
+man/takum16_10_raised_minus_1.3: man/takum16_10_raised_minus_1.sh man/takum64_10_raised_minus_1.sh man/template/math_function.sh Makefile config.mk
+man/takum32_10_raised_minus_1.3: man/takum32_10_raised_minus_1.sh man/takum64_10_raised_minus_1.sh man/template/math_function.sh Makefile config.mk
+man/takum64_10_raised_minus_1.3: man/takum64_10_raised_minus_1.sh man/template/math_function.sh Makefile config.mk
+man/takum8_2_raised.3: man/takum8_2_raised.sh man/takum64_2_raised.sh man/template/math_function.sh Makefile config.mk
+man/takum16_2_raised.3: man/takum16_2_raised.sh man/takum64_2_raised.sh man/template/math_function.sh Makefile config.mk
+man/takum32_2_raised.3: man/takum32_2_raised.sh man/takum64_2_raised.sh man/template/math_function.sh Makefile config.mk
+man/takum64_2_raised.3: man/takum64_2_raised.sh man/template/math_function.sh Makefile config.mk
+man/takum8_2_raised_minus_1.3: man/takum8_2_raised_minus_1.sh man/takum64_2_raised_minus_1.sh man/template/math_function.sh Makefile config.mk
+man/takum16_2_raised_minus_1.3: man/takum16_2_raised_minus_1.sh man/takum64_2_raised_minus_1.sh man/template/math_function.sh Makefile config.mk
+man/takum32_2_raised_minus_1.3: man/takum32_2_raised_minus_1.sh man/takum64_2_raised_minus_1.sh man/template/math_function.sh Makefile config.mk
+man/takum64_2_raised_minus_1.3: man/takum64_2_raised_minus_1.sh man/template/math_function.sh Makefile config.mk
+man/takum8_absolute.3: man/takum8_absolute.sh man/takum64_absolute.sh man/template/math_function.sh Makefile config.mk
+man/takum16_absolute.3: man/takum16_absolute.sh man/takum64_absolute.sh man/template/math_function.sh Makefile config.mk
+man/takum32_absolute.3: man/takum32_absolute.sh man/takum64_absolute.sh man/template/math_function.sh Makefile config.mk
+man/takum64_absolute.3: man/takum64_absolute.sh man/template/math_function.sh Makefile config.mk
+man/takum8_addition.3: man/takum8_addition.sh man/takum64_addition.sh man/template/math_function.sh Makefile config.mk
+man/takum16_addition.3: man/takum16_addition.sh man/takum64_addition.sh man/template/math_function.sh Makefile config.mk
+man/takum32_addition.3: man/takum32_addition.sh man/takum64_addition.sh man/template/math_function.sh Makefile config.mk
+man/takum64_addition.3: man/takum64_addition.sh man/template/math_function.sh Makefile config.mk
+man/takum8_arccos.3: man/takum8_arccos.sh man/takum64_arccos.sh man/template/math_function.sh Makefile config.mk
+man/takum16_arccos.3: man/takum16_arccos.sh man/takum64_arccos.sh man/template/math_function.sh Makefile config.mk
+man/takum32_arccos.3: man/takum32_arccos.sh man/takum64_arccos.sh man/template/math_function.sh Makefile config.mk
+man/takum64_arccos.3: man/takum64_arccos.sh man/template/math_function.sh Makefile config.mk
+man/takum8_arccos_over_pi.3: man/takum8_arccos_over_pi.sh man/takum64_arccos_over_pi.sh man/template/math_function.sh Makefile config.mk
+man/takum16_arccos_over_pi.3: man/takum16_arccos_over_pi.sh man/takum64_arccos_over_pi.sh man/template/math_function.sh Makefile config.mk
+man/takum32_arccos_over_pi.3: man/takum32_arccos_over_pi.sh man/takum64_arccos_over_pi.sh man/template/math_function.sh Makefile config.mk
+man/takum64_arccos_over_pi.3: man/takum64_arccos_over_pi.sh man/template/math_function.sh Makefile config.mk
+man/takum8_arccot.3: man/takum8_arccot.sh man/takum64_arccot.sh man/template/math_function.sh Makefile config.mk
+man/takum16_arccot.3: man/takum16_arccot.sh man/takum64_arccot.sh man/template/math_function.sh Makefile config.mk
+man/takum32_arccot.3: man/takum32_arccot.sh man/takum64_arccot.sh man/template/math_function.sh Makefile config.mk
+man/takum64_arccot.3: man/takum64_arccot.sh man/template/math_function.sh Makefile config.mk
+man/takum8_arccot_over_pi.3: man/takum8_arccot_over_pi.sh man/takum64_arccot_over_pi.sh man/template/math_function.sh Makefile config.mk
+man/takum16_arccot_over_pi.3: man/takum16_arccot_over_pi.sh man/takum64_arccot_over_pi.sh man/template/math_function.sh Makefile config.mk
+man/takum32_arccot_over_pi.3: man/takum32_arccot_over_pi.sh man/takum64_arccot_over_pi.sh man/template/math_function.sh Makefile config.mk
+man/takum64_arccot_over_pi.3: man/takum64_arccot_over_pi.sh man/template/math_function.sh Makefile config.mk
+man/takum8_arccsc.3: man/takum8_arccsc.sh man/takum64_arccsc.sh man/template/math_function.sh Makefile config.mk
+man/takum16_arccsc.3: man/takum16_arccsc.sh man/takum64_arccsc.sh man/template/math_function.sh Makefile config.mk
+man/takum32_arccsc.3: man/takum32_arccsc.sh man/takum64_arccsc.sh man/template/math_function.sh Makefile config.mk
+man/takum64_arccsc.3: man/takum64_arccsc.sh man/template/math_function.sh Makefile config.mk
+man/takum8_arccsc_over_pi.3: man/takum8_arccsc_over_pi.sh man/takum64_arccsc_over_pi.sh man/template/math_function.sh Makefile config.mk
+man/takum16_arccsc_over_pi.3: man/takum16_arccsc_over_pi.sh man/takum64_arccsc_over_pi.sh man/template/math_function.sh Makefile config.mk
+man/takum32_arccsc_over_pi.3: man/takum32_arccsc_over_pi.sh man/takum64_arccsc_over_pi.sh man/template/math_function.sh Makefile config.mk
+man/takum64_arccsc_over_pi.3: man/takum64_arccsc_over_pi.sh man/template/math_function.sh Makefile config.mk
+man/takum8_arcosh.3: man/takum8_arcosh.sh man/takum64_arcosh.sh man/template/math_function.sh Makefile config.mk
+man/takum16_arcosh.3: man/takum16_arcosh.sh man/takum64_arcosh.sh man/template/math_function.sh Makefile config.mk
+man/takum32_arcosh.3: man/takum32_arcosh.sh man/takum64_arcosh.sh man/template/math_function.sh Makefile config.mk
+man/takum64_arcosh.3: man/takum64_arcosh.sh man/template/math_function.sh Makefile config.mk
+man/takum8_arcoth.3: man/takum8_arcoth.sh man/takum64_arcoth.sh man/template/math_function.sh Makefile config.mk
+man/takum16_arcoth.3: man/takum16_arcoth.sh man/takum64_arcoth.sh man/template/math_function.sh Makefile config.mk
+man/takum32_arcoth.3: man/takum32_arcoth.sh man/takum64_arcoth.sh man/template/math_function.sh Makefile config.mk
+man/takum64_arcoth.3: man/takum64_arcoth.sh man/template/math_function.sh Makefile config.mk
+man/takum8_arcsch.3: man/takum8_arcsch.sh man/takum64_arcsch.sh man/template/math_function.sh Makefile config.mk
+man/takum16_arcsch.3: man/takum16_arcsch.sh man/takum64_arcsch.sh man/template/math_function.sh Makefile config.mk
+man/takum32_arcsch.3: man/takum32_arcsch.sh man/takum64_arcsch.sh man/template/math_function.sh Makefile config.mk
+man/takum64_arcsch.3: man/takum64_arcsch.sh man/template/math_function.sh Makefile config.mk
+man/takum8_arcsec.3: man/takum8_arcsec.sh man/takum64_arcsec.sh man/template/math_function.sh Makefile config.mk
+man/takum16_arcsec.3: man/takum16_arcsec.sh man/takum64_arcsec.sh man/template/math_function.sh Makefile config.mk
+man/takum32_arcsec.3: man/takum32_arcsec.sh man/takum64_arcsec.sh man/template/math_function.sh Makefile config.mk
+man/takum64_arcsec.3: man/takum64_arcsec.sh man/template/math_function.sh Makefile config.mk
+man/takum8_arcsec_over_pi.3: man/takum8_arcsec_over_pi.sh man/takum64_arcsec_over_pi.sh man/template/math_function.sh Makefile config.mk
+man/takum16_arcsec_over_pi.3: man/takum16_arcsec_over_pi.sh man/takum64_arcsec_over_pi.sh man/template/math_function.sh Makefile config.mk
+man/takum32_arcsec_over_pi.3: man/takum32_arcsec_over_pi.sh man/takum64_arcsec_over_pi.sh man/template/math_function.sh Makefile config.mk
+man/takum64_arcsec_over_pi.3: man/takum64_arcsec_over_pi.sh man/template/math_function.sh Makefile config.mk
+man/takum8_arcsin.3: man/takum8_arcsin.sh man/takum64_arcsin.sh man/template/math_function.sh Makefile config.mk
+man/takum16_arcsin.3: man/takum16_arcsin.sh man/takum64_arcsin.sh man/template/math_function.sh Makefile config.mk
+man/takum32_arcsin.3: man/takum32_arcsin.sh man/takum64_arcsin.sh man/template/math_function.sh Makefile config.mk
+man/takum64_arcsin.3: man/takum64_arcsin.sh man/template/math_function.sh Makefile config.mk
+man/takum8_arcsin_over_pi.3: man/takum8_arcsin_over_pi.sh man/takum64_arcsin_over_pi.sh man/template/math_function.sh Makefile config.mk
+man/takum16_arcsin_over_pi.3: man/takum16_arcsin_over_pi.sh man/takum64_arcsin_over_pi.sh man/template/math_function.sh Makefile config.mk
+man/takum32_arcsin_over_pi.3: man/takum32_arcsin_over_pi.sh man/takum64_arcsin_over_pi.sh man/template/math_function.sh Makefile config.mk
+man/takum64_arcsin_over_pi.3: man/takum64_arcsin_over_pi.sh man/template/math_function.sh Makefile config.mk
+man/takum8_arctan2.3: man/takum8_arctan2.sh man/takum64_arctan2.sh man/template/math_function.sh Makefile config.mk
+man/takum16_arctan2.3: man/takum16_arctan2.sh man/takum64_arctan2.sh man/template/math_function.sh Makefile config.mk
+man/takum32_arctan2.3: man/takum32_arctan2.sh man/takum64_arctan2.sh man/template/math_function.sh Makefile config.mk
+man/takum64_arctan2.3: man/takum64_arctan2.sh man/template/math_function.sh Makefile config.mk
+man/takum8_arctan2_over_pi.3: man/takum8_arctan2_over_pi.sh man/takum64_arctan2_over_pi.sh man/template/math_function.sh Makefile config.mk
+man/takum16_arctan2_over_pi.3: man/takum16_arctan2_over_pi.sh man/takum64_arctan2_over_pi.sh man/template/math_function.sh Makefile config.mk
+man/takum32_arctan2_over_pi.3: man/takum32_arctan2_over_pi.sh man/takum64_arctan2_over_pi.sh man/template/math_function.sh Makefile config.mk
+man/takum64_arctan2_over_pi.3: man/takum64_arctan2_over_pi.sh man/template/math_function.sh Makefile config.mk
+man/takum8_arctan.3: man/takum8_arctan.sh man/takum64_arctan.sh man/template/math_function.sh Makefile config.mk
+man/takum16_arctan.3: man/takum16_arctan.sh man/takum64_arctan.sh man/template/math_function.sh Makefile config.mk
+man/takum32_arctan.3: man/takum32_arctan.sh man/takum64_arctan.sh man/template/math_function.sh Makefile config.mk
+man/takum64_arctan.3: man/takum64_arctan.sh man/template/math_function.sh Makefile config.mk
+man/takum8_arctan_over_pi.3: man/takum8_arctan_over_pi.sh man/takum64_arctan_over_pi.sh man/template/math_function.sh Makefile config.mk
+man/takum16_arctan_over_pi.3: man/takum16_arctan_over_pi.sh man/takum64_arctan_over_pi.sh man/template/math_function.sh Makefile config.mk
+man/takum32_arctan_over_pi.3: man/takum32_arctan_over_pi.sh man/takum64_arctan_over_pi.sh man/template/math_function.sh Makefile config.mk
+man/takum64_arctan_over_pi.3: man/takum64_arctan_over_pi.sh man/template/math_function.sh Makefile config.mk
+man/takum8_arsech.3: man/takum8_arsech.sh man/takum64_arsech.sh man/template/math_function.sh Makefile config.mk
+man/takum16_arsech.3: man/takum16_arsech.sh man/takum64_arsech.sh man/template/math_function.sh Makefile config.mk
+man/takum32_arsech.3: man/takum32_arsech.sh man/takum64_arsech.sh man/template/math_function.sh Makefile config.mk
+man/takum64_arsech.3: man/takum64_arsech.sh man/template/math_function.sh Makefile config.mk
+man/takum8_arsinh.3: man/takum8_arsinh.sh man/takum64_arsinh.sh man/template/math_function.sh Makefile config.mk
+man/takum16_arsinh.3: man/takum16_arsinh.sh man/takum64_arsinh.sh man/template/math_function.sh Makefile config.mk
+man/takum32_arsinh.3: man/takum32_arsinh.sh man/takum64_arsinh.sh man/template/math_function.sh Makefile config.mk
+man/takum64_arsinh.3: man/takum64_arsinh.sh man/template/math_function.sh Makefile config.mk
+man/takum8_artanh.3: man/takum8_artanh.sh man/takum64_artanh.sh man/template/math_function.sh Makefile config.mk
+man/takum16_artanh.3: man/takum16_artanh.sh man/takum64_artanh.sh man/template/math_function.sh Makefile config.mk
+man/takum32_artanh.3: man/takum32_artanh.sh man/takum64_artanh.sh man/template/math_function.sh Makefile config.mk
+man/takum64_artanh.3: man/takum64_artanh.sh man/template/math_function.sh Makefile config.mk
+man/takum8_cos.3: man/takum8_cos.sh man/takum64_cos.sh man/template/math_function.sh Makefile config.mk
+man/takum16_cos.3: man/takum16_cos.sh man/takum64_cos.sh man/template/math_function.sh Makefile config.mk
+man/takum32_cos.3: man/takum32_cos.sh man/takum64_cos.sh man/template/math_function.sh Makefile config.mk
+man/takum64_cos.3: man/takum64_cos.sh man/template/math_function.sh Makefile config.mk
+man/takum8_cos_pi_times.3: man/takum8_cos_pi_times.sh man/takum64_cos_pi_times.sh man/template/math_function.sh Makefile config.mk
+man/takum16_cos_pi_times.3: man/takum16_cos_pi_times.sh man/takum64_cos_pi_times.sh man/template/math_function.sh Makefile config.mk
+man/takum32_cos_pi_times.3: man/takum32_cos_pi_times.sh man/takum64_cos_pi_times.sh man/template/math_function.sh Makefile config.mk
+man/takum64_cos_pi_times.3: man/takum64_cos_pi_times.sh man/template/math_function.sh Makefile config.mk
+man/takum8_cosh.3: man/takum8_cosh.sh man/takum64_cosh.sh man/template/math_function.sh Makefile config.mk
+man/takum16_cosh.3: man/takum16_cosh.sh man/takum64_cosh.sh man/template/math_function.sh Makefile config.mk
+man/takum32_cosh.3: man/takum32_cosh.sh man/takum64_cosh.sh man/template/math_function.sh Makefile config.mk
+man/takum64_cosh.3: man/takum64_cosh.sh man/template/math_function.sh Makefile config.mk
+man/takum8_cot.3: man/takum8_cot.sh man/takum64_cot.sh man/template/math_function.sh Makefile config.mk
+man/takum16_cot.3: man/takum16_cot.sh man/takum64_cot.sh man/template/math_function.sh Makefile config.mk
+man/takum32_cot.3: man/takum32_cot.sh man/takum64_cot.sh man/template/math_function.sh Makefile config.mk
+man/takum64_cot.3: man/takum64_cot.sh man/template/math_function.sh Makefile config.mk
+man/takum8_cot_pi_times.3: man/takum8_cot_pi_times.sh man/takum64_cot_pi_times.sh man/template/math_function.sh Makefile config.mk
+man/takum16_cot_pi_times.3: man/takum16_cot_pi_times.sh man/takum64_cot_pi_times.sh man/template/math_function.sh Makefile config.mk
+man/takum32_cot_pi_times.3: man/takum32_cot_pi_times.sh man/takum64_cot_pi_times.sh man/template/math_function.sh Makefile config.mk
+man/takum64_cot_pi_times.3: man/takum64_cot_pi_times.sh man/template/math_function.sh Makefile config.mk
+man/takum8_coth.3: man/takum8_coth.sh man/takum64_coth.sh man/template/math_function.sh Makefile config.mk
+man/takum16_coth.3: man/takum16_coth.sh man/takum64_coth.sh man/template/math_function.sh Makefile config.mk
+man/takum32_coth.3: man/takum32_coth.sh man/takum64_coth.sh man/template/math_function.sh Makefile config.mk
+man/takum64_coth.3: man/takum64_coth.sh man/template/math_function.sh Makefile config.mk
+man/takum8_csc.3: man/takum8_csc.sh man/takum64_csc.sh man/template/math_function.sh Makefile config.mk
+man/takum16_csc.3: man/takum16_csc.sh man/takum64_csc.sh man/template/math_function.sh Makefile config.mk
+man/takum32_csc.3: man/takum32_csc.sh man/takum64_csc.sh man/template/math_function.sh Makefile config.mk
+man/takum64_csc.3: man/takum64_csc.sh man/template/math_function.sh Makefile config.mk
+man/takum8_csc_pi_times.3: man/takum8_csc_pi_times.sh man/takum64_csc_pi_times.sh man/template/math_function.sh Makefile config.mk
+man/takum16_csc_pi_times.3: man/takum16_csc_pi_times.sh man/takum64_csc_pi_times.sh man/template/math_function.sh Makefile config.mk
+man/takum32_csc_pi_times.3: man/takum32_csc_pi_times.sh man/takum64_csc_pi_times.sh man/template/math_function.sh Makefile config.mk
+man/takum64_csc_pi_times.3: man/takum64_csc_pi_times.sh man/template/math_function.sh Makefile config.mk
+man/takum8_csch.3: man/takum8_csch.sh man/takum64_csch.sh man/template/math_function.sh Makefile config.mk
+man/takum16_csch.3: man/takum16_csch.sh man/takum64_csch.sh man/template/math_function.sh Makefile config.mk
+man/takum32_csch.3: man/takum32_csch.sh man/takum64_csch.sh man/template/math_function.sh Makefile config.mk
+man/takum64_csch.3: man/takum64_csch.sh man/template/math_function.sh Makefile config.mk
+man/takum8_division.3: man/takum8_division.sh man/takum64_division.sh man/template/math_function.sh Makefile config.mk
+man/takum16_division.3: man/takum16_division.sh man/takum64_division.sh man/template/math_function.sh Makefile config.mk
+man/takum32_division.3: man/takum32_division.sh man/takum64_division.sh man/template/math_function.sh Makefile config.mk
+man/takum64_division.3: man/takum64_division.sh man/template/math_function.sh Makefile config.mk
+man/takum8_exp.3: man/takum8_exp.sh man/takum64_exp.sh man/template/math_function.sh Makefile config.mk
+man/takum16_exp.3: man/takum16_exp.sh man/takum64_exp.sh man/template/math_function.sh Makefile config.mk
+man/takum32_exp.3: man/takum32_exp.sh man/takum64_exp.sh man/template/math_function.sh Makefile config.mk
+man/takum64_exp.3: man/takum64_exp.sh man/template/math_function.sh Makefile config.mk
+man/takum8_exp_minus_1.3: man/takum8_exp_minus_1.sh man/takum64_exp_minus_1.sh man/template/math_function.sh Makefile config.mk
+man/takum16_exp_minus_1.3: man/takum16_exp_minus_1.sh man/takum64_exp_minus_1.sh man/template/math_function.sh Makefile config.mk
+man/takum32_exp_minus_1.3: man/takum32_exp_minus_1.sh man/takum64_exp_minus_1.sh man/template/math_function.sh Makefile config.mk
+man/takum64_exp_minus_1.3: man/takum64_exp_minus_1.sh man/template/math_function.sh Makefile config.mk
+man/takum8_from_extended_float.3: man/takum8_from_extended_float.sh man/takum64_from_extended_float.sh man/template/conversion_from_float.sh Makefile config.mk
+man/takum16_from_extended_float.3: man/takum16_from_extended_float.sh man/takum64_from_extended_float.sh man/template/conversion_from_float.sh Makefile config.mk
+man/takum32_from_extended_float.3: man/takum32_from_extended_float.sh man/takum64_from_extended_float.sh man/template/conversion_from_float.sh Makefile config.mk
+man/takum64_from_extended_float.3: man/takum64_from_extended_float.sh man/template/conversion_from_float.sh Makefile config.mk
+man/takum8_from_float32.3: man/takum8_from_float32.sh man/takum64_from_float32.sh man/template/conversion_from_float.sh Makefile config.mk
+man/takum16_from_float32.3: man/takum16_from_float32.sh man/takum64_from_float32.sh man/template/conversion_from_float.sh Makefile config.mk
+man/takum32_from_float32.3: man/takum32_from_float32.sh man/takum64_from_float32.sh man/template/conversion_from_float.sh Makefile config.mk
+man/takum64_from_float32.3: man/takum64_from_float32.sh man/template/conversion_from_float.sh Makefile config.mk
+man/takum8_from_float64.3: man/takum8_from_float64.sh man/takum64_from_float64.sh man/template/conversion_from_float.sh Makefile config.mk
+man/takum16_from_float64.3: man/takum16_from_float64.sh man/takum64_from_float64.sh man/template/conversion_from_float.sh Makefile config.mk
+man/takum32_from_float64.3: man/takum32_from_float64.sh man/takum64_from_float64.sh man/template/conversion_from_float.sh Makefile config.mk
+man/takum64_from_float64.3: man/takum64_from_float64.sh man/template/conversion_from_float.sh Makefile config.mk
+man/takum16_from_takum8.3: man/takum16_from_takum8.sh man/takum64_from_takum8.sh man/template/conversion.sh Makefile config.mk
+man/takum32_from_takum8.3: man/takum32_from_takum8.sh man/takum64_from_takum8.sh man/template/conversion.sh Makefile config.mk
+man/takum64_from_takum8.3: man/takum64_from_takum8.sh man/template/conversion.sh Makefile config.mk
+man/takum8_from_takum16.3: man/takum8_from_takum16.sh man/takum64_from_takum16.sh man/template/conversion.sh Makefile config.mk
+man/takum32_from_takum16.3: man/takum32_from_takum16.sh man/takum64_from_takum16.sh man/template/conversion.sh Makefile config.mk
+man/takum64_from_takum16.3: man/takum64_from_takum16.sh man/template/conversion.sh Makefile config.mk
+man/takum8_from_takum32.3: man/takum8_from_takum32.sh man/takum64_from_takum32.sh man/template/conversion.sh Makefile config.mk
+man/takum16_from_takum32.3: man/takum16_from_takum32.sh man/takum64_from_takum32.sh man/template/conversion.sh Makefile config.mk
+man/takum64_from_takum32.3: man/takum64_from_takum32.sh man/template/conversion.sh Makefile config.mk
+man/takum8_from_takum64.3: man/takum8_from_takum64.sh man/takum32_from_takum64.sh man/template/conversion.sh Makefile config.mk
+man/takum16_from_takum64.3: man/takum16_from_takum64.sh man/takum32_from_takum64.sh man/template/conversion.sh Makefile config.mk
+man/takum32_from_takum64.3: man/takum32_from_takum64.sh man/template/conversion.sh Makefile config.mk
+man/takum8_hypotenuse.3: man/takum8_hypotenuse.sh man/takum64_hypotenuse.sh man/template/math_function.sh Makefile config.mk
+man/takum16_hypotenuse.3: man/takum16_hypotenuse.sh man/takum64_hypotenuse.sh man/template/math_function.sh Makefile config.mk
+man/takum32_hypotenuse.3: man/takum32_hypotenuse.sh man/takum64_hypotenuse.sh man/template/math_function.sh Makefile config.mk
+man/takum64_hypotenuse.3: man/takum64_hypotenuse.sh man/template/math_function.sh Makefile config.mk
+man/takum8_integer_power.3: man/takum8_integer_power.sh man/takum64_integer_power.sh man/template/math_function.sh Makefile config.mk
+man/takum16_integer_power.3: man/takum16_integer_power.sh man/takum64_integer_power.sh man/template/math_function.sh Makefile config.mk
+man/takum32_integer_power.3: man/takum32_integer_power.sh man/takum64_integer_power.sh man/template/math_function.sh Makefile config.mk
+man/takum64_integer_power.3: man/takum64_integer_power.sh man/template/math_function.sh Makefile config.mk
+man/takum8_integer_root.3: man/takum8_integer_root.sh man/takum64_integer_root.sh man/template/math_function.sh Makefile config.mk
+man/takum16_integer_root.3: man/takum16_integer_root.sh man/takum64_integer_root.sh man/template/math_function.sh Makefile config.mk
+man/takum32_integer_root.3: man/takum32_integer_root.sh man/takum64_integer_root.sh man/template/math_function.sh Makefile config.mk
+man/takum64_integer_root.3: man/takum64_integer_root.sh man/template/math_function.sh Makefile config.mk
+man/takum8_inversion.3: man/takum8_inversion.sh man/takum64_inversion.sh man/template/math_function.sh Makefile config.mk
+man/takum16_inversion.3: man/takum16_inversion.sh man/takum64_inversion.sh man/template/math_function.sh Makefile config.mk
+man/takum32_inversion.3: man/takum32_inversion.sh man/takum64_inversion.sh man/template/math_function.sh Makefile config.mk
+man/takum64_inversion.3: man/takum64_inversion.sh man/template/math_function.sh Makefile config.mk
+man/takum8_lb.3: man/takum8_lb.sh man/takum64_lb.sh man/template/math_function.sh Makefile config.mk
+man/takum16_lb.3: man/takum16_lb.sh man/takum64_lb.sh man/template/math_function.sh Makefile config.mk
+man/takum32_lb.3: man/takum32_lb.sh man/takum64_lb.sh man/template/math_function.sh Makefile config.mk
+man/takum64_lb.3: man/takum64_lb.sh man/template/math_function.sh Makefile config.mk
+man/takum8_lb_1_plus.3: man/takum8_lb_1_plus.sh man/takum64_lb_1_plus.sh man/template/math_function.sh Makefile config.mk
+man/takum16_lb_1_plus.3: man/takum16_lb_1_plus.sh man/takum64_lb_1_plus.sh man/template/math_function.sh Makefile config.mk
+man/takum32_lb_1_plus.3: man/takum32_lb_1_plus.sh man/takum64_lb_1_plus.sh man/template/math_function.sh Makefile config.mk
+man/takum64_lb_1_plus.3: man/takum64_lb_1_plus.sh man/template/math_function.sh Makefile config.mk
+man/takum8_lg.3: man/takum8_lg.sh man/takum64_lg.sh man/template/math_function.sh Makefile config.mk
+man/takum16_lg.3: man/takum16_lg.sh man/takum64_lg.sh man/template/math_function.sh Makefile config.mk
+man/takum32_lg.3: man/takum32_lg.sh man/takum64_lg.sh man/template/math_function.sh Makefile config.mk
+man/takum64_lg.3: man/takum64_lg.sh man/template/math_function.sh Makefile config.mk
+man/takum8_lg_1_plus.3: man/takum8_lg_1_plus.sh man/takum64_lg_1_plus.sh man/template/math_function.sh Makefile config.mk
+man/takum16_lg_1_plus.3: man/takum16_lg_1_plus.sh man/takum64_lg_1_plus.sh man/template/math_function.sh Makefile config.mk
+man/takum32_lg_1_plus.3: man/takum32_lg_1_plus.sh man/takum64_lg_1_plus.sh man/template/math_function.sh Makefile config.mk
+man/takum64_lg_1_plus.3: man/takum64_lg_1_plus.sh man/template/math_function.sh Makefile config.mk
+man/takum8_ln.3: man/takum8_ln.sh man/takum64_ln.sh man/template/math_function.sh Makefile config.mk
+man/takum16_ln.3: man/takum16_ln.sh man/takum64_ln.sh man/template/math_function.sh Makefile config.mk
+man/takum32_ln.3: man/takum32_ln.sh man/takum64_ln.sh man/template/math_function.sh Makefile config.mk
+man/takum64_ln.3: man/takum64_ln.sh man/template/math_function.sh Makefile config.mk
+man/takum8_ln_1_plus.3: man/takum8_ln_1_plus.sh man/takum64_ln_1_plus.sh man/template/math_function.sh Makefile config.mk
+man/takum16_ln_1_plus.3: man/takum16_ln_1_plus.sh man/takum64_ln_1_plus.sh man/template/math_function.sh Makefile config.mk
+man/takum32_ln_1_plus.3: man/takum32_ln_1_plus.sh man/takum64_ln_1_plus.sh man/template/math_function.sh Makefile config.mk
+man/takum64_ln_1_plus.3: man/takum64_ln_1_plus.sh man/template/math_function.sh Makefile config.mk
+man/takum8_multiplication.3: man/takum8_multiplication.sh man/takum64_multiplication.sh man/template/math_function.sh Makefile config.mk
+man/takum16_multiplication.3: man/takum16_multiplication.sh man/takum64_multiplication.sh man/template/math_function.sh Makefile config.mk
+man/takum32_multiplication.3: man/takum32_multiplication.sh man/takum64_multiplication.sh man/template/math_function.sh Makefile config.mk
+man/takum64_multiplication.3: man/takum64_multiplication.sh man/template/math_function.sh Makefile config.mk
+man/takum8_power.3: man/takum8_power.sh man/takum64_power.sh man/template/math_function.sh Makefile config.mk
+man/takum16_power.3: man/takum16_power.sh man/takum64_power.sh man/template/math_function.sh Makefile config.mk
+man/takum32_power.3: man/takum32_power.sh man/takum64_power.sh man/template/math_function.sh Makefile config.mk
+man/takum64_power.3: man/takum64_power.sh man/template/math_function.sh Makefile config.mk
+man/takum8_precision.3: man/takum8_precision.sh man/takum64_precision.sh man/template/math_function.sh Makefile config.mk
+man/takum16_precision.3: man/takum16_precision.sh man/takum64_precision.sh man/template/math_function.sh Makefile config.mk
+man/takum32_precision.3: man/takum32_precision.sh man/takum64_precision.sh man/template/math_function.sh Makefile config.mk
+man/takum64_precision.3: man/takum64_precision.sh man/template/math_function.sh Makefile config.mk
+man/takum8_sec.3: man/takum8_sec.sh man/takum64_sec.sh man/template/math_function.sh Makefile config.mk
+man/takum16_sec.3: man/takum16_sec.sh man/takum64_sec.sh man/template/math_function.sh Makefile config.mk
+man/takum32_sec.3: man/takum32_sec.sh man/takum64_sec.sh man/template/math_function.sh Makefile config.mk
+man/takum64_sec.3: man/takum64_sec.sh man/template/math_function.sh Makefile config.mk
+man/takum8_sec_pi_times.3: man/takum8_sec_pi_times.sh man/takum64_sec_pi_times.sh man/template/math_function.sh Makefile config.mk
+man/takum16_sec_pi_times.3: man/takum16_sec_pi_times.sh man/takum64_sec_pi_times.sh man/template/math_function.sh Makefile config.mk
+man/takum32_sec_pi_times.3: man/takum32_sec_pi_times.sh man/takum64_sec_pi_times.sh man/template/math_function.sh Makefile config.mk
+man/takum64_sec_pi_times.3: man/takum64_sec_pi_times.sh man/template/math_function.sh Makefile config.mk
+man/takum8_sech.3: man/takum8_sech.sh man/takum64_sech.sh man/template/math_function.sh Makefile config.mk
+man/takum16_sech.3: man/takum16_sech.sh man/takum64_sech.sh man/template/math_function.sh Makefile config.mk
+man/takum32_sech.3: man/takum32_sech.sh man/takum64_sech.sh man/template/math_function.sh Makefile config.mk
+man/takum64_sech.3: man/takum64_sech.sh man/template/math_function.sh Makefile config.mk
+man/takum8_sign.3: man/takum8_sign.sh man/takum64_sign.sh man/template/math_function.sh Makefile config.mk
+man/takum16_sign.3: man/takum16_sign.sh man/takum64_sign.sh man/template/math_function.sh Makefile config.mk
+man/takum32_sign.3: man/takum32_sign.sh man/takum64_sign.sh man/template/math_function.sh Makefile config.mk
+man/takum64_sign.3: man/takum64_sign.sh man/template/math_function.sh Makefile config.mk
+man/takum8_sin.3: man/takum8_sin.sh man/takum64_sin.sh man/template/math_function.sh Makefile config.mk
+man/takum16_sin.3: man/takum16_sin.sh man/takum64_sin.sh man/template/math_function.sh Makefile config.mk
+man/takum32_sin.3: man/takum32_sin.sh man/takum64_sin.sh man/template/math_function.sh Makefile config.mk
+man/takum64_sin.3: man/takum64_sin.sh man/template/math_function.sh Makefile config.mk
+man/takum8_sin_pi_times.3: man/takum8_sin_pi_times.sh man/takum64_sin_pi_times.sh man/template/math_function.sh Makefile config.mk
+man/takum16_sin_pi_times.3: man/takum16_sin_pi_times.sh man/takum64_sin_pi_times.sh man/template/math_function.sh Makefile config.mk
+man/takum32_sin_pi_times.3: man/takum32_sin_pi_times.sh man/takum64_sin_pi_times.sh man/template/math_function.sh Makefile config.mk
+man/takum64_sin_pi_times.3: man/takum64_sin_pi_times.sh man/template/math_function.sh Makefile config.mk
+man/takum8_sinh.3: man/takum8_sinh.sh man/takum64_sinh.sh man/template/math_function.sh Makefile config.mk
+man/takum16_sinh.3: man/takum16_sinh.sh man/takum64_sinh.sh man/template/math_function.sh Makefile config.mk
+man/takum32_sinh.3: man/takum32_sinh.sh man/takum64_sinh.sh man/template/math_function.sh Makefile config.mk
+man/takum64_sinh.3: man/takum64_sinh.sh man/template/math_function.sh Makefile config.mk
+man/takum8_square_root.3: man/takum8_square_root.sh man/takum64_square_root.sh man/template/math_function.sh Makefile config.mk
+man/takum16_square_root.3: man/takum16_square_root.sh man/takum64_square_root.sh man/template/math_function.sh Makefile config.mk
+man/takum32_square_root.3: man/takum32_square_root.sh man/takum64_square_root.sh man/template/math_function.sh Makefile config.mk
+man/takum64_square_root.3: man/takum64_square_root.sh man/template/math_function.sh Makefile config.mk
+man/takum8_subtraction.3: man/takum8_subtraction.sh man/takum64_subtraction.sh man/template/math_function.sh Makefile config.mk
+man/takum16_subtraction.3: man/takum16_subtraction.sh man/takum64_subtraction.sh man/template/math_function.sh Makefile config.mk
+man/takum32_subtraction.3: man/takum32_subtraction.sh man/takum64_subtraction.sh man/template/math_function.sh Makefile config.mk
+man/takum64_subtraction.3: man/takum64_subtraction.sh man/template/math_function.sh Makefile config.mk
+man/takum8_tan.3: man/takum8_tan.sh man/takum64_tan.sh man/template/math_function.sh Makefile config.mk
+man/takum16_tan.3: man/takum16_tan.sh man/takum64_tan.sh man/template/math_function.sh Makefile config.mk
+man/takum32_tan.3: man/takum32_tan.sh man/takum64_tan.sh man/template/math_function.sh Makefile config.mk
+man/takum64_tan.3: man/takum64_tan.sh man/template/math_function.sh Makefile config.mk
+man/takum8_tan_pi_times.3: man/takum8_tan_pi_times.sh man/takum64_tan_pi_times.sh man/template/math_function.sh Makefile config.mk
+man/takum16_tan_pi_times.3: man/takum16_tan_pi_times.sh man/takum64_tan_pi_times.sh man/template/math_function.sh Makefile config.mk
+man/takum32_tan_pi_times.3: man/takum32_tan_pi_times.sh man/takum64_tan_pi_times.sh man/template/math_function.sh Makefile config.mk
+man/takum64_tan_pi_times.3: man/takum64_tan_pi_times.sh man/template/math_function.sh Makefile config.mk
+man/takum8_tanh.3: man/takum8_tanh.sh man/takum64_tanh.sh man/template/math_function.sh Makefile config.mk
+man/takum16_tanh.3: man/takum16_tanh.sh man/takum64_tanh.sh man/template/math_function.sh Makefile config.mk
+man/takum32_tanh.3: man/takum32_tanh.sh man/takum64_tanh.sh man/template/math_function.sh Makefile config.mk
+man/takum64_tanh.3: man/takum64_tanh.sh man/template/math_function.sh Makefile config.mk
+man/takum8_to_extended_float.3: man/takum8_to_extended_float.sh man/takum64_to_extended_float.sh man/template/conversion_to_float.sh Makefile config.mk
+man/takum16_to_extended_float.3: man/takum16_to_extended_float.sh man/takum64_to_extended_float.sh man/template/conversion_to_float.sh Makefile config.mk
+man/takum32_to_extended_float.3: man/takum32_to_extended_float.sh man/takum64_to_extended_float.sh man/template/conversion_to_float.sh Makefile config.mk
+man/takum64_to_extended_float.3: man/takum64_to_extended_float.sh man/template/conversion_to_float.sh Makefile config.mk
+man/takum8_to_float32.3: man/takum8_to_float32.sh man/takum64_to_float32.sh man/template/conversion_to_float.sh Makefile config.mk
+man/takum16_to_float32.3: man/takum16_to_float32.sh man/takum64_to_float32.sh man/template/conversion_to_float.sh Makefile config.mk
+man/takum32_to_float32.3: man/takum32_to_float32.sh man/takum64_to_float32.sh man/template/conversion_to_float.sh Makefile config.mk
+man/takum64_to_float32.3: man/takum64_to_float32.sh man/template/conversion_to_float.sh Makefile config.mk
+man/takum8_to_float64.3: man/takum8_to_float64.sh man/takum64_to_float64.sh man/template/conversion_to_float.sh Makefile config.mk
+man/takum16_to_float64.3: man/takum16_to_float64.sh man/takum64_to_float64.sh man/template/conversion_to_float.sh Makefile config.mk
+man/takum32_to_float64.3: man/takum32_to_float64.sh man/takum64_to_float64.sh man/template/conversion_to_float.sh Makefile config.mk
+man/takum64_to_float64.3: man/takum64_to_float64.sh man/template/conversion_to_float.sh Makefile config.mk
 
 man/x.7: man/x.sh Makefile config.mk
 
@@ -170,10 +748,10 @@ $(SONAME): $(SRC:=.o) src/util.o
 	$(CC) -o $@ $(SOFLAGS) $(LDFLAGS) $(SRC:=.o) src/util.o $(LDLIBS)
 
 $(MAN3:=.3):
-	SH="$(SH)" MAN_DATE="$(MAN_DATE)" $(SH) $(@:.3=.sh) > $@
+	env -i SH="$(SH)" MAN_DATE="$(MAN_DATE)" $(SH) $(@:.3=.sh) > $@
 
 $(MAN7:=.7):
-	SH="$(SH)" MAN_DATE="$(MAN_DATE)" $(SH) $(@:.7=.sh) > $@
+	env -i SH="$(SH)" MAN_DATE="$(MAN_DATE)" $(SH) $(@:.7=.sh) > $@
 
 benchmark: $(BENCHMARK:=$(BINSUFFIX))
 	for m in $(BENCHMARK:=$(BINSUFFIX)); do ./$$m; done

@@ -295,6 +295,24 @@ takum16 takum16_exp_minus_1(takum16);
 takum32 takum32_exp_minus_1(takum32);
 takum64 takum64_exp_minus_1(takum64);
 
+/* Conversion from extended float */
+takum8 takum8_from_extended_float(long double);
+takum16 takum16_from_extended_float(long double);
+takum32 takum32_from_extended_float(long double);
+takum64 takum64_from_extended_float(long double);
+
+/* Conversion from float32 */
+takum8 takum8_from_float32(float);
+takum16 takum16_from_float32(float);
+takum32 takum32_from_float32(float);
+takum64 takum64_from_float32(float);
+
+/* Conversion from float64 */
+takum8 takum8_from_float64(double);
+takum16 takum16_from_float64(double);
+takum32 takum32_from_float64(double);
+takum64 takum64_from_float64(double);
+
 /* Takum conversion helper macros */
 #define TAKUM_INTERNAL_CONVERT_EXPAND(FROM, TO)                                \
 	do {                                                                   \
@@ -404,24 +422,6 @@ takum32_from_takum64(takum64 t)
 {
 	TAKUM_INTERNAL_CONVERT_REDUCE(64, 32);
 }
-
-/* Conversion from float32 */
-takum8 takum8_from_float32(float);
-takum16 takum16_from_float32(float);
-takum32 takum32_from_float32(float);
-takum64 takum64_from_float32(float);
-
-/* Conversion from float64 */
-takum8 takum8_from_float64(double);
-takum16 takum16_from_float64(double);
-takum32 takum32_from_float64(double);
-takum64 takum64_from_float64(double);
-
-/* Conversion from extended float */
-takum8 takum8_from_extended_float(long double);
-takum16 takum16_from_extended_float(long double);
-takum32 takum32_from_extended_float(long double);
-takum64 takum64_from_extended_float(long double);
 
 /* Hypotenuse sqrt(a^2+b^2) */
 takum8 takum8_hypotenuse(takum8, takum8);
@@ -639,6 +639,12 @@ takum16 takum16_tanh(takum16);
 takum32 takum32_tanh(takum32);
 takum64 takum64_tanh(takum64);
 
+/* Conversion to extended float */
+long double takum8_to_extended_float(takum8);
+long double takum16_to_extended_float(takum16);
+long double takum32_to_extended_float(takum32);
+long double takum64_to_extended_float(takum64);
+
 /* Conversion to float32 */
 float takum8_to_float32(takum8);
 float takum16_to_float32(takum16);
@@ -650,11 +656,5 @@ double takum8_to_float64(takum8);
 double takum16_to_float64(takum16);
 double takum32_to_float64(takum32);
 double takum64_to_float64(takum64);
-
-/* Conversion to extended float */
-long double takum8_to_extended_float(takum8);
-long double takum16_to_extended_float(takum16);
-long double takum32_to_extended_float(takum32);
-long double takum64_to_extended_float(takum64);
 
 #endif /* TAKUM_H */
