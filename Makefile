@@ -558,6 +558,53 @@ test/subtraction$(BINSUFFIX): test/subtraction.o test/util.o $(ANAME)
 test/tan$(BINSUFFIX): test/tan.o test/util.o $(ANAME)
 test/tanh$(BINSUFFIX): test/tanh.o test/util.o $(ANAME)
 
+test/10_raised.success: test/10_raised$(BINSUFFIX)
+test/2_raised.success: test/2_raised$(BINSUFFIX)
+test/absolute.success: test/absolute$(BINSUFFIX)
+test/addition.success: test/addition$(BINSUFFIX)
+test/arccos.success: test/arccos$(BINSUFFIX)
+test/arccot.success: test/arccot$(BINSUFFIX)
+test/arccsc.success: test/arccsc$(BINSUFFIX)
+test/arcosh.success: test/arcosh$(BINSUFFIX)
+test/arcoth.success: test/arcoth$(BINSUFFIX)
+test/arcsch.success: test/arcsch$(BINSUFFIX)
+test/arcsec.success: test/arcsec$(BINSUFFIX)
+test/arcsin.success: test/arcsin$(BINSUFFIX)
+test/arctan.success: test/arctan$(BINSUFFIX)
+test/arctan2.success: test/arctan2$(BINSUFFIX)
+test/arsech.success: test/arsech$(BINSUFFIX)
+test/arsinh.success: test/arsinh$(BINSUFFIX)
+test/artanh.success: test/artanh$(BINSUFFIX)
+test/codec.success: test/codec$(BINSUFFIX)
+test/conversion.success: test/conversion$(BINSUFFIX)
+test/cos.success: test/cos$(BINSUFFIX)
+test/cosh.success: test/cosh$(BINSUFFIX)
+test/cot.success: test/cot$(BINSUFFIX)
+test/coth.success: test/coth$(BINSUFFIX)
+test/csc.success: test/csc$(BINSUFFIX)
+test/csch.success: test/csch$(BINSUFFIX)
+test/division.success: test/division$(BINSUFFIX)
+test/exp.success: test/exp$(BINSUFFIX)
+test/hypotenuse.success: test/hypotenuse$(BINSUFFIX)
+test/integer_power.success: test/integer_power$(BINSUFFIX)
+test/inversion.success: test/inversion$(BINSUFFIX)
+test/lb.success: test/lb$(BINSUFFIX)
+test/lg.success: test/lg$(BINSUFFIX)
+test/ln.success: test/ln$(BINSUFFIX)
+test/multiplication.success: test/multiplication$(BINSUFFIX)
+test/power.success: test/power$(BINSUFFIX)
+test/precision.success: test/precision$(BINSUFFIX)
+test/root.success: test/root$(BINSUFFIX)
+test/sec.success: test/sec$(BINSUFFIX)
+test/sech.success: test/sech$(BINSUFFIX)
+test/sign.success: test/sign$(BINSUFFIX)
+test/sin.success: test/sin$(BINSUFFIX)
+test/sinh.success: test/sinh$(BINSUFFIX)
+test/square_root.success: test/square_root$(BINSUFFIX)
+test/subtraction.success: test/subtraction$(BINSUFFIX)
+test/tan.success: test/tan$(BINSUFFIX)
+test/tanh.success: test/tanh$(BINSUFFIX)
+
 gen/addition.h: gen/addition$(BINSUFFIX)
 
 man/takum8_10_raised.3: man/takum8_10_raised.sh man/takum64_10_raised.sh man/template/math_function.sh Makefile config.mk
@@ -872,6 +919,9 @@ $(GEN:=$(BINSUFFIX)):
 $(TEST:=$(BINSUFFIX)):
 	$(CC) -o $@ $(LDFLAGS) $(@:$(BINSUFFIX)=.o) test/util.o $(ANAME) $(LDLIBS)
 
+$(TEST:=.success):
+	./$(@:.success=$(BINSUFFIX)) && touch $@
+
 $(GEN:=.h):
 	$(@:.h=$(BINSUFFIX)) > $@
 
@@ -895,8 +945,7 @@ example: $(EXAMPLE:=$(BINSUFFIX))
 
 check: test
 
-test: $(TEST:=$(BINSUFFIX))
-	for m in $(TEST:=$(BINSUFFIX)); do ./$$m; done
+test: $(TEST:=.success)
 
 install: all
 	mkdir -p "$(DESTDIR)$(LIBPREFIX)"
@@ -931,7 +980,7 @@ uninstall:
 	if ! [ -z "$(PCPREFIX)" ]; then rm -f "$(DESTDIR)$(PCPREFIX)/libtakum.pc"; fi
 
 clean:
-	rm -f $(BENCHMARK:=.o) benchmark/util.o $(BENCHMARK:=$(BINSUFFIX)) $(EXAMPLE:=.o) example/util.o $(EXAMPLE:=$(BINSUFFIX)) $(GEN:=.h) $(GEN:=.o) gen/util.o $(GEN:=$(BINSUFFIX)) $(SRC:=.o) src/util.o $(TEST:=.o) test/util.o $(TEST:=$(BINSUFFIX)) $(ANAME) $(SONAME) $(MAN3:=.3) $(MAN7:=.7)
+	rm -f $(BENCHMARK:=.o) benchmark/util.o $(BENCHMARK:=$(BINSUFFIX)) $(EXAMPLE:=.o) example/util.o $(EXAMPLE:=$(BINSUFFIX)) $(GEN:=.h) $(GEN:=.o) gen/util.o $(GEN:=$(BINSUFFIX)) $(SRC:=.o) src/util.o $(TEST:=.o) test/util.o $(TEST:=$(BINSUFFIX)) $(TEST:=.success) $(ANAME) $(SONAME) $(MAN3:=.3) $(MAN7:=.7)
 
 dist:
 	rm -rf "libtakum-$(VERSION)"
