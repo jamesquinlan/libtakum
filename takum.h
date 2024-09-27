@@ -436,10 +436,10 @@ takum32 takum32_integer_power(takum32, int64_t);
 takum64 takum64_integer_power(takum64, int64_t);
 
 /* Integer Root */
-takum8 takum8_integer_root(takum8, int64_t);
-takum16 takum16_integer_root(takum16, int64_t);
-takum32 takum32_integer_root(takum32, int64_t);
-takum64 takum64_integer_root(takum64, int64_t);
+takum8 takum8_root(takum8, int64_t);
+takum16 takum16_root(takum16, int64_t);
+takum32 takum32_root(takum32, int64_t);
+takum64 takum64_root(takum64, int64_t);
 
 /* Inversion */
 static inline takum8

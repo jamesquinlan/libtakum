@@ -47,7 +47,6 @@ SRC =\
 	src/csc\
 	src/csch\
 	src/integer_power\
-	src/integer_root\
 	src/division\
 	src/exp\
 	src/hypotenuse\
@@ -57,6 +56,7 @@ SRC =\
 	src/multiplication\
 	src/power\
 	src/precision\
+	src/root\
 	src/sec\
 	src/sech\
 	src/sin\
@@ -96,7 +96,6 @@ TEST =\
 	test/exp\
 	test/hypotenuse\
 	test/integer_power\
-	test/integer_root\
 	test/inversion\
 	test/lb\
 	test/lg\
@@ -104,6 +103,7 @@ TEST =\
 	test/multiplication\
 	test/power\
 	test/precision\
+	test/root\
 	test/sec\
 	test/sech\
 	test/sign\
@@ -304,10 +304,6 @@ MAN3 =\
 	man/takum16_integer_power\
 	man/takum32_integer_power\
 	man/takum64_integer_power\
-	man/takum8_integer_root\
-	man/takum16_integer_root\
-	man/takum32_integer_root\
-	man/takum64_integer_root\
 	man/takum8_inversion\
 	man/takum16_inversion\
 	man/takum32_inversion\
@@ -348,6 +344,10 @@ MAN3 =\
 	man/takum16_precision\
 	man/takum32_precision\
 	man/takum64_precision\
+	man/takum8_root\
+	man/takum16_root\
+	man/takum32_root\
+	man/takum64_root\
 	man/takum8_sec\
 	man/takum16_sec\
 	man/takum32_sec\
@@ -489,7 +489,6 @@ test/division.o: test/division.c Makefile config.mk takum.h test/util.h
 test/exp.o: test/exp.c Makefile config.mk takum.h test/util.h
 test/hypotenuse.o: test/hypotenuse.c Makefile config.mk takum.h test/util.h
 test/integer_power.o: test/integer_power.c Makefile config.mk takum.h test/util.h
-test/integer_root.o: test/integer_root.c Makefile config.mk takum.h test/util.h
 test/inversion.o: test/inversion.c Makefile config.mk takum.h test/util.h
 test/lb.o: test/lb.c Makefile config.mk takum.h test/util.h
 test/lg.o: test/lg.c Makefile config.mk takum.h test/util.h
@@ -497,6 +496,7 @@ test/ln.o: test/ln.c Makefile config.mk takum.h test/util.h
 test/multiplication.o: test/multiplication.c Makefile config.mk takum.h test/util.h
 test/power.o: test/power.c Makefile config.mk takum.h test/util.h
 test/precision.o: test/precision.c Makefile config.mk takum.h test/util.h
+test/root.o: test/root.c Makefile config.mk takum.h test/util.h
 test/sec.o: test/sec.c Makefile config.mk takum.h test/util.h
 test/sech.o: test/sech.c Makefile config.mk takum.h test/util.h
 test/sign.o: test/sign.c Makefile config.mk takum.h test/util.h
@@ -540,7 +540,6 @@ test/division$(BINSUFFIX): test/division.o test/util.o $(ANAME)
 test/exp$(BINSUFFIX): test/exp.o test/util.o $(ANAME)
 test/hypotenuse$(BINSUFFIX): test/hypotenuse.o test/util.o $(ANAME)
 test/integer_power$(BINSUFFIX): test/integer_power.o test/util.o $(ANAME)
-test/integer_root$(BINSUFFIX): test/integer_root.o test/util.o $(ANAME)
 test/inversion$(BINSUFFIX): test/inversion.o test/util.o $(ANAME)
 test/lb$(BINSUFFIX): test/lb.o test/util.o $(ANAME)
 test/lg$(BINSUFFIX): test/lg.o test/util.o $(ANAME)
@@ -548,6 +547,7 @@ test/ln$(BINSUFFIX): test/ln.o test/util.o $(ANAME)
 test/multiplication$(BINSUFFIX): test/multiplication.o test/util.o $(ANAME)
 test/power$(BINSUFFIX): test/power.o test/util.o $(ANAME)
 test/precision$(BINSUFFIX): test/precision.o test/util.o $(ANAME)
+test/root$(BINSUFFIX): test/root.o test/util.o $(ANAME)
 test/sec$(BINSUFFIX): test/sec.o test/util.o $(ANAME)
 test/sech$(BINSUFFIX): test/sech.o test/util.o $(ANAME)
 test/sign$(BINSUFFIX): test/sign.o test/util.o $(ANAME)
@@ -744,10 +744,6 @@ man/takum8_integer_power.3: man/takum8_integer_power.sh man/takum64_integer_powe
 man/takum16_integer_power.3: man/takum16_integer_power.sh man/takum64_integer_power.sh man/template/math_function.sh Makefile config.mk
 man/takum32_integer_power.3: man/takum32_integer_power.sh man/takum64_integer_power.sh man/template/math_function.sh Makefile config.mk
 man/takum64_integer_power.3: man/takum64_integer_power.sh man/template/math_function.sh Makefile config.mk
-man/takum8_integer_root.3: man/takum8_integer_root.sh man/takum64_integer_root.sh man/template/math_function.sh Makefile config.mk
-man/takum16_integer_root.3: man/takum16_integer_root.sh man/takum64_integer_root.sh man/template/math_function.sh Makefile config.mk
-man/takum32_integer_root.3: man/takum32_integer_root.sh man/takum64_integer_root.sh man/template/math_function.sh Makefile config.mk
-man/takum64_integer_root.3: man/takum64_integer_root.sh man/template/math_function.sh Makefile config.mk
 man/takum8_inversion.3: man/takum8_inversion.sh man/takum64_inversion.sh man/template/math_function.sh Makefile config.mk
 man/takum16_inversion.3: man/takum16_inversion.sh man/takum64_inversion.sh man/template/math_function.sh Makefile config.mk
 man/takum32_inversion.3: man/takum32_inversion.sh man/takum64_inversion.sh man/template/math_function.sh Makefile config.mk
@@ -788,6 +784,10 @@ man/takum8_precision.3: man/takum8_precision.sh man/takum64_precision.sh man/tem
 man/takum16_precision.3: man/takum16_precision.sh man/takum64_precision.sh man/template/math_function.sh Makefile config.mk
 man/takum32_precision.3: man/takum32_precision.sh man/takum64_precision.sh man/template/math_function.sh Makefile config.mk
 man/takum64_precision.3: man/takum64_precision.sh man/template/math_function.sh Makefile config.mk
+man/takum8_root.3: man/takum8_root.sh man/takum64_root.sh man/template/math_function.sh Makefile config.mk
+man/takum16_root.3: man/takum16_root.sh man/takum64_root.sh man/template/math_function.sh Makefile config.mk
+man/takum32_root.3: man/takum32_root.sh man/takum64_root.sh man/template/math_function.sh Makefile config.mk
+man/takum64_root.3: man/takum64_root.sh man/template/math_function.sh Makefile config.mk
 man/takum8_sec.3: man/takum8_sec.sh man/takum64_sec.sh man/template/math_function.sh Makefile config.mk
 man/takum16_sec.3: man/takum16_sec.sh man/takum64_sec.sh man/template/math_function.sh Makefile config.mk
 man/takum32_sec.3: man/takum32_sec.sh man/takum64_sec.sh man/template/math_function.sh Makefile config.mk

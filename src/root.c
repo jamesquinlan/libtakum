@@ -21,7 +21,7 @@
  * as there is no reason not to.
  */
 takum8
-takum8_integer_root(takum8 t, int64_t n)
+takum8_root(takum8 t, int64_t n)
 {
 	if ((t < 0 && n % 2 == 0) || (t == 0 && n < 0)) {
 		return TAKUM8_NAR;
@@ -32,7 +32,7 @@ takum8_integer_root(takum8 t, int64_t n)
 }
 
 takum16
-takum16_integer_root(takum16 t, int64_t n)
+takum16_root(takum16 t, int64_t n)
 {
 	if ((t < 0 && n % 2 == 0) || (t == 0 && n < 0)) {
 		return TAKUM16_NAR;
@@ -43,7 +43,7 @@ takum16_integer_root(takum16 t, int64_t n)
 }
 
 takum32
-takum32_integer_root(takum32 t, int64_t n)
+takum32_root(takum32 t, int64_t n)
 {
 	if ((t < 0 && n % 2 == 0) || (t == 0 && n < 0)) {
 		return TAKUM32_NAR;
@@ -54,7 +54,7 @@ takum32_integer_root(takum32 t, int64_t n)
 }
 
 takum64
-takum64_integer_root(takum64 t, int64_t n)
+takum64_root(takum64 t, int64_t n)
 {
 	if ((t < 0 && n % 2 == 0) || (t == 0 && n < 0)) {
 		return TAKUM64_NAR;
