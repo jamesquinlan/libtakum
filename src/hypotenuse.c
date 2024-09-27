@@ -5,7 +5,7 @@
 #include "util.h"
 
 static double
-hypotenuse(double a, float b)
+hypotenuse(double a, double b)
 {
 	return sqrt(a * a + b * b);
 }
