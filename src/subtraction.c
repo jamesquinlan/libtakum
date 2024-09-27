@@ -29,7 +29,7 @@ takum8_subtraction(takum8 a, takum8 b)
 			 * sufficient dynamic range for the intermediate
 			 * result.
 			 */
-			if (a > b) {
+			if (la > lb) {
 				return codec_takum8_from_s_and_l(
 					0,
 					la + 2 * (float)log1p(-pow(
@@ -83,7 +83,7 @@ takum16_subtraction(takum16 a, takum16 b)
 			 * sufficient dynamic range for the intermediate
 			 * result.
 			 */
-			if (a > b) {
+			if (la > lb) {
 				return codec_takum16_from_s_and_l(
 					0,
 					la + 2 * (float)log1p(-pow(
@@ -132,7 +132,7 @@ takum32_subtraction(takum32 a, takum32 b)
 			la = codec_takum32_to_l(a);
 			lb = codec_takum32_to_l(b);
 
-			if (a > b) {
+			if (la > lb) {
 				return codec_takum32_from_s_and_l(
 					0,
 					la + 2 * log1p(-pow(SQRTE, lb - la)));
@@ -177,7 +177,7 @@ takum64_subtraction(takum64 a, takum64 b)
 			la = codec_takum64_to_l(a);
 			lb = codec_takum64_to_l(b);
 
-			if (a > b) {
+			if (la > lb) {
 				return codec_takum64_from_s_and_l(
 					0,
 					la + 2 * log1pl(-powl(SQRTE, lb - la)));
