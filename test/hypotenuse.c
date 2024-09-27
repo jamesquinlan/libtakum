@@ -7,7 +7,7 @@
 long double
 hypotenuse_reference(long double a, long double b)
 {
-	return sqrtl(a * a + b * b);
+	return hypotl(a, b);
 }
 
 static const struct unit_test_block hypotenuse_utb = {
