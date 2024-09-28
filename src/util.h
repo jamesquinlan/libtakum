@@ -7,6 +7,10 @@
 #define SQRTE 1.6487212707001281468486507878141635716538L
 #define PI    3.1415926535897932384626433832795028841972L
 
+#undef MIN
+#define MIN(x, y) ((x) < (y) ? (x) : (y))
+#undef MAX
+#define MAX(x, y) ((x) > (y) ? (x) : (y))
 #undef LEN
 #define LEN(x) (sizeof(x) / sizeof(*(x)))
 

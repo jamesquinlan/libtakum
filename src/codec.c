@@ -277,7 +277,7 @@ float32_fraction_to_rounded_bits(float f, uint_fast8_t num_bits, bool *carry)
 		 * right which 'normalises' it, as desired.
 		 */
 		frexpf(f, &q);
-		F >>= -q;
+		F = (-q < 32) ? (F >> -q) : UINT32_C(0);
 
 		/*
 		 * Round F to num_bit bits, rounding up when the
@@ -340,7 +340,7 @@ float64_fraction_to_rounded_bits(double f, uint_fast8_t num_bits, bool *carry)
 		 * right which 'normalises' it, as desired.
 		 */
 		frexp(f, &q);
-		F >>= -q;
+		F = (-q < 64) ? (F >> -q) : UINT64_C(0);
 
 		/*
 		 * Round F to num_bit bits, rounding up when the
@@ -466,7 +466,7 @@ extended_float_fraction_to_rounded_bits(long double f, uint_fast8_t num_bits,
 		 * we did one right-shift earlier) to the right which
 		 * 'normalises' it, as desired.
 		 */
-		F >>= -q;
+		F = (-q < 64) ? (F >> -q) : UINT64_C(0);
 
 		/*
 		 * Round F to num_bit bits, rounding up when the
@@ -490,7 +490,7 @@ extended_float_fraction_to_rounded_bits(long double f, uint_fast8_t num_bits,
 takum8
 codec_takum8_from_s_and_l(bool s, float l)
 {
-	return takum8_from_takum16(codec_takum16_from_s_and_l(s, l));
+	return takum8_from_takum32(codec_takum32_from_s_and_l(s, l));
 }
 
 takum16
@@ -522,6 +522,12 @@ codec_takum16_from_s_and_l(bool s, float l)
 	/* Obtain c and m from cpm */
 	c = floorf(cpm);
 	m = cpm - c;
+
+	/* m could have overflowed to 1.0 */
+	if (m == 1.0f) {
+		c += 1;
+		m = 0.0;
+	}
 
 	/* Determine DR */
 	DR = get_DR_from_c(c);
@@ -574,6 +580,12 @@ codec_takum32_from_s_and_l(bool s, double l)
 	c = floor(cpm);
 	m = cpm - c;
 
+	/* m could have overflowed to 1.0 */
+	if (m == 1.0) {
+		c += 1;
+		m = 0.0;
+	}
+
 	/* Determine DR */
 	DR = get_DR_from_c(c);
 
@@ -625,6 +637,12 @@ codec_takum64_from_s_and_l(bool s, long double l)
 	/* Obtain c and m from cpm */
 	c = floorl(cpm);
 	m = cpm - c;
+
+	/* m could have overflowed to 1.0 */
+	if (m == 1.0) {
+		c += 1;
+		m = 0.0;
+	}
 
 	/* Determine DR */
 	DR = get_DR_from_c(c);

@@ -436,10 +436,10 @@ takum32 takum32_integer_power(takum32, int64_t);
 takum64 takum64_integer_power(takum64, int64_t);
 
 /* Integer Root */
-takum8 takum8_integer_root(takum8, int64_t);
-takum16 takum16_integer_root(takum16, int64_t);
-takum32 takum32_integer_root(takum32, int64_t);
-takum64 takum64_integer_root(takum64, int64_t);
+takum8 takum8_root(takum8, int64_t);
+takum16 takum16_root(takum16, int64_t);
+takum32 takum32_root(takum32, int64_t);
+takum64 takum64_root(takum64, int64_t);
 
 /* Inversion */
 static inline takum8
@@ -451,7 +451,7 @@ takum8_inversion(takum8 t)
 
 	out.bits = (out.bits ^ UINT8_C(0x7f)) + 1;
 
-	return out.value;
+	return (t == TAKUM8_NAR) ? TAKUM8_NAR : out.value;
 }
 
 static inline takum16
@@ -463,7 +463,7 @@ takum16_inversion(takum16 t)
 
 	out.bits = (out.bits ^ UINT16_C(0x7fff)) + 1;
 
-	return out.value;
+	return (t == TAKUM16_NAR) ? TAKUM16_NAR : out.value;
 }
 
 static inline takum32
@@ -475,7 +475,7 @@ takum32_inversion(takum32 t)
 
 	out.bits = (out.bits ^ UINT32_C(0x7fffffff)) + 1;
 
-	return out.value;
+	return (t == TAKUM32_NAR) ? TAKUM32_NAR : out.value;
 }
 
 static inline takum64
@@ -487,7 +487,7 @@ takum64_inversion(takum64 t)
 
 	out.bits = (out.bits ^ UINT64_C(0x7fffffffffffffff)) + 1;
 
-	return out.value;
+	return (t == TAKUM64_NAR) ? TAKUM64_NAR : out.value;
 }
 
 /* Binary Logarithm (following ISO 80000) */

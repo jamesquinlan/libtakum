@@ -10,6 +10,9 @@ takum8_arccot(takum8 t)
 {
 	if (t > 0) {
 		return takum8_arctan(takum8_inversion(t));
+	} else if (t == 0) {
+		/* PI/2 generated with arccos(0) */
+		return takum8_arccos(0);
 	} else {
 		return takum8_from_extended_float(
 			atanl(takum8_to_extended_float(takum8_inversion(t))) +
@@ -22,6 +25,9 @@ takum16_arccot(takum16 t)
 {
 	if (t > 0) {
 		return takum16_arctan(takum16_inversion(t));
+	} else if (t == 0) {
+		/* PI/2 generated with arccos(0) */
+		return takum16_arccos(0);
 	} else {
 		return takum16_from_extended_float(
 			atanl(takum16_to_extended_float(takum16_inversion(t))) +
@@ -34,6 +40,9 @@ takum32_arccot(takum32 t)
 {
 	if (t > 0) {
 		return takum32_arctan(takum32_inversion(t));
+	} else if (t == 0) {
+		/* PI/2 generated with arccos(0) */
+		return takum32_arccos(0);
 	} else {
 		return takum32_from_extended_float(
 			atanl(takum32_to_extended_float(takum32_inversion(t))) +
@@ -46,6 +55,9 @@ takum64_arccot(takum64 t)
 {
 	if (t > 0) {
 		return takum64_arctan(takum64_inversion(t));
+	} else if (t == 0) {
+		/* PI/2 generated with arccos(0) */
+		return takum64_arccos(0);
 	} else {
 		return takum64_from_extended_float(
 			atanl(takum64_to_extended_float(takum64_inversion(t))) +
@@ -58,6 +70,9 @@ takum8_arccot_over_pi(takum8 t)
 {
 	if (t > 0) {
 		return takum8_arctan_over_pi(takum8_inversion(t));
+	} else if (t == 0) {
+		/* 1/2 generated with arccos_over_pi(0) */
+		return takum8_arccos_over_pi(0);
 	} else {
 		return takum8_from_extended_float(
 			atanl(takum8_to_extended_float(takum8_inversion(t))) /
@@ -71,6 +86,9 @@ takum16_arccot_over_pi(takum16 t)
 {
 	if (t > 0) {
 		return takum16_arctan_over_pi(takum16_inversion(t));
+	} else if (t == 0) {
+		/* 1/2 generated with arccos_over_pi(0) */
+		return takum16_arccos_over_pi(0);
 	} else {
 		return takum16_from_extended_float(
 			atanl(takum16_to_extended_float(takum16_inversion(t))) /
@@ -84,6 +102,9 @@ takum32_arccot_over_pi(takum32 t)
 {
 	if (t > 0) {
 		return takum32_arctan_over_pi(takum32_inversion(t));
+	} else if (t == 0) {
+		/* 1/2 generated with arccos_over_pi(0) */
+		return takum32_arccos_over_pi(0);
 	} else {
 		return takum32_from_extended_float(
 			atanl(takum32_to_extended_float(takum32_inversion(t))) /
@@ -97,6 +118,9 @@ takum64_arccot_over_pi(takum64 t)
 {
 	if (t > 0) {
 		return takum64_arctan_over_pi(takum64_inversion(t));
+	} else if (t == 0) {
+		/* 1/2 generated with arccos_over_pi(0) */
+		return takum64_arccos_over_pi(0);
 	} else {
 		return takum64_from_extended_float(
 			atanl(takum64_to_extended_float(takum64_inversion(t))) /

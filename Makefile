@@ -41,13 +41,12 @@ SRC =\
 	src/codec\
 	src/conversion\
 	src/cos\
-	src/cot\
 	src/cosh\
+	src/cot\
 	src/coth\
 	src/csc\
 	src/csch\
 	src/integer_power\
-	src/integer_root\
 	src/division\
 	src/exp\
 	src/hypotenuse\
@@ -57,6 +56,7 @@ SRC =\
 	src/multiplication\
 	src/power\
 	src/precision\
+	src/root\
 	src/sec\
 	src/sech\
 	src/sin\
@@ -67,7 +67,52 @@ SRC =\
 	src/tanh\
 
 TEST =\
-	test/roundtrip\
+	test/10_raised\
+	test/2_raised\
+	test/absolute\
+	test/addition\
+	test/arccos\
+	test/arccot\
+	test/arccsc\
+	test/arcosh\
+	test/arcoth\
+	test/arcsch\
+	test/arcsec\
+	test/arcsin\
+	test/arctan\
+	test/arctan2\
+	test/arsech\
+	test/arsinh\
+	test/artanh\
+	test/codec\
+	test/conversion\
+	test/cos\
+	test/cosh\
+	test/cot\
+	test/coth\
+	test/csc\
+	test/csch\
+	test/division\
+	test/exp\
+	test/hypotenuse\
+	test/integer_power\
+	test/inversion\
+	test/lb\
+	test/lg\
+	test/ln\
+	test/multiplication\
+	test/power\
+	test/precision\
+	test/root\
+	test/sec\
+	test/sech\
+	test/sign\
+	test/sin\
+	test/sinh\
+	test/square_root\
+	test/subtraction\
+	test/tan\
+	test/tanh\
 
 MAN_TEMPLATE =\
 	man/template/conversion_from_float.sh\
@@ -259,10 +304,6 @@ MAN3 =\
 	man/takum16_integer_power\
 	man/takum32_integer_power\
 	man/takum64_integer_power\
-	man/takum8_integer_root\
-	man/takum16_integer_root\
-	man/takum32_integer_root\
-	man/takum64_integer_root\
 	man/takum8_inversion\
 	man/takum16_inversion\
 	man/takum32_inversion\
@@ -303,6 +344,10 @@ MAN3 =\
 	man/takum16_precision\
 	man/takum32_precision\
 	man/takum64_precision\
+	man/takum8_root\
+	man/takum16_root\
+	man/takum32_root\
+	man/takum64_root\
 	man/takum8_sec\
 	man/takum16_sec\
 	man/takum32_sec\
@@ -415,13 +460,150 @@ src/subtraction.o: src/subtraction.c Makefile config.mk takum.h src/util.h
 src/tan.o: src/tan.c Makefile config.mk takum.h src/util.h
 src/tanh.o: src/tanh.c Makefile config.mk takum.h src/util.h
 src/util.o: src/util.c Makefile config.mk takum.h src/util.h
-test/roundtrip.o: test/roundtrip.c Makefile config.mk takum.h test/util.h
+test/10_raised.o: test/10_raised.c Makefile config.mk takum.h test/util.h
+test/2_raised.o: test/2_raised.c Makefile config.mk takum.h test/util.h
+test/absolute.o: test/absolute.c Makefile config.mk takum.h test/util.h
+test/addition.o: test/addition.c Makefile config.mk takum.h test/util.h
+test/arccos.o: test/arccos.c Makefile config.mk takum.h test/util.h
+test/arccot.o: test/arccot.c Makefile config.mk takum.h test/util.h
+test/arccsc.o: test/arccsc.c Makefile config.mk takum.h test/util.h
+test/arcosh.o: test/arcosh.c Makefile config.mk takum.h test/util.h
+test/arcoth.o: test/arcoth.c Makefile config.mk takum.h test/util.h
+test/arcsch.o: test/arcsch.c Makefile config.mk takum.h test/util.h
+test/arcsec.o: test/arcsec.c Makefile config.mk takum.h test/util.h
+test/arcsin.o: test/arcsin.c Makefile config.mk takum.h test/util.h
+test/arctan.o: test/arctan.c Makefile config.mk takum.h test/util.h
+test/arctan2.o: test/arctan2.c Makefile config.mk takum.h test/util.h
+test/arsech.o: test/arsech.c Makefile config.mk takum.h test/util.h
+test/arsinh.o: test/arsinh.c Makefile config.mk takum.h test/util.h
+test/artanh.o: test/artanh.c Makefile config.mk takum.h test/util.h
+test/codec.o: test/codec.c Makefile config.mk takum.h test/util.h
+test/conversion.o: test/conversion.c Makefile config.mk takum.h test/util.h
+test/cos.o: test/cos.c Makefile config.mk takum.h test/util.h
+test/cosh.o: test/cosh.c Makefile config.mk takum.h test/util.h
+test/cot.o: test/cot.c Makefile config.mk takum.h test/util.h
+test/coth.o: test/coth.c Makefile config.mk takum.h test/util.h
+test/csc.o: test/csc.c Makefile config.mk takum.h test/util.h
+test/csch.o: test/csch.c Makefile config.mk takum.h test/util.h
+test/division.o: test/division.c Makefile config.mk takum.h test/util.h
+test/exp.o: test/exp.c Makefile config.mk takum.h test/util.h
+test/hypotenuse.o: test/hypotenuse.c Makefile config.mk takum.h test/util.h
+test/integer_power.o: test/integer_power.c Makefile config.mk takum.h test/util.h
+test/inversion.o: test/inversion.c Makefile config.mk takum.h test/util.h
+test/lb.o: test/lb.c Makefile config.mk takum.h test/util.h
+test/lg.o: test/lg.c Makefile config.mk takum.h test/util.h
+test/ln.o: test/ln.c Makefile config.mk takum.h test/util.h
+test/multiplication.o: test/multiplication.c Makefile config.mk takum.h test/util.h
+test/power.o: test/power.c Makefile config.mk takum.h test/util.h
+test/precision.o: test/precision.c Makefile config.mk takum.h test/util.h
+test/root.o: test/root.c Makefile config.mk takum.h test/util.h
+test/sec.o: test/sec.c Makefile config.mk takum.h test/util.h
+test/sech.o: test/sech.c Makefile config.mk takum.h test/util.h
+test/sign.o: test/sign.c Makefile config.mk takum.h test/util.h
+test/sin.o: test/sin.c Makefile config.mk takum.h test/util.h
+test/sinh.o: test/sinh.c Makefile config.mk takum.h test/util.h
+test/square_root.o: test/square_root.c Makefile config.mk takum.h test/util.h
+test/subtraction.o: test/subtraction.c Makefile config.mk takum.h test/util.h
+test/tan.o: test/tan.c Makefile config.mk takum.h test/util.h
+test/tanh.o: test/tanh.c Makefile config.mk takum.h test/util.h
 test/util.o: test/util.c Makefile config.mk takum.h test/util.h
 
 benchmark/float_to_takum$(BINSUFFIX): benchmark/float_to_takum.o benchmark/util.o $(ANAME)
 example/calculator$(BINSUFFIX): example/calculator.o example/util.o $(ANAME)
 gen/addition$(BINSUFFIX): gen/addition.o gen/util.o $(ANAME)
-test/roundtrip$(BINSUFFIX): test/roundtrip.o test/util.o $(ANAME)
+test/10_raised$(BINSUFFIX): test/10_raised.o test/util.o $(ANAME)
+test/2_raised$(BINSUFFIX): test/2_raised.o test/util.o $(ANAME)
+test/absolute$(BINSUFFIX): test/absolute.o test/util.o $(ANAME)
+test/addition$(BINSUFFIX): test/addition.o test/util.o $(ANAME)
+test/arccos$(BINSUFFIX): test/arccos.o test/util.o $(ANAME)
+test/arccot$(BINSUFFIX): test/arccot.o test/util.o $(ANAME)
+test/arccsc$(BINSUFFIX): test/arccsc.o test/util.o $(ANAME)
+test/arcosh$(BINSUFFIX): test/arcosh.o test/util.o $(ANAME)
+test/arcoth$(BINSUFFIX): test/arcoth.o test/util.o $(ANAME)
+test/arcsch$(BINSUFFIX): test/arcsch.o test/util.o $(ANAME)
+test/arcsec$(BINSUFFIX): test/arcsec.o test/util.o $(ANAME)
+test/arcsin$(BINSUFFIX): test/arcsin.o test/util.o $(ANAME)
+test/arctan$(BINSUFFIX): test/arctan.o test/util.o $(ANAME)
+test/arctan2$(BINSUFFIX): test/arctan2.o test/util.o $(ANAME)
+test/arsech$(BINSUFFIX): test/arsech.o test/util.o $(ANAME)
+test/arsinh$(BINSUFFIX): test/arsinh.o test/util.o $(ANAME)
+test/artanh$(BINSUFFIX): test/artanh.o test/util.o $(ANAME)
+test/codec$(BINSUFFIX): test/codec.o test/util.o $(ANAME)
+test/conversion$(BINSUFFIX): test/conversion.o test/util.o $(ANAME)
+test/cos$(BINSUFFIX): test/cos.o test/util.o $(ANAME)
+test/cosh$(BINSUFFIX): test/cosh.o test/util.o $(ANAME)
+test/cot$(BINSUFFIX): test/cot.o test/util.o $(ANAME)
+test/coth$(BINSUFFIX): test/coth.o test/util.o $(ANAME)
+test/csc$(BINSUFFIX): test/csc.o test/util.o $(ANAME)
+test/csch$(BINSUFFIX): test/csch.o test/util.o $(ANAME)
+test/division$(BINSUFFIX): test/division.o test/util.o $(ANAME)
+test/exp$(BINSUFFIX): test/exp.o test/util.o $(ANAME)
+test/hypotenuse$(BINSUFFIX): test/hypotenuse.o test/util.o $(ANAME)
+test/integer_power$(BINSUFFIX): test/integer_power.o test/util.o $(ANAME)
+test/inversion$(BINSUFFIX): test/inversion.o test/util.o $(ANAME)
+test/lb$(BINSUFFIX): test/lb.o test/util.o $(ANAME)
+test/lg$(BINSUFFIX): test/lg.o test/util.o $(ANAME)
+test/ln$(BINSUFFIX): test/ln.o test/util.o $(ANAME)
+test/multiplication$(BINSUFFIX): test/multiplication.o test/util.o $(ANAME)
+test/power$(BINSUFFIX): test/power.o test/util.o $(ANAME)
+test/precision$(BINSUFFIX): test/precision.o test/util.o $(ANAME)
+test/root$(BINSUFFIX): test/root.o test/util.o $(ANAME)
+test/sec$(BINSUFFIX): test/sec.o test/util.o $(ANAME)
+test/sech$(BINSUFFIX): test/sech.o test/util.o $(ANAME)
+test/sign$(BINSUFFIX): test/sign.o test/util.o $(ANAME)
+test/sin$(BINSUFFIX): test/sin.o test/util.o $(ANAME)
+test/sinh$(BINSUFFIX): test/sinh.o test/util.o $(ANAME)
+test/square_root$(BINSUFFIX): test/square_root.o test/util.o $(ANAME)
+test/subtraction$(BINSUFFIX): test/subtraction.o test/util.o $(ANAME)
+test/tan$(BINSUFFIX): test/tan.o test/util.o $(ANAME)
+test/tanh$(BINSUFFIX): test/tanh.o test/util.o $(ANAME)
+
+test/10_raised.success: test/10_raised$(BINSUFFIX)
+test/2_raised.success: test/2_raised$(BINSUFFIX)
+test/absolute.success: test/absolute$(BINSUFFIX)
+test/addition.success: test/addition$(BINSUFFIX)
+test/arccos.success: test/arccos$(BINSUFFIX)
+test/arccot.success: test/arccot$(BINSUFFIX)
+test/arccsc.success: test/arccsc$(BINSUFFIX)
+test/arcosh.success: test/arcosh$(BINSUFFIX)
+test/arcoth.success: test/arcoth$(BINSUFFIX)
+test/arcsch.success: test/arcsch$(BINSUFFIX)
+test/arcsec.success: test/arcsec$(BINSUFFIX)
+test/arcsin.success: test/arcsin$(BINSUFFIX)
+test/arctan.success: test/arctan$(BINSUFFIX)
+test/arctan2.success: test/arctan2$(BINSUFFIX)
+test/arsech.success: test/arsech$(BINSUFFIX)
+test/arsinh.success: test/arsinh$(BINSUFFIX)
+test/artanh.success: test/artanh$(BINSUFFIX)
+test/codec.success: test/codec$(BINSUFFIX)
+test/conversion.success: test/conversion$(BINSUFFIX)
+test/cos.success: test/cos$(BINSUFFIX)
+test/cosh.success: test/cosh$(BINSUFFIX)
+test/cot.success: test/cot$(BINSUFFIX)
+test/coth.success: test/coth$(BINSUFFIX)
+test/csc.success: test/csc$(BINSUFFIX)
+test/csch.success: test/csch$(BINSUFFIX)
+test/division.success: test/division$(BINSUFFIX)
+test/exp.success: test/exp$(BINSUFFIX)
+test/hypotenuse.success: test/hypotenuse$(BINSUFFIX)
+test/integer_power.success: test/integer_power$(BINSUFFIX)
+test/inversion.success: test/inversion$(BINSUFFIX)
+test/lb.success: test/lb$(BINSUFFIX)
+test/lg.success: test/lg$(BINSUFFIX)
+test/ln.success: test/ln$(BINSUFFIX)
+test/multiplication.success: test/multiplication$(BINSUFFIX)
+test/power.success: test/power$(BINSUFFIX)
+test/precision.success: test/precision$(BINSUFFIX)
+test/root.success: test/root$(BINSUFFIX)
+test/sec.success: test/sec$(BINSUFFIX)
+test/sech.success: test/sech$(BINSUFFIX)
+test/sign.success: test/sign$(BINSUFFIX)
+test/sin.success: test/sin$(BINSUFFIX)
+test/sinh.success: test/sinh$(BINSUFFIX)
+test/square_root.success: test/square_root$(BINSUFFIX)
+test/subtraction.success: test/subtraction$(BINSUFFIX)
+test/tan.success: test/tan$(BINSUFFIX)
+test/tanh.success: test/tanh$(BINSUFFIX)
 
 gen/addition.h: gen/addition$(BINSUFFIX)
 
@@ -609,10 +791,6 @@ man/takum8_integer_power.3: man/takum8_integer_power.sh man/takum64_integer_powe
 man/takum16_integer_power.3: man/takum16_integer_power.sh man/takum64_integer_power.sh man/template/math_function.sh Makefile config.mk
 man/takum32_integer_power.3: man/takum32_integer_power.sh man/takum64_integer_power.sh man/template/math_function.sh Makefile config.mk
 man/takum64_integer_power.3: man/takum64_integer_power.sh man/template/math_function.sh Makefile config.mk
-man/takum8_integer_root.3: man/takum8_integer_root.sh man/takum64_integer_root.sh man/template/math_function.sh Makefile config.mk
-man/takum16_integer_root.3: man/takum16_integer_root.sh man/takum64_integer_root.sh man/template/math_function.sh Makefile config.mk
-man/takum32_integer_root.3: man/takum32_integer_root.sh man/takum64_integer_root.sh man/template/math_function.sh Makefile config.mk
-man/takum64_integer_root.3: man/takum64_integer_root.sh man/template/math_function.sh Makefile config.mk
 man/takum8_inversion.3: man/takum8_inversion.sh man/takum64_inversion.sh man/template/math_function.sh Makefile config.mk
 man/takum16_inversion.3: man/takum16_inversion.sh man/takum64_inversion.sh man/template/math_function.sh Makefile config.mk
 man/takum32_inversion.3: man/takum32_inversion.sh man/takum64_inversion.sh man/template/math_function.sh Makefile config.mk
@@ -653,6 +831,10 @@ man/takum8_precision.3: man/takum8_precision.sh man/takum64_precision.sh man/tem
 man/takum16_precision.3: man/takum16_precision.sh man/takum64_precision.sh man/template/math_function.sh Makefile config.mk
 man/takum32_precision.3: man/takum32_precision.sh man/takum64_precision.sh man/template/math_function.sh Makefile config.mk
 man/takum64_precision.3: man/takum64_precision.sh man/template/math_function.sh Makefile config.mk
+man/takum8_root.3: man/takum8_root.sh man/takum64_root.sh man/template/math_function.sh Makefile config.mk
+man/takum16_root.3: man/takum16_root.sh man/takum64_root.sh man/template/math_function.sh Makefile config.mk
+man/takum32_root.3: man/takum32_root.sh man/takum64_root.sh man/template/math_function.sh Makefile config.mk
+man/takum64_root.3: man/takum64_root.sh man/template/math_function.sh Makefile config.mk
 man/takum8_sec.3: man/takum8_sec.sh man/takum64_sec.sh man/template/math_function.sh Makefile config.mk
 man/takum16_sec.3: man/takum16_sec.sh man/takum64_sec.sh man/template/math_function.sh Makefile config.mk
 man/takum32_sec.3: man/takum32_sec.sh man/takum64_sec.sh man/template/math_function.sh Makefile config.mk
@@ -737,6 +919,9 @@ $(GEN:=$(BINSUFFIX)):
 $(TEST:=$(BINSUFFIX)):
 	$(CC) -o $@ $(LDFLAGS) $(@:$(BINSUFFIX)=.o) test/util.o $(ANAME) $(LDLIBS)
 
+$(TEST:=.success):
+	./$(@:.success=$(BINSUFFIX)) && touch $@
+
 $(GEN:=.h):
 	$(@:.h=$(BINSUFFIX)) > $@
 
@@ -760,8 +945,7 @@ example: $(EXAMPLE:=$(BINSUFFIX))
 
 check: test
 
-test: $(TEST:=$(BINSUFFIX))
-	for m in $(TEST:=$(BINSUFFIX)); do ./$$m; done
+test: $(TEST:=.success)
 
 install: all
 	mkdir -p "$(DESTDIR)$(LIBPREFIX)"
@@ -796,7 +980,7 @@ uninstall:
 	if ! [ -z "$(PCPREFIX)" ]; then rm -f "$(DESTDIR)$(PCPREFIX)/libtakum.pc"; fi
 
 clean:
-	rm -f $(BENCHMARK:=.o) benchmark/util.o $(BENCHMARK:=$(BINSUFFIX)) $(EXAMPLE:=.o) example/util.o $(EXAMPLE:=$(BINSUFFIX)) $(GEN:=.h) $(GEN:=.o) gen/util.o $(GEN:=$(BINSUFFIX)) $(SRC:=.o) src/util.o $(TEST:=.o) test/util.o $(TEST:=$(BINSUFFIX)) $(ANAME) $(SONAME) $(MAN3:=.3) $(MAN7:=.7)
+	rm -f $(BENCHMARK:=.o) benchmark/util.o $(BENCHMARK:=$(BINSUFFIX)) $(EXAMPLE:=.o) example/util.o $(EXAMPLE:=$(BINSUFFIX)) $(GEN:=.h) $(GEN:=.o) gen/util.o $(GEN:=$(BINSUFFIX)) $(SRC:=.o) src/util.o $(TEST:=.o) test/util.o $(TEST:=$(BINSUFFIX)) $(TEST:=.success) $(ANAME) $(SONAME) $(MAN3:=.3) $(MAN7:=.7)
 
 dist:
 	rm -rf "libtakum-$(VERSION)"
