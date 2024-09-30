@@ -6,7 +6,7 @@
 VERSION_MAJOR = 0
 VERSION_MINOR = 3
 VERSION_PATCH = 0
-MAN_DATE = 2024-09-22
+MAN_DATE = 2024-09-30
 
 include config.mk
 
@@ -409,7 +409,7 @@ MAN3 =\
 	man/takum32_to_float64\
 	man/takum64_to_float64\
 
-MAN7 =
+MAN7 = man/libtakum
 
 all: $(MAN3:=.3) $(MAN7:=.7) $(ANAME) $(SONAME)
 
@@ -896,7 +896,7 @@ man/takum16_to_float64.3: man/takum16_to_float64.sh man/takum64_to_float64.sh ma
 man/takum32_to_float64.3: man/takum32_to_float64.sh man/takum64_to_float64.sh man/template/conversion_to_float.sh Makefile config.mk
 man/takum64_to_float64.3: man/takum64_to_float64.sh man/template/conversion_to_float.sh Makefile config.mk
 
-man/x.7: man/x.sh Makefile config.mk
+man/libtakum.7: man/libtakum.sh Makefile config.mk
 
 $(GEN:=.o) gen/util.o:
 	$(BUILD_CC) -c -o $@ $(BUILD_CPPFLAGS) $(BUILD_CFLAGS) $(@:.o=.c)
@@ -936,7 +936,7 @@ $(MAN3:=.3):
 	env -i SH="$(SH)" MAN_DATE="$(MAN_DATE)" $(SH) $(@:.3=.sh) > $@
 
 $(MAN7:=.7):
-	env -i SH="$(SH)" MAN_DATE="$(MAN_DATE)" $(SH) $(@:.7=.sh) > $@
+	env -i SH="$(SH)" MAN_DATE="$(MAN_DATE)" MAN3_LIST="$(MAN3)" $(SH) $(@:.7=.sh) > $@
 
 benchmark: $(BENCHMARK:=$(BINSUFFIX))
 	for m in $(BENCHMARK:=$(BINSUFFIX)); do ./$$m; done
@@ -954,8 +954,8 @@ install: all
 	mkdir -p "$(DESTDIR)$(MANPREFIX)/man3"
 	mkdir -p "$(DESTDIR)$(MANPREFIX)/man7"
 	cp -f LICENSE "$(DESTDIR)$(LICPREFIX)/libtakum"
-	#cp -f $(MAN3:=.3) "$(DESTDIR)$(MANPREFIX)/man3"
-	#cp -f $(MAN7:=.7) "$(DESTDIR)$(MANPREFIX)/man7"
+	cp -f $(MAN3:=.3) "$(DESTDIR)$(MANPREFIX)/man3"
+	cp -f $(MAN7:=.7) "$(DESTDIR)$(MANPREFIX)/man7"
 	cp -f $(ANAME) "$(DESTDIR)$(LIBPREFIX)"
 	cp -f $(SONAME) "$(DESTDIR)$(LIBPREFIX)/$(SONAME)"
 	if [ "$(SOSYMLINK)" = "true" ]; then i=0; while [ "$$i" -le $(VERSION_MINOR) ]; do ln -sf "$(SONAME)" "$(DESTDIR)$(LIBPREFIX)/libtakum.so.$(VERSION_MAJOR).$$i"; i=$$((i+1)); done; fi
