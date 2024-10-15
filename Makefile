@@ -85,6 +85,7 @@ TEST =\
 	test/arsinh\
 	test/artanh\
 	test/codec\
+	test/constants\
 	test/conversion\
 	test/cos\
 	test/cosh\
@@ -478,6 +479,7 @@ test/arsech.o: test/arsech.c Makefile config.mk takum.h test/util.h
 test/arsinh.o: test/arsinh.c Makefile config.mk takum.h test/util.h
 test/artanh.o: test/artanh.c Makefile config.mk takum.h test/util.h
 test/codec.o: test/codec.c Makefile config.mk takum.h test/util.h
+test/constants.o: test/constants.c Makefile config.mk takum.h test/util.h
 test/conversion.o: test/conversion.c Makefile config.mk takum.h test/util.h
 test/cos.o: test/cos.c Makefile config.mk takum.h test/util.h
 test/cosh.o: test/cosh.c Makefile config.mk takum.h test/util.h
@@ -529,6 +531,7 @@ test/arsech$(BINSUFFIX): test/arsech.o test/util.o $(ANAME)
 test/arsinh$(BINSUFFIX): test/arsinh.o test/util.o $(ANAME)
 test/artanh$(BINSUFFIX): test/artanh.o test/util.o $(ANAME)
 test/codec$(BINSUFFIX): test/codec.o test/util.o $(ANAME)
+test/constants$(BINSUFFIX): test/constants.o test/util.o $(ANAME)
 test/conversion$(BINSUFFIX): test/conversion.o test/util.o $(ANAME)
 test/cos$(BINSUFFIX): test/cos.o test/util.o $(ANAME)
 test/cosh$(BINSUFFIX): test/cosh.o test/util.o $(ANAME)
@@ -576,6 +579,7 @@ test/arsech.success: test/arsech$(BINSUFFIX)
 test/arsinh.success: test/arsinh$(BINSUFFIX)
 test/artanh.success: test/artanh$(BINSUFFIX)
 test/codec.success: test/codec$(BINSUFFIX)
+test/constants.success: test/constants$(BINSUFFIX)
 test/conversion.success: test/conversion$(BINSUFFIX)
 test/cos.success: test/cos$(BINSUFFIX)
 test/cosh.success: test/cosh$(BINSUFFIX)
@@ -957,7 +961,7 @@ install: all
 	cp -f $(MAN3:=.3) "$(DESTDIR)$(MANPREFIX)/man3"
 	cp -f $(MAN7:=.7) "$(DESTDIR)$(MANPREFIX)/man7"
 	cp -f $(ANAME) "$(DESTDIR)$(LIBPREFIX)"
-	cp -f $(SONAME) "$(DESTDIR)$(LIBPREFIX)/$(SONAME)"
+	cp -f $(SONAME) "$(DESTDIR)$(LIBPREFIX)"
 	if [ "$(SOSYMLINK)" = "true" ]; then i=0; while [ "$$i" -le $(VERSION_MINOR) ]; do ln -sf "$(SONAME)" "$(DESTDIR)$(LIBPREFIX)/libtakum.so.$(VERSION_MAJOR).$$i"; i=$$((i+1)); done; fi
 	if [ "$(SOSYMLINK)" = "true" ]; then ln -sf "$(SONAME)" "$(DESTDIR)$(LIBPREFIX)/libtakum.so.$(VERSION_MAJOR)"; fi
 	if [ "$(SOSYMLINK)" = "true" ]; then ln -sf "$(SONAME)" "$(DESTDIR)$(LIBPREFIX)/libtakum.so"; fi

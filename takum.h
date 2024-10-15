@@ -31,22 +31,239 @@ union takum_internal_takum64_union {
 	uint64_t bits;
 };
 
-/* NaR definitions */
+/* NaR (Not a Real) */
 #define TAKUM8_NAR  (INT8_C(-127) - INT8_C(1))
 #define TAKUM16_NAR (INT16_C(-32767) - INT16_C(1))
 #define TAKUM32_NAR (INT32_C(-2147483647) - INT32_C(1))
 #define TAKUM64_NAR (INT64_C(-9223372036854775807) - INT64_C(1))
 
-/* Limit definitions */
+/* Smallest Positive */
 #define TAKUM8_POSITIVE_MINIMUM  INT8_C(1)
 #define TAKUM16_POSITIVE_MINIMUM INT16_C(1)
 #define TAKUM32_POSITIVE_MINIMUM INT32_C(1)
 #define TAKUM64_POSITIVE_MINIMUM INT64_C(1)
 
+/* Largest Positive */
 #define TAKUM8_POSITIVE_MAXIMUM  INT8_MAX
 #define TAKUM16_POSITIVE_MAXIMUM INT16_MAX
 #define TAKUM32_POSITIVE_MAXIMUM INT32_MAX
 #define TAKUM64_POSITIVE_MAXIMUM INT64_MAX
+
+/* 2π */
+#define TAKUM8_2_PI  INT8_C(81)
+#define TAKUM16_2_PI INT16_C(20826)
+#define TAKUM32_2_PI INT32_C(1364851826)
+#define TAKUM64_2_PI INT64_C(5861993956978437418)
+
+/* 2π/3 */
+#define TAKUM8_2_PI_OVER_3  INT8_C(74)
+#define TAKUM16_2_PI_OVER_3 INT16_C(18922)
+#define TAKUM32_2_PI_OVER_3 INT32_C(1240073127)
+#define TAKUM64_2_PI_OVER_3 INT64_C(5326073524507235592)
+
+/* 2π/5 */
+#define TAKUM8_2_PI_OVER_5  INT8_C(68)
+#define TAKUM16_2_PI_OVER_5 INT16_C(17320)
+#define TAKUM32_2_PI_OVER_5 INT32_C(1135062992)
+#define TAKUM64_2_PI_OVER_5 INT64_C(4875058431539642684)
+
+/* 3π */
+#define TAKUM8_3_PI  INT8_C(83)
+#define TAKUM16_3_PI INT16_C(21241)
+#define TAKUM32_3_PI INT32_C(1392062129)
+#define TAKUM64_3_PI INT64_C(5978861317604848105)
+
+/* 3π/2 */
+#define TAKUM8_3_PI_OVER_2  INT8_C(80)
+#define TAKUM16_3_PI_OVER_2 INT16_C(20531)
+#define TAKUM32_3_PI_OVER_2 INT32_C(1345545809)
+#define TAKUM64_3_PI_OVER_2 INT64_C(5779075245023556610)
+
+/* 3π/4 */
+#define TAKUM8_3_PI_OVER_4  INT8_C(75)
+#define TAKUM16_3_PI_OVER_4 INT16_C(19163)
+#define TAKUM32_3_PI_OVER_4 INT32_C(1255881698)
+#define TAKUM64_3_PI_OVER_4 INT64_C(5393970821850295351)
+
+/* 3π/5 */
+#define TAKUM8_3_PI_OVER_5  INT8_C(73)
+#define TAKUM16_3_PI_OVER_5 INT16_C(18706)
+#define TAKUM32_3_PI_OVER_5 INT32_C(1225931878)
+#define TAKUM64_3_PI_OVER_5 INT64_C(5265337322388048412)
+
+/* 4π */
+#define TAKUM8_4_PI  INT8_C(84)
+#define TAKUM16_4_PI INT16_C(21536)
+#define TAKUM32_4_PI INT32_C(1411368146)
+#define TAKUM64_4_PI INT64_C(6061780029559728912)
+
+/* 4π/3 */
+#define TAKUM8_4_PI_OVER_3  INT8_C(79)
+#define TAKUM16_4_PI_OVER_3 INT16_C(20342)
+#define TAKUM32_4_PI_OVER_3 INT32_C(1333105767)
+#define TAKUM64_4_PI_OVER_3 INT64_C(5725645669669818581)
+
+/* 4π/5 */
+#define TAKUM8_4_PI_OVER_5  INT8_C(75)
+#define TAKUM16_4_PI_OVER_5 INT16_C(19295)
+#define TAKUM32_4_PI_OVER_5 INT32_C(1264543912)
+#define TAKUM64_4_PI_OVER_5 INT64_C(5431174746297810027)
+
+/* 5π */
+#define TAKUM8_5_PI  INT8_C(85)
+#define TAKUM16_5_PI INT16_C(21764)
+#define TAKUM32_5_PI INT32_C(1426343056)
+#define TAKUM64_5_PI INT64_C(6126096779290852382)
+
+/* 5π/2 */
+#define TAKUM8_5_PI_OVER_2  INT8_C(82)
+#define TAKUM16_5_PI_OVER_2 INT16_C(21054)
+#define TAKUM32_5_PI_OVER_2 INT32_C(1379826736)
+#define TAKUM64_5_PI_OVER_2 INT64_C(5926310706709560887)
+
+/* 5π/3 */
+#define TAKUM8_5_PI_OVER_3  INT8_C(81)
+#define TAKUM16_5_PI_OVER_3 INT16_C(20639)
+#define TAKUM32_5_PI_OVER_3 INT32_C(1352616434)
+#define TAKUM64_5_PI_OVER_3 INT64_C(5809443346083150200)
+
+/* 5π/4 */
+#define TAKUM8_5_PI_OVER_4  INT8_C(79)
+#define TAKUM16_5_PI_OVER_4 INT16_C(20209)
+#define TAKUM32_5_PI_OVER_4 INT32_C(1324443553)
+#define TAKUM64_5_PI_OVER_4 INT64_C(5688441745222303905)
+
+/* 5π/6 */
+#define TAKUM8_5_PI_OVER_6  INT8_C(76)
+#define TAKUM16_5_PI_OVER_6 INT16_C(19379)
+#define TAKUM32_5_PI_OVER_6 INT32_C(1270022947)
+#define TAKUM64_5_PI_OVER_6 INT64_C(5454707023969482530)
+
+/* 6π */
+#define TAKUM8_6_PI  INT8_C(86)
+#define TAKUM16_6_PI INT16_C(21951)
+#define TAKUM32_6_PI INT32_C(1438578449)
+#define TAKUM64_6_PI INT64_C(6178647390186139600)
+
+/* 6π/5 */
+#define TAKUM8_6_PI_OVER_5  INT8_C(79)
+#define TAKUM16_6_PI_OVER_5 INT16_C(20126)
+#define TAKUM32_6_PI_OVER_5 INT32_C(1318964518)
+#define TAKUM64_6_PI_OVER_5 INT64_C(5664909467550631402)
+
+/* Euler-Mascheroni Constant γ */
+#define TAKUM8_GAMMA  INT8_C(56)
+#define TAKUM16_GAMMA INT16_C(14235)
+#define TAKUM32_GAMMA INT32_C(932875042)
+#define TAKUM64_GAMMA INT64_C(4006667796493970688)
+
+/* lb(10) */
+#define TAKUM8_LB_10  INT8_C(78)
+#define TAKUM16_LB_10 INT16_C(19867)
+#define TAKUM32_LB_10 INT32_C(1301985159)
+#define TAKUM64_LB_10 INT64_C(5591983679339631233)
+
+/* lb(e) */
+#define TAKUM8_LB_E  INT8_C(70)
+#define TAKUM16_LB_E INT16_C(17885)
+#define TAKUM32_LB_E INT32_C(1172126887)
+#define TAKUM64_LB_E INT64_C(5034246646282250152)
+
+/* lg(2) */
+#define TAKUM8_LG_2  INT8_C(50)
+#define TAKUM16_LG_2 INT16_C(12901)
+#define TAKUM32_LG_2 INT32_C(845498489)
+#define TAKUM64_LG_2 INT64_C(3631388357515144575)
+
+/* lg(e) */
+#define TAKUM8_LG_E  INT8_C(53)
+#define TAKUM16_LG_E INT16_C(13652)
+#define TAKUM32_LG_E INT32_C(894691020)
+#define TAKUM64_LG_E INT64_C(3842668671442575700)
+
+/* ln(10) */
+#define TAKUM8_LN_10  INT8_C(75)
+#define TAKUM16_LN_10 INT16_C(19116)
+#define TAKUM32_LN_10 INT32_C(1252792628)
+#define TAKUM64_LN_10 INT64_C(5380703365412200108)
+
+/* ln(2) */
+#define TAKUM8_LN_2  INT8_C(58)
+#define TAKUM16_LN_2 INT16_C(14883)
+#define TAKUM32_LN_2 INT32_C(975356761)
+#define TAKUM64_LN_2 INT64_C(4189125390572525656)
+
+/* constant 1 */
+#define TAKUM8_ONE  INT8_C(64)
+#define TAKUM16_ONE INT16_C(16384)
+#define TAKUM32_ONE INT32_C(1073741824)
+#define TAKUM64_ONE INT64_C(4611686018427387904)
+
+/* Golden Ratio φ */
+#define TAKUM8_PHI  INT8_C(72)
+#define TAKUM16_PHI INT16_C(18355)
+#define TAKUM32_PHI INT32_C(1202916140)
+#define TAKUM64_PHI INT64_C(5166485479809712741)
+
+/* π */
+#define TAKUM8_PI  INT8_C(77)
+#define TAKUM16_PI INT16_C(19752)
+#define TAKUM32_PI INT32_C(1294493732)
+#define TAKUM64_PI INT64_C(5559808245760056966)
+
+/* π/2 */
+#define TAKUM8_PI_OVER_2  INT8_C(71)
+#define TAKUM16_PI_OVER_2 INT16_C(18234)
+#define TAKUM32_PI_OVER_2 INT32_C(1194962633)
+#define TAKUM64_PI_OVER_2 INT64_C(5132325430464136561)
+
+/* π/3 */
+#define TAKUM8_PI_OVER_3  INT8_C(65)
+#define TAKUM16_PI_OVER_3 INT16_C(16573)
+#define TAKUM32_PI_OVER_3 INT32_C(1086121422)
+#define TAKUM64_PI_OVER_3 INT64_C(4664855987958493812)
+
+/* π/4 */
+#define TAKUM8_PI_OVER_4  INT8_C(60)
+#define TAKUM16_PI_OVER_4 INT16_C(15395)
+#define TAKUM32_PI_OVER_4 INT32_C(1008897354)
+#define TAKUM64_PI_OVER_4 INT64_C(4333181140138970582)
+
+/* π/5 */
+#define TAKUM8_PI_OVER_5  INT8_C(57)
+#define TAKUM16_PI_OVER_5 INT16_C(14481)
+#define TAKUM32_PI_OVER_5 INT32_C(948997713)
+#define TAKUM64_PI_OVER_5 INT64_C(4075914141214476705)
+
+/* π/6 */
+#define TAKUM8_PI_OVER_6  INT8_C(55)
+#define TAKUM16_PI_OVER_6 INT16_C(14035)
+#define TAKUM32_PI_OVER_6 INT32_C(919790119)
+#define TAKUM64_PI_OVER_6 INT64_C(3950468481878646125)
+
+/* √2 */
+#define TAKUM8_SQUARE_ROOT_2  INT8_C(70)
+#define TAKUM16_SQUARE_ROOT_2 INT16_C(17804)
+#define TAKUM32_SQUARE_ROOT_2 INT32_C(1166774464)
+#define TAKUM64_SQUARE_ROOT_2 INT64_C(5011258163589970893)
+
+/* √3 */
+#define TAKUM8_SQUARE_ROOT_3  INT8_C(72)
+#define TAKUM16_SQUARE_ROOT_3 INT16_C(18533)
+#define TAKUM32_SQUARE_ROOT_3 INT32_C(1214577311)
+#define TAKUM64_SQUARE_ROOT_3 INT64_C(5216569827786801830)
+
+/* √5 */
+#define TAKUM8_SQUARE_ROOT_5  INT8_C(74)
+#define TAKUM16_SQUARE_ROOT_5 INT16_C(19056)
+#define TAKUM32_SQUARE_ROOT_5 INT32_C(1248858238)
+#define TAKUM64_SQUARE_ROOT_5 INT64_C(5363805289472806107)
+
+/* √6 */
+#define TAKUM8_SQUARE_ROOT_6  INT8_C(75)
+#define TAKUM16_SQUARE_ROOT_6 INT16_C(19243)
+#define TAKUM32_SQUARE_ROOT_6 INT32_C(1261093631)
+#define TAKUM64_SQUARE_ROOT_6 INT64_C(5416355900368093325)
 
 /* Base 10 Exponential Function */
 takum8 takum8_10_raised(takum8);
@@ -109,7 +326,7 @@ takum16 takum16_arccos(takum16);
 takum32 takum32_arccos(takum32);
 takum64 takum64_arccos(takum64);
 
-/* Arccosine Over Pi */
+/* Arccosine Over π */
 takum8 takum8_arccos_over_pi(takum8);
 takum16 takum16_arccos_over_pi(takum16);
 takum32 takum32_arccos_over_pi(takum32);
@@ -121,7 +338,7 @@ takum16 takum16_arccot(takum16);
 takum32 takum32_arccot(takum32);
 takum64 takum64_arccot(takum64);
 
-/* Arccotangent Over Pi */
+/* Arccotangent Over π */
 takum8 takum8_arccot_over_pi(takum8);
 takum16 takum16_arccot_over_pi(takum16);
 takum32 takum32_arccot_over_pi(takum32);
@@ -133,7 +350,7 @@ takum16 takum16_arccsc(takum16);
 takum32 takum32_arccsc(takum32);
 takum64 takum64_arccsc(takum64);
 
-/* Arccosecant Over Pi */
+/* Arccosecant Over π */
 takum8 takum8_arccsc_over_pi(takum8);
 takum16 takum16_arccsc_over_pi(takum16);
 takum32 takum32_arccsc_over_pi(takum32);
@@ -163,7 +380,7 @@ takum16 takum16_arcsec(takum16);
 takum32 takum32_arcsec(takum32);
 takum64 takum64_arcsec(takum64);
 
-/* Arcsecant Over Pi */
+/* Arcsecant Over π */
 takum8 takum8_arcsec_over_pi(takum8);
 takum16 takum16_arcsec_over_pi(takum16);
 takum32 takum32_arcsec_over_pi(takum32);
@@ -175,7 +392,7 @@ takum16 takum16_arcsin(takum16);
 takum32 takum32_arcsin(takum32);
 takum64 takum64_arcsin(takum64);
 
-/* Arcsine Over Pi */
+/* Arcsine Over π */
 takum8 takum8_arcsin_over_pi(takum8);
 takum16 takum16_arcsin_over_pi(takum16);
 takum32 takum32_arcsin_over_pi(takum32);
@@ -187,7 +404,7 @@ takum16 takum16_arctan2(takum16, takum16);
 takum32 takum32_arctan2(takum32, takum32);
 takum64 takum64_arctan2(takum64, takum64);
 
-/* 2-Argument Arctangent Over Pi */
+/* 2-Argument Arctangent Over π */
 takum8 takum8_arctan2_over_pi(takum8, takum8);
 takum16 takum16_arctan2_over_pi(takum16, takum16);
 takum32 takum32_arctan2_over_pi(takum32, takum32);
@@ -199,7 +416,7 @@ takum16 takum16_arctan(takum16);
 takum32 takum32_arctan(takum32);
 takum64 takum64_arctan(takum64);
 
-/* Arctangent Over Pi */
+/* Arctangent Over π */
 takum8 takum8_arctan_over_pi(takum8);
 takum16 takum16_arctan_over_pi(takum16);
 takum32 takum32_arctan_over_pi(takum32);
@@ -229,7 +446,7 @@ takum16 takum16_cos(takum16);
 takum32 takum32_cos(takum32);
 takum64 takum64_cos(takum64);
 
-/* Cosine Pi Times */
+/* Cosine π Times */
 takum8 takum8_cos_pi_times(takum8);
 takum16 takum16_cos_pi_times(takum16);
 takum32 takum32_cos_pi_times(takum32);
@@ -247,7 +464,7 @@ takum16 takum16_cot(takum16);
 takum32 takum32_cot(takum32);
 takum64 takum64_cot(takum64);
 
-/* Cotangent Pi Times */
+/* Cotangent π Times */
 takum8 takum8_cot_pi_times(takum8);
 takum16 takum16_cot_pi_times(takum16);
 takum32 takum32_cot_pi_times(takum32);
@@ -265,7 +482,7 @@ takum16 takum16_csc(takum16);
 takum32 takum32_csc(takum32);
 takum64 takum64_csc(takum64);
 
-/* Cosecant Pi Times */
+/* Cosecant π Times */
 takum8 takum8_csc_pi_times(takum8);
 takum16 takum16_csc_pi_times(takum16);
 takum32 takum32_csc_pi_times(takum32);
@@ -550,7 +767,7 @@ takum16 takum16_sec(takum16);
 takum32 takum32_sec(takum32);
 takum64 takum64_sec(takum64);
 
-/* Secant Pi Times */
+/* Secant π Times */
 takum8 takum8_sec_pi_times(takum8);
 takum16 takum16_sec_pi_times(takum16);
 takum32 takum32_sec_pi_times(takum32);
@@ -597,7 +814,7 @@ takum16 takum16_sin(takum16);
 takum32 takum32_sin(takum32);
 takum64 takum64_sin(takum64);
 
-/* Sine Pi Times */
+/* Sine π Times */
 takum8 takum8_sin_pi_times(takum8);
 takum16 takum16_sin_pi_times(takum16);
 takum32 takum32_sin_pi_times(takum32);
@@ -627,7 +844,7 @@ takum16 takum16_tan(takum16);
 takum32 takum32_tan(takum32);
 takum64 takum64_tan(takum64);
 
-/* Tangent Pi Times */
+/* Tangent π Times */
 takum8 takum8_tan_pi_times(takum8);
 takum16 takum16_tan_pi_times(takum16);
 takum32 takum32_tan_pi_times(takum32);
