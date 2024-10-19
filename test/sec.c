@@ -19,6 +19,10 @@ static const struct unit_test_block sec_utb = {
 		.takum16_function   = takum16_sec,
 		.takum32_function   = takum32_sec,
 		.takum64_function   = takum64_sec,
+		.takum_linear8_function    = takum_linear8_sec,
+		.takum_linear16_function   = takum_linear16_sec,
+		.takum_linear32_function   = takum_linear32_sec,
+		.takum_linear64_function   = takum_linear64_sec,
 	},
 };
 
@@ -37,6 +41,10 @@ static const struct unit_test_block sec_pi_times_utb = {
 		.takum16_function   = takum16_sec_pi_times,
 		.takum32_function   = takum32_sec_pi_times,
 		.takum64_function   = takum64_sec_pi_times,
+		.takum_linear8_function    = takum_linear8_sec_pi_times,
+		.takum_linear16_function   = takum_linear16_sec_pi_times,
+		.takum_linear32_function   = takum_linear32_sec_pi_times,
+		.takum_linear64_function   = takum_linear64_sec_pi_times,
 	},
 };
 

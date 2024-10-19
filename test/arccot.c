@@ -23,6 +23,10 @@ static const struct unit_test_block arccot_utb = {
 		.takum16_function   = takum16_arccot,
 		.takum32_function   = takum32_arccot,
 		.takum64_function   = takum64_arccot,
+		.takum_linear8_function    = takum_linear8_arccot,
+		.takum_linear16_function   = takum_linear16_arccot,
+		.takum_linear32_function   = takum_linear32_arccot,
+		.takum_linear64_function   = takum_linear64_arccot,
 	},
 };
 
@@ -45,6 +49,10 @@ static const struct unit_test_block arccot_over_pi_utb = {
 		.takum16_function   = takum16_arccot_over_pi,
 		.takum32_function   = takum32_arccot_over_pi,
 		.takum64_function   = takum64_arccot_over_pi,
+		.takum_linear8_function    = takum_linear8_arccot_over_pi,
+		.takum_linear16_function   = takum_linear16_arccot_over_pi,
+		.takum_linear32_function   = takum_linear32_arccot_over_pi,
+		.takum_linear64_function   = takum_linear64_arccot_over_pi,
 	},
 };
 

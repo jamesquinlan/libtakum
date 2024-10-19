@@ -19,6 +19,10 @@ static const struct unit_test_block arcsch_utb = {
 		.takum16_function   = takum16_arcsch,
 		.takum32_function   = takum32_arcsch,
 		.takum64_function   = takum64_arcsch,
+		.takum_linear8_function    = takum_linear8_arcsch,
+		.takum_linear16_function   = takum_linear16_arcsch,
+		.takum_linear32_function   = takum_linear32_arcsch,
+		.takum_linear64_function   = takum_linear64_arcsch,
 	},
 };
 

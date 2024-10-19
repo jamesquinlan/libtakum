@@ -1,4 +1,5 @@
 /* See LICENSE file for copyright and license details. */
+#include <float.h>
 #include <math.h>
 #include <stdint.h>
 
@@ -23,7 +24,7 @@
 takum8
 takum8_root(takum8 t, int64_t n)
 {
-	if ((t < 0 && n % 2 == 0) || (t == 0 && n < 0)) {
+	if (t == 0 || (t < 0 && n % 2 == 0) || (t == 0 && n < 0)) {
 		return TAKUM8_NAR;
 	} else {
 		return codec_takum8_from_s_and_l((t < 0),
@@ -34,7 +35,7 @@ takum8_root(takum8 t, int64_t n)
 takum16
 takum16_root(takum16 t, int64_t n)
 {
-	if ((t < 0 && n % 2 == 0) || (t == 0 && n < 0)) {
+	if (n == 0 || (t < 0 && n % 2 == 0) || (t == 0 && n < 0)) {
 		return TAKUM16_NAR;
 	} else {
 		return codec_takum16_from_s_and_l((t < 0),
@@ -45,7 +46,7 @@ takum16_root(takum16 t, int64_t n)
 takum32
 takum32_root(takum32 t, int64_t n)
 {
-	if ((t < 0 && n % 2 == 0) || (t == 0 && n < 0)) {
+	if (n == 0 || (t < 0 && n % 2 == 0) || (t == 0 && n < 0)) {
 		return TAKUM32_NAR;
 	} else {
 		return codec_takum32_from_s_and_l((t < 0),
@@ -56,10 +57,86 @@ takum32_root(takum32 t, int64_t n)
 takum64
 takum64_root(takum64 t, int64_t n)
 {
-	if ((t < 0 && n % 2 == 0) || (t == 0 && n < 0)) {
+	if (n == 0 || (t < 0 && n % 2 == 0) || (t == 0 && n < 0)) {
 		return TAKUM64_NAR;
 	} else {
 		return codec_takum64_from_s_and_l((t < 0),
 		                                  codec_takum64_to_l(t) / n);
 	}
+}
+
+takum_linear8
+takum_linear8_root(takum_linear8 t, int64_t n)
+{
+	long double f, res;
+
+	if (n == 0 || (t < 0 && n % 2 == 0)) {
+		return TAKUM_LINEAR8_NAR;
+	}
+
+	f = takum_linear8_to_extended_float(t);
+	res = powl(f, 1.0l / (long double)n);
+
+	if (res == 0.0l && t != 0) {
+		res = (t < 0 && n % 2 != 0) ? -DBL_MIN : DBL_MIN;
+	}
+
+	return takum_linear8_from_extended_float(res);
+}
+
+takum_linear16
+takum_linear16_root(takum_linear16 t, int64_t n)
+{
+	long double f, res;
+
+	if (n == 0 || (t < 0 && n % 2 == 0)) {
+		return TAKUM_LINEAR16_NAR;
+	}
+
+	f = takum_linear16_to_extended_float(t);
+	res = powl(f, 1.0l / (long double)n);
+
+	if (res == 0.0l && t != 0) {
+		res = (t < 0 && n % 2 != 0) ? -DBL_MIN : DBL_MIN;
+	}
+
+	return takum_linear16_from_extended_float(res);
+}
+
+takum_linear32
+takum_linear32_root(takum_linear32 t, int64_t n)
+{
+	long double f, res;
+
+	if (n == 0 || (t < 0 && n % 2 == 0)) {
+		return TAKUM_LINEAR32_NAR;
+	}
+
+	f = takum_linear32_to_extended_float(t);
+	res = powl(f, 1.0l / (long double)n);
+
+	if (res == 0.0l && t != 0) {
+		res = (t < 0 && n % 2 != 0) ? -DBL_MIN : DBL_MIN;
+	}
+
+	return takum_linear32_from_extended_float(res);
+}
+
+takum_linear64
+takum_linear64_root(takum_linear64 t, int64_t n)
+{
+	long double f, res;
+
+	if (n == 0 || (t < 0 && n % 2 == 0)) {
+		return TAKUM_LINEAR64_NAR;
+	}
+
+	f = takum_linear64_to_extended_float(t);
+	res = powl(f, 1.0l / (long double)n);
+
+	if (res == 0.0l && t != 0) {
+		res = (t < 0 && n % 2 != 0) ? -DBL_MIN : DBL_MIN;
+	}
+
+	return takum_linear64_from_extended_float(res);
 }

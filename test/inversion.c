@@ -19,6 +19,10 @@ static const struct unit_test_block inversion_utb = {
 		.takum16_function   = takum16_inversion,
 		.takum32_function   = takum32_inversion,
 		.takum64_function   = takum64_inversion,
+		.takum_linear8_function    = takum_linear8_inversion,
+		.takum_linear16_function   = takum_linear16_inversion,
+		.takum_linear32_function   = takum_linear32_inversion,
+		.takum_linear64_function   = takum_linear64_inversion,
 	},
 };
 

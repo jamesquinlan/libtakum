@@ -15,7 +15,8 @@
 #define RESULT_FIXER_MACRO(arg, res)                                           \
 	((isinf(res) && (res) > 0.0) ? DBL_MAX : (res))
 
-UTIL_UNARY_FLOAT_WRAPPER(lb, log2, RESULT_FIXER_MACRO)
+UTIL_UNARY_FLOAT_TAKUM_WRAPPER(lb, log2, RESULT_FIXER_MACRO)
+UTIL_UNARY_FLOAT_TAKUM_LINEAR_WRAPPER(lb, log2, RESULT_FIXER_MACRO)
 
 /*
  * This implementation is a bit of a hack by extending the arguments to long
@@ -34,4 +35,5 @@ log21pl(long double f)
 	return log2l(1.0L + (long double)f);
 }
 
-UTIL_UNARY_FLOAT_WRAPPER(lb_1_plus, log21p, RESULT_FIXER_MACRO)
+UTIL_UNARY_FLOAT_TAKUM_WRAPPER(lb_1_plus, log21p, RESULT_FIXER_MACRO)
+UTIL_UNARY_FLOAT_TAKUM_LINEAR_WRAPPER(lb_1_plus, log21p, RESULT_FIXER_MACRO)

@@ -5,50 +5,39 @@
 
 #include "../takum.h"
 
-takum8
-takum8_sec(takum8 t)
+/*
+ * near the poles, the results of sec() never overflow. Thus any infinity
+ * returned by sec() is a 'true' infinity.
+ */
+#define RESULT_FIXER_MACRO(arg, res) (res)
+
+static long double
+secl(long double f)
 {
-	return takum8_inversion(takum8_cos(t));
+	return 1.0l / cosl(f);
 }
 
-takum16
-takum16_sec(takum16 t)
+static double
+sec(double f)
 {
-	return takum16_inversion(takum16_cos(t));
+	return (double)secl((long double)f);
 }
 
-takum32
-takum32_sec(takum32 t)
+UTIL_UNARY_FLOAT_TAKUM_WRAPPER(sec, sec, RESULT_FIXER_MACRO)
+UTIL_UNARY_FLOAT_TAKUM_LINEAR_WRAPPER(sec, sec, RESULT_FIXER_MACRO)
+
+static long double
+sec_pi_timesl(long double f)
 {
-	return takum32_inversion(takum32_cos(t));
+	return secl(PI * f);
 }
 
-takum64
-takum64_sec(takum64 t)
+static double
+sec_pi_times(double f)
 {
-	return takum64_inversion(takum64_cos(t));
+	return (double)sec_pi_timesl((long double)f);
 }
 
-takum8
-takum8_sec_pi_times(takum8 t)
-{
-	return takum8_inversion(takum8_cos_pi_times(t));
-}
-
-takum16
-takum16_sec_pi_times(takum16 t)
-{
-	return takum16_inversion(takum16_cos_pi_times(t));
-}
-
-takum32
-takum32_sec_pi_times(takum32 t)
-{
-	return takum32_inversion(takum32_cos_pi_times(t));
-}
-
-takum64
-takum64_sec_pi_times(takum64 t)
-{
-	return takum64_inversion(takum64_cos_pi_times(t));
-}
+UTIL_UNARY_FLOAT_TAKUM_WRAPPER(sec_pi_times, sec_pi_times, RESULT_FIXER_MACRO)
+UTIL_UNARY_FLOAT_TAKUM_LINEAR_WRAPPER(sec_pi_times, sec_pi_times,
+                                      RESULT_FIXER_MACRO)

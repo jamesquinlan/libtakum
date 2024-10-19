@@ -30,6 +30,31 @@ takum64_conversion_float64_roundtrip(takum64 t)
 	return t;
 }
 
+takum_linear8
+takum_linear8_conversion_float64_roundtrip(takum_linear8 t)
+{
+	return takum_linear8_from_float64(takum_linear8_to_float64(t));
+}
+
+takum_linear16
+takum_linear16_conversion_float64_roundtrip(takum_linear16 t)
+{
+	return takum_linear16_from_float64(takum_linear16_to_float64(t));
+}
+
+takum_linear32
+takum_linear32_conversion_float64_roundtrip(takum_linear32 t)
+{
+	return takum_linear32_from_float64(takum_linear32_to_float64(t));
+}
+
+takum_linear64
+takum_linear64_conversion_float64_roundtrip(takum_linear64 t)
+{
+	/* this would not be a lossless roundtrip */
+	return t;
+}
+
 static const struct unit_test_block conversion_float64_utb = {
 	.type = UNIT_TEST_BLOCK_TYPE_ROUNDTRIP,
 	.function_name = "to_float64/from_float64",
@@ -38,6 +63,10 @@ static const struct unit_test_block conversion_float64_utb = {
 		.takum16_function   = takum16_conversion_float64_roundtrip,
 		.takum32_function   = takum32_conversion_float64_roundtrip,
 		.takum64_function   = takum64_conversion_float64_roundtrip,
+		.takum_linear8_function    = takum_linear8_conversion_float64_roundtrip,
+		.takum_linear16_function   = takum_linear16_conversion_float64_roundtrip,
+		.takum_linear32_function   = takum_linear32_conversion_float64_roundtrip,
+		.takum_linear64_function   = takum_linear64_conversion_float64_roundtrip,
 	},
 };
 
@@ -65,6 +94,34 @@ takum64_conversion_extended_float_roundtrip(takum64 t)
 	return takum64_from_extended_float(takum64_to_extended_float(t));
 }
 
+takum_linear8
+takum_linear8_conversion_extended_float_roundtrip(takum_linear8 t)
+{
+	return takum_linear8_from_extended_float(
+		takum_linear8_to_extended_float(t));
+}
+
+takum_linear16
+takum_linear16_conversion_extended_float_roundtrip(takum_linear16 t)
+{
+	return takum_linear16_from_extended_float(
+		takum_linear16_to_extended_float(t));
+}
+
+takum_linear32
+takum_linear32_conversion_extended_float_roundtrip(takum_linear32 t)
+{
+	return takum_linear32_from_extended_float(
+		takum_linear32_to_extended_float(t));
+}
+
+takum_linear64
+takum_linear64_conversion_extended_float_roundtrip(takum_linear64 t)
+{
+	return takum_linear64_from_extended_float(
+		takum_linear64_to_extended_float(t));
+}
+
 static const struct unit_test_block conversion_extended_float_utb = {
 	.type = UNIT_TEST_BLOCK_TYPE_ROUNDTRIP,
 	.function_name = "to_extended_float/from_extended_float",
@@ -73,6 +130,10 @@ static const struct unit_test_block conversion_extended_float_utb = {
 		.takum16_function   = takum16_conversion_extended_float_roundtrip,
 		.takum32_function   = takum32_conversion_extended_float_roundtrip,
 		.takum64_function   = takum64_conversion_extended_float_roundtrip,
+		.takum_linear8_function    = takum_linear8_conversion_extended_float_roundtrip,
+		.takum_linear16_function   = takum_linear16_conversion_extended_float_roundtrip,
+		.takum_linear32_function   = takum_linear32_conversion_extended_float_roundtrip,
+		.takum_linear64_function   = takum_linear64_conversion_extended_float_roundtrip,
 	},
 };
 

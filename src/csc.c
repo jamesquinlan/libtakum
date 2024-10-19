@@ -5,50 +5,39 @@
 
 #include "../takum.h"
 
-takum8
-takum8_csc(takum8 t)
+/*
+ * near the pole in 0, the results of csc() never overflow. Thus any infinity
+ * returned by csc() is a 'true' infinity.
+ */
+#define RESULT_FIXER_MACRO(arg, res) (res)
+
+static double
+cscl(long double f)
 {
-	return takum8_inversion(takum8_sin(t));
+	return 1.0l / sinl(f);
 }
 
-takum16
-takum16_csc(takum16 t)
+static double
+csc(double f)
 {
-	return takum16_inversion(takum16_sin(t));
+	return (double)cscl((long double)f);
 }
 
-takum32
-takum32_csc(takum32 t)
+UTIL_UNARY_FLOAT_TAKUM_WRAPPER(csc, csc, RESULT_FIXER_MACRO)
+UTIL_UNARY_FLOAT_TAKUM_LINEAR_WRAPPER(csc, csc, RESULT_FIXER_MACRO)
+
+static double
+csc_pi_timesl(long double f)
 {
-	return takum32_inversion(takum32_sin(t));
+	return cscl(PI * f);
 }
 
-takum64
-takum64_csc(takum64 t)
+static double
+csc_pi_times(double f)
 {
-	return takum64_inversion(takum64_sin(t));
+	return (double)csc_pi_timesl((long double)f);
 }
 
-takum8
-takum8_csc_pi_times(takum8 t)
-{
-	return takum8_inversion(takum8_sin_pi_times(t));
-}
-
-takum16
-takum16_csc_pi_times(takum16 t)
-{
-	return takum16_inversion(takum16_sin_pi_times(t));
-}
-
-takum32
-takum32_csc_pi_times(takum32 t)
-{
-	return takum32_inversion(takum32_sin_pi_times(t));
-}
-
-takum64
-takum64_csc_pi_times(takum64 t)
-{
-	return takum64_inversion(takum64_sin_pi_times(t));
-}
+UTIL_UNARY_FLOAT_TAKUM_WRAPPER(csc_pi_times, csc_pi_times, RESULT_FIXER_MACRO)
+UTIL_UNARY_FLOAT_TAKUM_LINEAR_WRAPPER(csc_pi_times, csc_pi_times,
+                                      RESULT_FIXER_MACRO)

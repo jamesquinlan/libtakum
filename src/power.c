@@ -15,4 +15,5 @@
 	 isinf(res)     ? ((res) >= 0.0) ? DBL_MAX : -DBL_MAX :                \
 	                  (res))
 
-UTIL_BINARY_FLOAT_WRAPPER(power, pow, RESULT_FIXER_MACRO)
+UTIL_BINARY_FLOAT_TAKUM_WRAPPER(power, pow, RESULT_FIXER_MACRO)
+UTIL_BINARY_FLOAT_TAKUM_LINEAR_WRAPPER(power, pow, RESULT_FIXER_MACRO)

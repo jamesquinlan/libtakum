@@ -1,4 +1,4 @@
-FULL_FUNCTION_NAME=$(printf "takum%s_from_takum%s" $BIT_COUNT $BIT_COUNT_INPUT)
+FULL_FUNCTION_NAME=$(printf "takum%s_from_takum%s" $TAKUM_TYPE_SUFFIX $TAKUM_TYPE_SUFFIX_INPUT)
 
 cat << EOF
 .Dd ${MAN_DATE}
@@ -6,25 +6,25 @@ cat << EOF
 .Os "libtakum"
 .Sh NAME
 .Nm ${FULL_FUNCTION_NAME}
-.Nd convert a takum${BIT_COUNT_INPUT} to a takum${BIT_COUNT}
+.Nd convert a takum${TAKUM_TYPE_SUFFIX_INPUT} to a takum${TAKUM_TYPE_SUFFIX}
 .Sh SYNOPSIS
 .In takum.h
-.Ft takum${BIT_COUNT}
-.Fn ${FULL_FUNCTION_NAME} "takum${BIT_COUNT_INPUT} t"
+.Ft takum${TAKUM_TYPE_SUFFIX}
+.Fn ${FULL_FUNCTION_NAME} "takum${TAKUM_TYPE_SUFFIX_INPUT} t"
 .Sh DESCRIPTION
 The
 .Fn ${FULL_FUNCTION_NAME}
-converts a takum${BIT_COUNT_INPUT} to a takum${BIT_COUNT}, properly
+converts a takum${TAKUM_TYPE_SUFFIX_INPUT} to a takum${TAKUM_TYPE_SUFFIX}, properly
 rounding and adhering to saturation arithmetic.
 .Sh RETURN VALUES
 The
 .Fn ${FULL_FUNCTION_NAME}
-function returns a takum${BIT_COUNT}, and in particular
-.Dv TAKUM${BIT_COUNT}_NAR
+function returns a takum${TAKUM_TYPE_SUFFIX}, and in particular
+.Dv TAKUM${TAKUM_TYPE_SUFFIX}_NAR
 if
 .Va t
 is
-.Dv TAKUM${BIT_COUNT_INPUT}_NAR .
+.Dv TAKUM${TAKUM_TYPE_SUFFIX_INPUT}_NAR .
 .Sh SEE ALSO
 .Xr libtakum 7
 .Sh AUTHORS

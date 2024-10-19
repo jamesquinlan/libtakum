@@ -1,4 +1,4 @@
-export BIT_COUNT=$(if [ -n "$BIT_COUNT" ]; then printf "$BIT_COUNT"; else printf "64"; fi)
+export TAKUM_TYPE_SUFFIX=$(if [ -n "$TAKUM_TYPE_SUFFIX" ]; then printf "$TAKUM_TYPE_SUFFIX"; else printf "64"; fi)
 export COMPUTE_DESCRIPTION="the base 10 exponential function of a takum"
 export COMPUTE_LONG_DESCRIPTION="10 raised to \n.Va a "
 export FUNCTION_NAME="10_raised"

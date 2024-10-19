@@ -7,4 +7,5 @@
 /* fix overflow in the result */
 #define RESULT_FIXER_MACRO(a, b, res) (isinf(res) ? DBL_MAX : (res))
 
-UTIL_BINARY_FLOAT_WRAPPER(hypotenuse, hypot, RESULT_FIXER_MACRO)
+UTIL_BINARY_FLOAT_TAKUM_WRAPPER(hypotenuse, hypot, RESULT_FIXER_MACRO)
+UTIL_BINARY_FLOAT_TAKUM_LINEAR_WRAPPER(hypotenuse, hypot, RESULT_FIXER_MACRO)

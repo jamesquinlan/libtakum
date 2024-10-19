@@ -23,6 +23,10 @@ enum takum_type {
 	TAKUM16,
 	TAKUM32,
 	TAKUM64,
+	TAKUM_LINEAR8,
+	TAKUM_LINEAR16,
+	TAKUM_LINEAR32,
+	TAKUM_LINEAR64,
 };
 
 struct takum_type_parameters {
@@ -58,6 +62,13 @@ struct unit_test_block {
 			takum16 (*takum16_function)(takum16);
 			takum32 (*takum32_function)(takum32);
 			takum64 (*takum64_function)(takum64);
+			takum_linear8 (*takum_linear8_function)(takum_linear8);
+			takum_linear16 (*takum_linear16_function)(
+				takum_linear16);
+			takum_linear32 (*takum_linear32_function)(
+				takum_linear32);
+			takum_linear64 (*takum_linear64_function)(
+				takum_linear64);
 		} roundtrip;
 
 		struct {
@@ -66,6 +77,14 @@ struct unit_test_block {
 			takum16 (*takum16_function)(takum16, int64_t);
 			takum32 (*takum32_function)(takum32, int64_t);
 			takum64 (*takum64_function)(takum64, int64_t);
+			takum_linear8 (*takum_linear8_function)(takum_linear8,
+			                                        int64_t);
+			takum_linear16 (*takum_linear16_function)(
+				takum_linear16, int64_t);
+			takum_linear32 (*takum_linear32_function)(
+				takum_linear32, int64_t);
+			takum_linear64 (*takum_linear64_function)(
+				takum_linear64, int64_t);
 			const int64_t *integer_test_cases;
 			size_t integer_test_case_count;
 		} takum_int64_takum;
@@ -76,6 +95,13 @@ struct unit_test_block {
 			takum16 (*takum16_function)(takum16);
 			takum32 (*takum32_function)(takum32);
 			takum64 (*takum64_function)(takum64);
+			takum_linear8 (*takum_linear8_function)(takum_linear8);
+			takum_linear16 (*takum_linear16_function)(
+				takum_linear16);
+			takum_linear32 (*takum_linear32_function)(
+				takum_linear32);
+			takum_linear64 (*takum_linear64_function)(
+				takum_linear64);
 		} takum_takum;
 
 		struct {
@@ -85,6 +111,14 @@ struct unit_test_block {
 			takum16 (*takum16_function)(takum16, takum16);
 			takum32 (*takum32_function)(takum32, takum32);
 			takum64 (*takum64_function)(takum64, takum64);
+			takum_linear8 (*takum_linear8_function)(takum_linear8,
+			                                        takum_linear8);
+			takum_linear16 (*takum_linear16_function)(
+				takum_linear16, takum_linear16);
+			takum_linear32 (*takum_linear32_function)(
+				takum_linear32, takum_linear32);
+			takum_linear64 (*takum_linear64_function)(
+				takum_linear64, takum_linear64);
 		} takum_takum_takum;
 
 		struct {
@@ -94,6 +128,10 @@ struct unit_test_block {
 			uint8_t (*takum16_function)(takum16);
 			uint8_t (*takum32_function)(takum32);
 			uint8_t (*takum64_function)(takum64);
+			uint8_t (*takum_linear8_function)(takum_linear8);
+			uint8_t (*takum_linear16_function)(takum_linear16);
+			uint8_t (*takum_linear32_function)(takum_linear32);
+			uint8_t (*takum_linear64_function)(takum_linear64);
 		} takum_uint8;
 	} data;
 };

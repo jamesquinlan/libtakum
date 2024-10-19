@@ -1,4 +1,4 @@
-export BIT_COUNT="32"
+export TAKUM_TYPE_SUFFIX="32"
 export SECOND_ARGUMENT_TYPE="takum32"
 
 $SH man/takum64_arctan2.sh

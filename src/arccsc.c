@@ -5,50 +5,37 @@
 
 #include "../takum.h"
 
-takum8
-takum8_arccsc(takum8 t)
+/* no need to fix the result */
+#define RESULT_FIXER_MACRO(arg, res) (res)
+
+static long double
+arccscl(long double f)
 {
-	return takum8_arcsin(takum8_inversion(t));
+	return asinl(1.0l / f);
 }
 
-takum16
-takum16_arccsc(takum16 t)
+static double
+arccsc(double f)
 {
-	return takum16_arcsin(takum16_inversion(t));
+	return (double)arccscl((long double)f);
 }
 
-takum32
-takum32_arccsc(takum32 t)
+UTIL_UNARY_FLOAT_TAKUM_WRAPPER(arccsc, arccsc, RESULT_FIXER_MACRO)
+UTIL_UNARY_FLOAT_TAKUM_LINEAR_WRAPPER(arccsc, arccsc, RESULT_FIXER_MACRO)
+
+long double
+arccsc_over_pil(long double f)
 {
-	return takum32_arcsin(takum32_inversion(t));
+	return asinl(1.0l / f) / PI;
 }
 
-takum64
-takum64_arccsc(takum64 t)
+double
+arccsc_over_pi(double f)
 {
-	return takum64_arcsin(takum64_inversion(t));
+	return (double)arccsc_over_pil((long double)f);
 }
 
-takum8
-takum8_arccsc_over_pi(takum8 t)
-{
-	return takum8_arcsin_over_pi(takum8_inversion(t));
-}
-
-takum16
-takum16_arccsc_over_pi(takum16 t)
-{
-	return takum16_arcsin_over_pi(takum16_inversion(t));
-}
-
-takum32
-takum32_arccsc_over_pi(takum32 t)
-{
-	return takum32_arcsin_over_pi(takum32_inversion(t));
-}
-
-takum64
-takum64_arccsc_over_pi(takum64 t)
-{
-	return takum64_arcsin_over_pi(takum64_inversion(t));
-}
+UTIL_UNARY_FLOAT_TAKUM_WRAPPER(arccsc_over_pi, arccsc_over_pi,
+                               RESULT_FIXER_MACRO)
+UTIL_UNARY_FLOAT_TAKUM_LINEAR_WRAPPER(arccsc_over_pi, arccsc_over_pi,
+                                      RESULT_FIXER_MACRO)

@@ -19,6 +19,10 @@ static const struct unit_test_block division_utb = {
 		.takum16_function   = takum16_division,
 		.takum32_function   = takum32_division,
 		.takum64_function   = takum64_division,
+		.takum_linear8_function    = takum_linear8_division,
+		.takum_linear16_function   = takum_linear16_division,
+		.takum_linear32_function   = takum_linear32_division,
+		.takum_linear64_function   = takum_linear64_division,
 	},
 };
 

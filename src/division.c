@@ -44,3 +44,20 @@ takum64_division(takum64 a, takum64 b)
 	                                  codec_takum64_to_l(a) -
 	                                          codec_takum64_to_l(b));
 }
+
+/* no need to fix the result */
+#define RESULT_FIXER_MACRO(a, b, res) (res)
+
+static long double
+divisionl(long double a, long double b)
+{
+	return a / b;
+}
+
+static double
+division(double a, double b)
+{
+	return a / b;
+}
+
+UTIL_BINARY_FLOAT_TAKUM_LINEAR_WRAPPER(division, division, RESULT_FIXER_MACRO)

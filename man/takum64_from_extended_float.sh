@@ -1,4 +1,4 @@
-export BIT_COUNT=$(if [ -n "$BIT_COUNT" ]; then printf "$BIT_COUNT"; else printf "64"; fi)
+export TAKUM_TYPE_SUFFIX=$(if [ -n "$TAKUM_TYPE_SUFFIX" ]; then printf "$TAKUM_TYPE_SUFFIX"; else printf "64"; fi)
 export FLOAT_LONG_NAME="an IEEE 754 extended precision floating-point number"
 export FLOAT_NAME="extended_float"
 export FLOAT_TYPE="long double"

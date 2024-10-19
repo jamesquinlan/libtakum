@@ -7,4 +7,5 @@
 /* fix overflow in the result */
 #define RESULT_FIXER_MACRO(arg, res) (isinf(res) ? DBL_MAX : (res))
 
-UTIL_UNARY_FLOAT_WRAPPER(cosh, cosh, RESULT_FIXER_MACRO)
+UTIL_UNARY_FLOAT_TAKUM_WRAPPER(cosh, cosh, RESULT_FIXER_MACRO)
+UTIL_UNARY_FLOAT_TAKUM_LINEAR_WRAPPER(cosh, cosh, RESULT_FIXER_MACRO)

@@ -53,3 +53,8 @@ takum64_square_root(takum64 t)
 			0, ldexpl(codec_takum64_to_l(t), -1));
 	}
 }
+
+/* no need to fix the result */
+#define RESULT_FIXER_MACRO(f, res) (res)
+
+UTIL_UNARY_FLOAT_TAKUM_LINEAR_WRAPPER(square_root, sqrt, RESULT_FIXER_MACRO)

@@ -1,4 +1,4 @@
-export BIT_COUNT=$(if [ -n "$BIT_COUNT" ]; then printf "$BIT_COUNT"; else printf "64"; fi)
-export BIT_COUNT_INPUT="16"
+export TAKUM_TYPE_SUFFIX=$(if [ -n "$TAKUM_TYPE_SUFFIX" ]; then printf "$TAKUM_TYPE_SUFFIX"; else printf "64"; fi)
+export TAKUM_TYPE_SUFFIX_INPUT="16"
 
 $SH man/template/conversion.sh

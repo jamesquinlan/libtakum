@@ -1,4 +1,4 @@
-FULL_FUNCTION_NAME=$(printf "takum%s_to_%s" $BIT_COUNT $FLOAT_NAME)
+FULL_FUNCTION_NAME=$(printf "takum%s_to_%s" $TAKUM_TYPE_SUFFIX $FLOAT_NAME)
 
 cat << EOF
 .Dd ${MAN_DATE}
@@ -6,15 +6,15 @@ cat << EOF
 .Os "libtakum"
 .Sh NAME
 .Nm ${FULL_FUNCTION_NAME}
-.Nd convert a takum${BIT_COUNT} to ${FLOAT_LONG_NAME}
+.Nd convert a takum${TAKUM_TYPE_SUFFIX} to ${FLOAT_LONG_NAME}
 .Sh SYNOPSIS
 .In takum.h
 .Ft ${FLOAT_TYPE}
-.Fn ${FULL_FUNCTION_NAME} "takum${BIT_COUNT} t"
+.Fn ${FULL_FUNCTION_NAME} "takum${TAKUM_TYPE_SUFFIX} t"
 .Sh DESCRIPTION
 The
 .Fn ${FULL_FUNCTION_NAME}
-converts a takum${BIT_COUNT} to ${FLOAT_LONG_NAME}.
+converts a takum${TAKUM_TYPE_SUFFIX} to ${FLOAT_LONG_NAME}.
 .Sh RETURN VALUES
 The
 .Fn ${FULL_FUNCTION_NAME}
@@ -24,7 +24,7 @@ and in particular
 if
 .Va t
 is
-.Dv TAKUM${BIT_COUNT}_NAR .
+.Dv TAKUM${TAKUM_TYPE_SUFFIX}_NAR .
 .Sh SEE ALSO
 .Xr libtakum 7
 .Sh AUTHORS

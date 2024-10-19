@@ -19,6 +19,10 @@ static const struct unit_test_block lg_utb = {
 		.takum16_function   = takum16_lg,
 		.takum32_function   = takum32_lg,
 		.takum64_function   = takum64_lg,
+		.takum_linear8_function    = takum_linear8_lg,
+		.takum_linear16_function   = takum_linear16_lg,
+		.takum_linear32_function   = takum_linear32_lg,
+		.takum_linear64_function   = takum_linear64_lg,
 	},
 };
 
@@ -37,6 +41,10 @@ static const struct unit_test_block lg_1_plus_utb = {
 		.takum16_function   = takum16_lg_1_plus,
 		.takum32_function   = takum32_lg_1_plus,
 		.takum64_function   = takum64_lg_1_plus,
+		.takum_linear8_function    = takum_linear8_lg_1_plus,
+		.takum_linear16_function   = takum_linear16_lg_1_plus,
+		.takum_linear32_function   = takum_linear32_lg_1_plus,
+		.takum_linear64_function   = takum_linear64_lg_1_plus,
 	},
 };
 

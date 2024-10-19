@@ -119,3 +119,31 @@ takum64_precision(takum64 t)
 		return p_lut[DR] + 48;
 	}
 }
+
+uint8_t
+takum_linear8_precision(takum_linear8 t)
+{
+	/* linear and (logarithmic) takums don't differ here */
+	return takum8_precision((takum8)t);
+}
+
+uint8_t
+takum_linear16_precision(takum_linear16 t)
+{
+	/* linear and (logarithmic) takums don't differ here */
+	return takum16_precision((takum16)t);
+}
+
+uint8_t
+takum_linear32_precision(takum_linear32 t)
+{
+	/* linear and (logarithmic) takums don't differ here */
+	return takum32_precision((takum32)t);
+}
+
+uint8_t
+takum_linear64_precision(takum_linear64 t)
+{
+	/* linear and (logarithmic) takums don't differ here */
+	return takum64_precision((takum64)t);
+}

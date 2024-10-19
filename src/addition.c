@@ -65,10 +65,10 @@ takum16_addition(takum16 a, takum16 b)
 
 	if (a > 0) {
 		if (b > 0) {
-			float la, lb;
+			double la, lb;
 
-			la = codec_takum16_to_l(a);
-			lb = codec_takum16_to_l(b);
+			la = (double)codec_takum16_to_l(a);
+			lb = (double)codec_takum16_to_l(b);
 
 			/*
 			 * We convert to double as float doesn't have
@@ -78,15 +78,13 @@ takum16_addition(takum16 a, takum16 b)
 			if (la > lb) {
 				return codec_takum16_from_s_and_l(
 					0,
-					la + 2 * (float)log1p(pow(
-							 SQRTE,
-							 (double)(lb - la))));
+					(float)(la + 2 * log1p(pow(SQRTE,
+				                                   lb - la))));
 			} else {
 				return codec_takum16_from_s_and_l(
 					0,
-					lb + 2 * (float)log1p(pow(
-							 SQRTE,
-							 (double)(la - lb))));
+					(float)(lb + 2 * log1p(pow(SQRTE,
+				                                   la - lb))));
 			}
 		} else if (b < 0) {
 			return takum16_subtraction(a, -b);
@@ -185,3 +183,20 @@ takum64_addition(takum64 a, takum64 b)
 		return b;
 	}
 }
+
+/* no need to fix the result */
+#define RESULT_FIXER_MACRO(a, b, res) (res)
+
+static double
+addition(double a, double b)
+{
+	return a + b;
+}
+
+static long double
+additionl(double a, double b)
+{
+	return a + b;
+}
+
+UTIL_BINARY_FLOAT_TAKUM_LINEAR_WRAPPER(addition, addition, RESULT_FIXER_MACRO)

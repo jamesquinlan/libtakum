@@ -1,4 +1,5 @@
 /* See LICENSE file for copyright and license details. */
+#include <float.h>
 #include <math.h>
 #include <stdint.h>
 
@@ -62,4 +63,76 @@ takum64_integer_power(takum64 t, int64_t n)
 		return codec_takum64_from_s_and_l((t < 0 && n % 2 != 0),
 		                                  codec_takum64_to_l(t) * n);
 	}
+}
+
+/*
+ * We use long double in all cases to really max out the integral
+ * representation power of floats
+ */
+takum_linear8
+takum_linear8_integer_power(takum_linear8 t, int64_t n)
+{
+	long double f, res;
+
+	f = takum_linear8_to_extended_float(t);
+	res = powl(f, (long double)n);
+
+	if (isinf(res)) {
+		res = (res > 0.0) ? DBL_MAX : -DBL_MAX;
+	} else if (res == 0.0l && t != 0) {
+		res = (t < 0 && n % 2 != 0) ? -DBL_MIN : DBL_MIN;
+	}
+
+	return takum_linear8_from_extended_float(res);
+}
+
+takum_linear16
+takum_linear16_integer_power(takum_linear16 t, int64_t n)
+{
+	long double f, res;
+
+	f = takum_linear16_to_extended_float(t);
+	res = powl(f, (long double)n);
+
+	if (isinf(res)) {
+		res = (res > 0.0) ? DBL_MAX : -DBL_MAX;
+	} else if (res == 0.0l && t != 0) {
+		res = (t < 0 && n % 2 != 0) ? -DBL_MIN : DBL_MIN;
+	}
+
+	return takum_linear16_from_extended_float(res);
+}
+
+takum_linear32
+takum_linear32_integer_power(takum_linear32 t, int64_t n)
+{
+	long double f, res;
+
+	f = takum_linear32_to_extended_float(t);
+	res = powl(f, (long double)n);
+
+	if (isinf(res)) {
+		res = (res > 0.0) ? DBL_MAX : -DBL_MAX;
+	} else if (res == 0.0l && t != 0) {
+		res = (t < 0 && n % 2 != 0) ? -DBL_MIN : DBL_MIN;
+	}
+
+	return takum_linear32_from_extended_float(res);
+}
+
+takum_linear64
+takum_linear64_integer_power(takum_linear64 t, int64_t n)
+{
+	long double f, res;
+
+	f = takum_linear64_to_extended_float(t);
+	res = powl(f, (long double)n);
+
+	if (isinf(res)) {
+		res = (res > 0.0) ? DBL_MAX : -DBL_MAX;
+	} else if (res == 0.0l && t != 0) {
+		res = (t < 0 && n % 2 != 0) ? -DBL_MIN : DBL_MIN;
+	}
+
+	return takum_linear64_from_extended_float(res);
 }
