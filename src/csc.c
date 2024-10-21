@@ -11,7 +11,7 @@
  */
 #define RESULT_FIXER_MACRO(arg, res) (res)
 
-static double
+static long double
 cscl(long double f)
 {
 	return 1.0l / sinl(f);
@@ -26,7 +26,7 @@ csc(double f)
 UTIL_UNARY_FLOAT_TAKUM_WRAPPER(csc, csc, RESULT_FIXER_MACRO)
 UTIL_UNARY_FLOAT_TAKUM_LINEAR_WRAPPER(csc, csc, RESULT_FIXER_MACRO)
 
-static double
+static long double
 csc_pi_timesl(long double f)
 {
 	return cscl(PI * f);

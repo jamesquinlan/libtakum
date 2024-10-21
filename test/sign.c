@@ -16,7 +16,7 @@ sign_reference(long double a)
 
 static const struct unit_test_block sign_utb = {
 	.type = UNIT_TEST_BLOCK_TYPE_TAKUM_TAKUM,
-	.function_name = "absolute",
+	.function_name = "sign",
 	.data.takum_takum = {
 		.reference_function = sign_reference,
 		.takum8_function    = takum8_sign,

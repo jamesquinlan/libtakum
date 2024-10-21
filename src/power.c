@@ -9,10 +9,10 @@
  * result is zero) and overflow
  */
 #define RESULT_FIXER_MACRO(a, b, res)                                          \
-	(((res) == 0.0) ? (a > 0.0) ? DBL_MIN :                                \
-	                  (a < 0.0) ? -DBL_MIN :                               \
-	                              res :                                    \
-	 isinf(res)     ? ((res) >= 0.0) ? DBL_MAX : -DBL_MAX :                \
+	(((res) == 0.0) ? (a == 0.0)   ? 0.0 :                                 \
+	                  signbit(res) ? -DBL_MIN :                            \
+	                                 DBL_MIN :                             \
+	 isinf(res)     ? signbit(res) ? -DBL_MAX : DBL_MAX :                  \
 	                  (res))
 
 UTIL_BINARY_FLOAT_TAKUM_WRAPPER(power, pow, RESULT_FIXER_MACRO)

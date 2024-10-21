@@ -15,7 +15,8 @@ takum8_from_float32(float f)
 	} else if (!isfinite(f)) {
 		return TAKUM8_NAR;
 	} else {
-		return codec_takum8_from_s_and_l(f < 0, 2 * logf(fabsf(f)));
+		return codec_takum8_from_s_and_l(f < 0,
+		                                 2 * log(fabs((double)f)));
 	}
 }
 
@@ -27,7 +28,8 @@ takum16_from_float32(float f)
 	} else if (!isfinite(f)) {
 		return TAKUM16_NAR;
 	} else {
-		return codec_takum16_from_s_and_l(f < 0, 2 * logf(fabsf(f)));
+		return codec_takum16_from_s_and_l(f < 0,
+		                                  2 * log(fabs((double)f)));
 	}
 }
 
@@ -94,8 +96,8 @@ takum8_from_float64(double f)
 	} else if (!isfinite(f)) {
 		return TAKUM8_NAR;
 	} else {
-		return takum8_from_takum32(
-			codec_takum32_from_s_and_l(f < 0, 2 * log(fabs(f))));
+		return takum8_from_takum64(codec_takum64_from_s_and_l(
+			f < 0, 2 * logl(fabsl((long double)f))));
 	}
 }
 
@@ -107,8 +109,8 @@ takum16_from_float64(double f)
 	} else if (!isfinite(f)) {
 		return TAKUM16_NAR;
 	} else {
-		return takum16_from_takum32(
-			codec_takum32_from_s_and_l(f < 0, 2 * log(fabs(f))));
+		return takum16_from_takum64(codec_takum64_from_s_and_l(
+			f < 0, 2 * logl(fabsl((long double)f))));
 	}
 }
 
@@ -120,7 +122,8 @@ takum32_from_float64(double f)
 	} else if (!isfinite(f)) {
 		return TAKUM32_NAR;
 	} else {
-		return codec_takum32_from_s_and_l(f < 0, 2 * log(fabs(f)));
+		return codec_takum32_from_s_and_l(
+			f < 0, 2 * logl(fabsl((long double)f)));
 	}
 }
 
@@ -133,7 +136,7 @@ takum64_from_float64(double f)
 		return TAKUM64_NAR;
 	} else {
 		return codec_takum64_from_s_and_l(
-			f < 0, (long double)(2 * log(fabs(f))));
+			f < 0, (long double)(2 * logl(fabsl((long double)f))));
 	}
 }
 
@@ -506,7 +509,7 @@ double
 takum8_to_float64(takum8 t)
 {
 	return (t != 0) * (1 - 2 * (t < 0)) *
-	       pow(SQRTE, (double)codec_takum8_to_l(t));
+	       powl(SQRTE, (long double)codec_takum8_to_l(t));
 }
 
 double

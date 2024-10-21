@@ -8,7 +8,11 @@
 long double
 integer_power_reference(long double a, int64_t b)
 {
-	return powl(a, (long double)b);
+	if (isnan(a) || (a == 0.0 && b == 0)) {
+		return NAN;
+	} else {
+		return powl(a, (long double)b);
+	}
 }
 
 static const int64_t integer_test_cases[] = {

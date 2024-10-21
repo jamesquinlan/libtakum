@@ -7,7 +7,7 @@
 long double
 arsinh_reference(long double a)
 {
-	return asinh(a);
+	return asinhl(a);
 }
 
 static const struct unit_test_block arsinh_utb = {

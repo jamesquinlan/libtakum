@@ -4,7 +4,7 @@
 
 #include <math.h>
 
-long double
+static long double
 power_reference(long double a, long double b)
 {
 	return powl(a, b);

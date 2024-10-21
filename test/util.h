@@ -37,7 +37,6 @@ struct takum_type_parameters {
 	int64_t positive_maximum;
 	int64_t stride_1d;
 	int64_t stride_2d;
-	long double maximum_scaled_relative_error;
 	long double (*int64_takum_to_extended_float)(int64_t);
 	int64_t (*int64_takum_from_extended_float)(long double);
 };

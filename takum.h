@@ -1403,55 +1403,89 @@ takum_linear64 takum_linear64_sech(takum_linear64);
 static inline takum8
 takum8_sign(takum8 t)
 {
-	return (t != 0) * ((t < 0) * UINT8_C(0xc0) + (t >= 0) * UINT8_C(0x40));
+	if (t == TAKUM8_NAR) {
+		return TAKUM8_NAR;
+	} else {
+		return (t != 0) *
+		       ((t < 0) * UINT8_C(0xc0) + (t >= 0) * UINT8_C(0x40));
+	}
 }
 
 static inline takum16
 takum16_sign(takum16 t)
 {
-	return (t != 0) *
-	       ((t < 0) * UINT16_C(0xc000) + (t >= 0) * UINT16_C(0x4000));
+	if (t == TAKUM16_NAR) {
+		return TAKUM16_NAR;
+	} else {
+		return (t != 0) * ((t < 0) * UINT16_C(0xc000) +
+		                   (t >= 0) * UINT16_C(0x4000));
+	}
 }
 
 static inline takum32
 takum32_sign(takum32 t)
 {
-	return (t != 0) * ((t < 0) * UINT32_C(0xc0000000) +
-	                   (t >= 0) * UINT32_C(0x40000000));
+	if (t == TAKUM32_NAR) {
+		return TAKUM32_NAR;
+	} else {
+		return (t != 0) * ((t < 0) * UINT32_C(0xc0000000) +
+		                   (t >= 0) * UINT32_C(0x40000000));
+	}
 }
 
 static inline takum64
 takum64_sign(takum64 t)
 {
-	return (t != 0) * ((t < 0) * UINT64_C(0xc000000000000000) +
-	                   (t >= 0) * UINT64_C(0x4000000000000000));
+	if (t == TAKUM64_NAR) {
+		return TAKUM64_NAR;
+	} else {
+		return (t != 0) * ((t < 0) * UINT64_C(0xc000000000000000) +
+		                   (t >= 0) * UINT64_C(0x4000000000000000));
+	}
 }
 
 static inline takum_linear8
 takum_linear8_sign(takum_linear8 t)
 {
-	return (t != 0) * ((t < 0) * UINT8_C(0xc0) + (t >= 0) * UINT8_C(0x40));
+	if (t == TAKUM_LINEAR8_NAR) {
+		return TAKUM_LINEAR8_NAR;
+	} else {
+		return (t != 0) *
+		       ((t < 0) * UINT8_C(0xc0) + (t >= 0) * UINT8_C(0x40));
+	}
 }
 
 static inline takum_linear16
 takum_linear16_sign(takum_linear16 t)
 {
-	return (t != 0) *
-	       ((t < 0) * UINT16_C(0xc000) + (t >= 0) * UINT16_C(0x4000));
+	if (t == TAKUM_LINEAR16_NAR) {
+		return TAKUM_LINEAR16_NAR;
+	} else {
+		return (t != 0) * ((t < 0) * UINT16_C(0xc000) +
+		                   (t >= 0) * UINT16_C(0x4000));
+	}
 }
 
 static inline takum_linear32
 takum_linear32_sign(takum_linear32 t)
 {
-	return (t != 0) * ((t < 0) * UINT32_C(0xc0000000) +
-	                   (t >= 0) * UINT32_C(0x40000000));
+	if (t == TAKUM_LINEAR32_NAR) {
+		return TAKUM_LINEAR32_NAR;
+	} else {
+		return (t != 0) * ((t < 0) * UINT32_C(0xc0000000) +
+		                   (t >= 0) * UINT32_C(0x40000000));
+	}
 }
 
 static inline takum_linear64
 takum_linear64_sign(takum_linear64 t)
 {
-	return (t != 0) * ((t < 0) * UINT64_C(0xc000000000000000) +
-	                   (t >= 0) * UINT64_C(0x4000000000000000));
+	if (t == TAKUM_LINEAR64_NAR) {
+		return TAKUM_LINEAR64_NAR;
+	} else {
+		return (t != 0) * ((t < 0) * UINT64_C(0xc000000000000000) +
+		                   (t >= 0) * UINT64_C(0x4000000000000000));
+	}
 }
 
 /* Sine */

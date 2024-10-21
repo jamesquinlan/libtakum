@@ -4,10 +4,10 @@
 
 #include <math.h>
 
-long double
+static long double
 csch_reference(long double a)
 {
-	return 1.0L / sinhl(a);
+	return 1.0l / sinhl(a);
 }
 
 static const struct unit_test_block csch_utb = {

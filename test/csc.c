@@ -7,7 +7,7 @@
 long double
 csc_reference(long double a)
 {
-	return 1.0L / sinl(a);
+	return 1.0l / sinl(a);
 }
 
 static const struct unit_test_block csc_utb = {

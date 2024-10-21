@@ -11,7 +11,8 @@
  * returned by csc() is a 'true' infinity. However, even float64 underflows to
  * zero from below.
  */
-#define RESULT_FIXER_MACRO(arg, res) ((res == 0.0) ? -DBL_MIN : (res))
+#define RESULT_FIXER_MACRO(arg, res)                                           \
+	((res == 0.0) ? (arg < 0) ? -DBL_MIN : DBL_MIN : (res))
 
 static long double
 cschl(long double f)

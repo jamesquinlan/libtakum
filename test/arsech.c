@@ -7,7 +7,7 @@
 long double
 arsech_reference(long double a)
 {
-	return acosh(1.0L / a);
+	return acoshl(1.0l / a);
 }
 
 static const struct unit_test_block arsech_utb = {

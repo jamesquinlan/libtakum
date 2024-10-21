@@ -119,7 +119,6 @@ const struct takum_type_parameters takum_type_parameters[] = {
 		.positive_maximum = TAKUM8_POSITIVE_MAXIMUM,
 		.stride_1d        = INT64_C(1),
 		.stride_2d        = INT64_C(1),
-		.maximum_scaled_relative_error = 1e+1l,
 		.int64_takum_to_extended_float = int64_takum8_to_extended_float,
 		.int64_takum_from_extended_float = int64_takum8_from_extended_float,
 	},
@@ -131,7 +130,6 @@ const struct takum_type_parameters takum_type_parameters[] = {
 		.positive_maximum = TAKUM16_POSITIVE_MAXIMUM,
 		.stride_1d        = INT64_C(1),
 		.stride_2d        = (INT64_C(1) << 6) - 1,
-		.maximum_scaled_relative_error = 1e-2l,
 		.int64_takum_to_extended_float = int64_takum16_to_extended_float,
 		.int64_takum_from_extended_float = int64_takum16_from_extended_float,
 	},
@@ -143,7 +141,6 @@ const struct takum_type_parameters takum_type_parameters[] = {
 		.positive_maximum = TAKUM32_POSITIVE_MAXIMUM,
 		.stride_1d        = (INT64_C(1) << 16) - 1,
 		.stride_2d        = (INT64_C(1) << 20) - 1,
-		.maximum_scaled_relative_error = 1e-3l,
 		.int64_takum_to_extended_float = int64_takum32_to_extended_float,
 		.int64_takum_from_extended_float = int64_takum32_from_extended_float,
 	},
@@ -155,7 +152,6 @@ const struct takum_type_parameters takum_type_parameters[] = {
 		.positive_maximum = TAKUM64_POSITIVE_MAXIMUM,
 		.stride_1d        = (INT64_C(1) << 48) - 1,
 		.stride_2d        = (INT64_C(1) << 52) - 1,
-		.maximum_scaled_relative_error = 1e-4l,
 		.int64_takum_to_extended_float = int64_takum64_to_extended_float,
 		.int64_takum_from_extended_float = int64_takum64_from_extended_float,
 	},
@@ -167,7 +163,6 @@ const struct takum_type_parameters takum_type_parameters[] = {
 		.positive_maximum = TAKUM_LINEAR8_POSITIVE_MAXIMUM,
 		.stride_1d        = INT64_C(1),
 		.stride_2d        = INT64_C(1),
-		.maximum_scaled_relative_error = 1e-1l,
 		.int64_takum_to_extended_float = int64_takum_linear8_to_extended_float,
 		.int64_takum_from_extended_float = int64_takum_linear8_from_extended_float,
 	},
@@ -179,7 +174,6 @@ const struct takum_type_parameters takum_type_parameters[] = {
 		.positive_maximum = TAKUM_LINEAR16_POSITIVE_MAXIMUM,
 		.stride_1d        = INT64_C(1),
 		.stride_2d        = (INT64_C(1) << 6) - 1,
-		.maximum_scaled_relative_error = 1e-2l,
 		.int64_takum_to_extended_float = int64_takum_linear16_to_extended_float,
 		.int64_takum_from_extended_float = int64_takum_linear16_from_extended_float,
 	},
@@ -191,7 +185,6 @@ const struct takum_type_parameters takum_type_parameters[] = {
 		.positive_maximum = TAKUM_LINEAR32_POSITIVE_MAXIMUM,
 		.stride_1d        = (INT64_C(1) << 16) - 1,
 		.stride_2d        = (INT64_C(1) << 20) - 1,
-		.maximum_scaled_relative_error = 1e-3l,
 		.int64_takum_to_extended_float = int64_takum_linear32_to_extended_float,
 		.int64_takum_from_extended_float = int64_takum_linear32_from_extended_float,
 	},
@@ -203,7 +196,6 @@ const struct takum_type_parameters takum_type_parameters[] = {
 		.positive_maximum = TAKUM_LINEAR64_POSITIVE_MAXIMUM,
 		.stride_1d        = (INT64_C(1) << 48) - 1,
 		.stride_2d        = (INT64_C(1) << 52) - 1,
-		.maximum_scaled_relative_error = 1e-4l,
 		.int64_takum_to_extended_float = int64_takum_linear64_to_extended_float,
 		.int64_takum_from_extended_float = int64_takum_linear64_from_extended_float,
 	},
@@ -268,7 +260,7 @@ evaluate_reference_function(const struct unit_test_block *utb, int64_t a,
 	 * reference_output
 	 */
 	if (fetestexcept(FE_UNDERFLOW) && raw_output_extended_float == 0.0) {
-		if (signbit(raw_output_extended_float) == 1) {
+		if (signbit(raw_output_extended_float)) {
 			return -takum_type_parameters[takum_type]
 			                .positive_minimum;
 		} else {
@@ -279,6 +271,14 @@ evaluate_reference_function(const struct unit_test_block *utb, int64_t a,
 		if (raw_output_extended_float > 0.0) {
 			return takum_type_parameters[takum_type]
 			        .positive_maximum;
+		} else if (raw_output_extended_float == 0.0) {
+			if (signbit(raw_output_extended_float)) {
+				return -takum_type_parameters[takum_type]
+				                .positive_minimum;
+			} else {
+				return takum_type_parameters[takum_type]
+				        .positive_minimum;
+			}
 		} else {
 			return -takum_type_parameters[takum_type]
 			                .positive_maximum;
@@ -290,23 +290,12 @@ evaluate_reference_function(const struct unit_test_block *utb, int64_t a,
 	}
 }
 
-static long double
-get_scaled_relative_error(long double exact, long double rounded, long double a,
-                          long double b)
-{
-	long double maximum_input = MAX(fabsl(a), fabsl(b));
-
-	return fabsl(exact - rounded) /
-	       (fabsl(exact) * (1 + fabsl(maximum_input)));
-}
-
 int
 check_unary_binary_case(const struct unit_test_block *utb, int64_t a, int64_t b,
                         enum takum_type takum_type, size_t test_number)
 {
 	int64_t reference_output = 0, output = 1;
 	bool failed = true;
-	long double scaled_relative_error;
 
 	switch (utb->type) {
 	case UNIT_TEST_BLOCK_TYPE_ROUNDTRIP:
@@ -562,26 +551,13 @@ check_unary_binary_case(const struct unit_test_block *utb, int64_t a, int64_t b,
 	case UNIT_TEST_BLOCK_TYPE_TAKUM_INT64_TAKUM:
 	case UNIT_TEST_BLOCK_TYPE_TAKUM_TAKUM:
 	case UNIT_TEST_BLOCK_TYPE_TAKUM_TAKUM_TAKUM:
-		scaled_relative_error = get_scaled_relative_error(
-			takum_type_parameters[takum_type]
-				.int64_takum_to_extended_float(
-					reference_output),
-			takum_type_parameters[takum_type]
-				.int64_takum_to_extended_float(output),
-			takum_type_parameters[takum_type]
-				.int64_takum_to_extended_float(a),
-			0.0L);
-
-		failed = (scaled_relative_error >
-		          takum_type_parameters[takum_type]
-		                  .maximum_scaled_relative_error);
-
-		/*
-		 * If we failed but the sign is only flipped, we assume
-		 * correctness
-		 */
-		if (failed && reference_output == -output) {
-			failed = 0;
+		/* we allow deviation by 1 LULP */
+		if (output != reference_output &&
+		    output != reference_output + 1 &&
+		    output != reference_output - 1) {
+			failed = true;
+		} else {
+			failed = false;
 		}
 
 		break;
@@ -596,21 +572,25 @@ check_unary_binary_case(const struct unit_test_block *utb, int64_t a, int64_t b,
 		case UNIT_TEST_BLOCK_TYPE_ROUNDTRIP:
 			fprintf(stderr,
 			        "%s: %s_%s: Failed unit test %zu "
-			        "(roundtrip of %.20Le returned %.20Le)\n",
+			        "(roundtrip of %.20Le(%" PRIi64
+			        ") returned %.20Le(%" PRIi64 "))\n",
 			        argv0, takum_type_parameters[takum_type].name,
 			        utb->function_name, test_number,
 			        takum_type_parameters[takum_type]
 			                .int64_takum_to_extended_float(a),
+			        a,
 			        takum_type_parameters[takum_type]
-			                .int64_takum_to_extended_float(output));
+			                .int64_takum_to_extended_float(output),
+			        output);
 			break;
 		case UNIT_TEST_BLOCK_TYPE_TAKUM_INT64_TAKUM:
 			fprintf(stderr,
 			        "%s: %s_%s: Failed unit test %zu "
-			        "(%s_%s(%.20Le, %" PRIi64 ") returned %.20Le "
+			        "(%s_%s(%.20Le, %" PRIi64
+			        ") returned %.20Le(%" PRIi64 ") "
 			        "instead "
 			        "of "
-			        "%.20Le)\n",
+			        "%.20Le(%" PRIi64 "))\n",
 			        argv0, takum_type_parameters[takum_type].name,
 			        utb->function_name, test_number,
 			        takum_type_parameters[takum_type].name,
@@ -620,17 +600,19 @@ check_unary_binary_case(const struct unit_test_block *utb, int64_t a, int64_t b,
 			        b,
 			        takum_type_parameters[takum_type]
 			                .int64_takum_to_extended_float(output),
+			        output,
 			        takum_type_parameters[takum_type]
 			                .int64_takum_to_extended_float(
-						reference_output));
+						reference_output),
+			        reference_output);
 			break;
 		case UNIT_TEST_BLOCK_TYPE_TAKUM_TAKUM:
 			fprintf(stderr,
 			        "%s: %s_%s: Failed unit test %zu "
-			        "(%s_%s(%.20Le) returned %.20Le "
+			        "(%s_%s(%.20Le) returned %.20Le(%" PRIi64 ") "
 			        "instead "
 			        "of "
-			        "%.20Le)\n",
+			        "%.20Le(%" PRIi64 "))\n",
 			        argv0, takum_type_parameters[takum_type].name,
 			        utb->function_name, test_number,
 			        takum_type_parameters[takum_type].name,
@@ -639,17 +621,20 @@ check_unary_binary_case(const struct unit_test_block *utb, int64_t a, int64_t b,
 			                .int64_takum_to_extended_float(a),
 			        takum_type_parameters[takum_type]
 			                .int64_takum_to_extended_float(output),
+			        output,
 			        takum_type_parameters[takum_type]
 			                .int64_takum_to_extended_float(
-						reference_output));
+						reference_output),
+			        reference_output);
 			break;
 		case UNIT_TEST_BLOCK_TYPE_TAKUM_TAKUM_TAKUM:
 			fprintf(stderr,
 			        "%s: %s_%s: Failed unit test %zu "
-			        "(%s_%s(%.20Le, %.20Le) returned %.20Le "
+			        "(%s_%s(%.20Le, %.20Le) returned "
+			        "%.20Le(%" PRIi64 ") "
 			        "instead "
 			        "of "
-			        "%.20Le)\n",
+			        "%.20Le(%" PRIi64 "))\n",
 			        argv0, takum_type_parameters[takum_type].name,
 			        utb->function_name, test_number,
 			        takum_type_parameters[takum_type].name,
@@ -660,9 +645,11 @@ check_unary_binary_case(const struct unit_test_block *utb, int64_t a, int64_t b,
 			                .int64_takum_to_extended_float(b),
 			        takum_type_parameters[takum_type]
 			                .int64_takum_to_extended_float(output),
+			        output,
 			        takum_type_parameters[takum_type]
 			                .int64_takum_to_extended_float(
-						reference_output));
+						reference_output),
+			        reference_output);
 			break;
 		case UNIT_TEST_BLOCK_TYPE_TAKUM_UINT8:
 			fprintf(stderr,

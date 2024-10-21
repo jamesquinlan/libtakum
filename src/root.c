@@ -24,7 +24,7 @@
 takum8
 takum8_root(takum8 t, int64_t n)
 {
-	if (t == 0 || (t < 0 && n % 2 == 0) || (t == 0 && n < 0)) {
+	if (n == 0 || (t < 0 && n % 2 == 0) || (t == 0 && n < 0)) {
 		return TAKUM8_NAR;
 	} else {
 		return codec_takum8_from_s_and_l((t < 0),
