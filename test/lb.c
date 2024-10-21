@@ -29,7 +29,7 @@ static const struct unit_test_block lb_utb = {
 long double
 lb_1_plus_reference(long double a)
 {
-	return log2l(1.0L + a);
+	return LB_E * log1pl(a);
 }
 
 static const struct unit_test_block lb_1_plus_utb = {
