@@ -215,6 +215,105 @@ codec_takum64_to_l(takum64 t)
 #endif
 }
 
+/*
+ * For linear takums, instead of duplicating all the machinery,
+ * we simply treat a linear takum as a logarithmic one: We obtain c and
+ * m from the logarithmic value l and compute f and e, which are then
+ * converted to g and h as in Algorithm 5 from the takum paper, yielding
+ * the final floating point.
+ */
+double
+codec_s_and_linear_l_to_float64(bool s, double l)
+{
+	double cpm, m, f, g;
+	int16_t c, e, h;
+
+	/* catch special cases */
+	if (isnan(l) || (isinf(l) && l > 0.0)) {
+		return NAN;
+	} else if (isinf(l) && l < 0.0) {
+		return 0.0;
+	}
+
+	/* obtain c and m from l */
+	cpm = (s == 0) ? l : -l;
+	c = floor(cpm);
+	m = cpm - c;
+
+	/* m could have overflowed to 1.0 */
+	if (m == 1.0) {
+		c += 1;
+		m = 0.0;
+	}
+
+	/* convert c and m to f and e */
+	f = m;
+	e = (1 - 2 * s) * (c + s);
+
+	/* convert f and e to g and h as in Algorithm 5 */
+	if (s == 0) {
+		h = e;
+		g = f;
+	} else {
+		if (f == 0.0) {
+			h = e + 1;
+			g = 0.0;
+		} else {
+			h = e;
+			g = 1.0 - f;
+		}
+	}
+
+	/* (-1)^s (1 + g) 2^h is our final floating-point number */
+	return (1 - 2 * s) * ldexp(1.0 + g, h);
+}
+
+long double
+codec_s_and_linear_l_to_extended_float(bool s, long double l)
+{
+	long double cpm, m, f, g;
+	int16_t c, e, h;
+
+	/* catch special cases */
+	if (isnan(l) || (isinf(l) && l > 0.0l)) {
+		return NAN;
+	} else if (isinf(l) && l < 0.0l) {
+		return 0.0;
+	}
+
+	/* obtain c and m from l */
+	cpm = (s == 0) ? l : -l;
+	c = floorl(cpm);
+	m = cpm - c;
+
+	/* m could have overflowed to 1.0 */
+	if (m == 1.0l) {
+		c += 1;
+		m = 0.0l;
+	}
+
+	/* convert c and m to f and e */
+	f = m;
+	e = (1 - 2 * s) * (c + s);
+
+	/* convert f and e to g and h as in Algorithm 5 */
+	if (s == 0) {
+		h = e;
+		g = f;
+	} else {
+		if (f == 0.0l) {
+			h = e + 1;
+			g = 0.0l;
+		} else {
+			h = e;
+			g = 1.0l - f;
+		}
+	}
+
+	/* (-1)^s (1 + g) 2^h is our final floating-point number */
+	return (1 - 2 * s) * ldexpl(1.0l + g, h);
+}
+
 static uint_fast8_t
 get_DR_from_c(int_fast16_t c)
 {
@@ -485,6 +584,177 @@ extended_float_fraction_to_rounded_bits(long double f, uint_fast8_t num_bits,
 	}
 
 	return F;
+}
+
+/*
+ * For the linear takums we abuse the encoder a bit by creating a
+ * 'fake' linear l. In the end l is just (-1)^s (c+m), so if we just
+ * get c and m from f and e, which in turn are derived from g and h
+ * via Algorithm 4 in the takum paper.
+ */
+float
+codec_linear_l_from_float32(float f)
+{
+	bool s;
+	float g, m;
+	int h;
+	int16_t c;
+
+	/* catch special cases */
+	if (isnan(f) || isinf(f)) {
+		return NAN;
+	} else if (f == 0.0f) {
+		return -INFINITY;
+	}
+
+	/* first extract sign and absolutise f */
+	if (f < 0.0f) {
+		s = 1;
+		f = -f;
+	} else {
+		s = 0;
+	}
+
+	/* convert f to fractional and integral components */
+	g = frexpf(f, &h);
+
+	/*
+	 * g is in range [0.5,1), so we multiply it by 2 and likewise
+	 * decrement h to obtain g in the range [1,2). Then we subtract
+	 * 1.0 to obtain the final g in the range [0,1)
+	 */
+	g = 2 * g - 1.0f;
+	h--;
+
+	/*
+	 * the number has the form (-1)^s (1+g) 2^h. Use Algorithm 4
+	 * in the takum paper to obtain c and m (which is equal to f)
+	 */
+	if (s == 0) {
+		c = h;
+		m = g;
+	} else {
+		if (g == 0.0f) {
+			c = -h;
+			m = 0.0f;
+		} else {
+			c = -h - 1;
+			m = 1.0f - g;
+		}
+	}
+
+	/* l is (-1)^s (c+m) */
+	return (1 - 2 * s) * (c + m);
+}
+
+double
+codec_linear_l_from_float64(double f)
+{
+	bool s;
+	double g, m;
+	int h;
+	int16_t c;
+
+	/* catch special cases */
+	if (isnan(f) || isinf(f)) {
+		return NAN;
+	} else if (f == 0.0) {
+		return -INFINITY;
+	}
+
+	/* first extract sign and absolutise f */
+	if (f < 0.0) {
+		s = 1;
+		f = -f;
+	} else {
+		s = 0;
+	}
+
+	/* convert f to fractional and integral components */
+	g = frexp(f, &h);
+
+	/*
+	 * g is in range [0.5,1), so we multiply it by 2 and likewise
+	 * decrement h to obtain g in the range [1,2). Then we subtract
+	 * 1.0 to obtain the final g in the range [0,1)
+	 */
+	g = 2 * g - 1.0;
+	h--;
+
+	/*
+	 * the number has the form (-1)^s (1+g) 2^h. Use Algorithm 4
+	 * in the takum paper to obtain c and m (which is equal to f)
+	 */
+	if (s == 0) {
+		c = h;
+		m = g;
+	} else {
+		if (g == 0.0) {
+			c = -h;
+			m = 0.0;
+		} else {
+			c = -h - 1;
+			m = 1.0 - g;
+		}
+	}
+
+	/* l is (-1)^s (c+m) */
+	return (1 - 2 * s) * (c + m);
+}
+
+long double
+codec_linear_l_from_extended_float(long double f)
+{
+	bool s;
+	long double g, m;
+	int h;
+	int16_t c;
+
+	/* catch special cases */
+	if (isnan(f) || isinf(f)) {
+		return NAN;
+	} else if (f == 0.0l) {
+		return -INFINITY;
+	}
+
+	/* first extract sign and absolutise f */
+	if (f < 0.0l) {
+		s = 1;
+		f = -f;
+	} else {
+		s = 0;
+	}
+
+	/* convert f to fractional and integral components */
+	g = frexpl(f, &h);
+
+	/*
+	 * g is in range [0.5,1), so we multiply it by 2 and likewise
+	 * decrement h to obtain g in the range [1,2). Then we subtract
+	 * 1.0 to obtain the final g in the range [0,1)
+	 */
+	g = 2 * g - 1.0l;
+	h--;
+
+	/*
+	 * the number has the form (-1)^s (1+g) 2^h. Use Algorithm 4
+	 * in the takum paper to obtain c and m (which is equal to f)
+	 */
+	if (s == 0) {
+		c = h;
+		m = g;
+	} else {
+		if (g == 0.0l) {
+			c = -h;
+			m = 0.0l;
+		} else {
+			c = -h - 1;
+			m = 1.0l - g;
+		}
+	}
+
+	/* l is (-1)^s (c+m) */
+	return (1 - 2 * s) * (c + m);
 }
 
 takum8

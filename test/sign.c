@@ -16,13 +16,17 @@ sign_reference(long double a)
 
 static const struct unit_test_block sign_utb = {
 	.type = UNIT_TEST_BLOCK_TYPE_TAKUM_TAKUM,
-	.function_name = "absolute",
+	.function_name = "sign",
 	.data.takum_takum = {
 		.reference_function = sign_reference,
 		.takum8_function    = takum8_sign,
 		.takum16_function   = takum16_sign,
 		.takum32_function   = takum32_sign,
 		.takum64_function   = takum64_sign,
+		.takum_linear8_function    = takum_linear8_sign,
+		.takum_linear16_function   = takum_linear16_sign,
+		.takum_linear32_function   = takum_linear32_sign,
+		.takum_linear64_function   = takum_linear64_sign,
 	},
 };
 

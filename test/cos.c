@@ -19,6 +19,11 @@ static const struct unit_test_block cos_utb = {
 		.takum16_function   = takum16_cos,
 		.takum32_function   = takum32_cos,
 		.takum64_function   = takum64_cos,
+		.takum_linear8_function    = takum_linear8_cos,
+		.takum_linear16_function   = takum_linear16_cos,
+		.takum_linear32_function   = takum_linear32_cos,
+		.takum_linear64_function   = takum_linear64_cos,
+
 	},
 };
 
@@ -37,6 +42,10 @@ static const struct unit_test_block cos_pi_times_utb = {
 		.takum16_function   = takum16_cos_pi_times,
 		.takum32_function   = takum32_cos_pi_times,
 		.takum64_function   = takum64_cos_pi_times,
+		.takum_linear8_function    = takum_linear8_cos_pi_times,
+		.takum_linear16_function   = takum_linear16_cos_pi_times,
+		.takum_linear32_function   = takum_linear32_cos_pi_times,
+		.takum_linear64_function   = takum_linear64_cos_pi_times,
 	},
 };
 

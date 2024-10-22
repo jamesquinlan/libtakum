@@ -44,3 +44,21 @@ takum64_multiplication(takum64 a, takum64 b)
 	                                  codec_takum64_to_l(a) +
 	                                          codec_takum64_to_l(b));
 }
+
+/* no need to fix the result */
+#define RESULT_FIXER_MACRO(a, b, res) (res)
+
+static double
+multiplication(double a, double b)
+{
+	return a * b;
+}
+
+static long double
+multiplicationl(long double a, long double b)
+{
+	return a * b;
+}
+
+UTIL_BINARY_FLOAT_TAKUM_LINEAR_WRAPPER(multiplication, multiplication,
+                                       RESULT_FIXER_MACRO)

@@ -40,6 +40,24 @@ precision_reference(long double a, enum takum_type takum_type)
 		case TAKUM64:
 			t.value = (int64_t)takum64_from_extended_float(a);
 			break;
+		case TAKUM_LINEAR8:
+			t.value = (int64_t)takum_linear8_from_extended_float(a);
+			t.bits <<= 56;
+			break;
+		case TAKUM_LINEAR16:
+			t.value =
+				(int64_t)takum_linear16_from_extended_float(a);
+			t.bits <<= 48;
+			break;
+		case TAKUM_LINEAR32:
+			t.value =
+				(int64_t)takum_linear32_from_extended_float(a);
+			t.bits <<= 32;
+			break;
+		case TAKUM_LINEAR64:
+			t.value =
+				(int64_t)takum_linear64_from_extended_float(a);
+			break;
 		}
 
 		/* get the prefix */
@@ -69,6 +87,10 @@ static const struct unit_test_block precision_utb = {
 		.takum16_function   = takum16_precision,
 		.takum32_function   = takum32_precision,
 		.takum64_function   = takum64_precision,
+		.takum_linear8_function    = takum_linear8_precision,
+		.takum_linear16_function   = takum_linear16_precision,
+		.takum_linear32_function   = takum_linear32_precision,
+		.takum_linear64_function   = takum_linear64_precision,
 	},
 };
 

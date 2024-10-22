@@ -8,4 +8,5 @@
 #define RESULT_FIXER_MACRO(arg, res)                                           \
 	(isinf(res) ? ((res) >= 0.0) ? DBL_MAX : -DBL_MAX : (res))
 
-UTIL_UNARY_FLOAT_WRAPPER(arsinh, asinh, RESULT_FIXER_MACRO)
+UTIL_UNARY_FLOAT_TAKUM_WRAPPER(arsinh, asinh, RESULT_FIXER_MACRO)
+UTIL_UNARY_FLOAT_TAKUM_LINEAR_WRAPPER(arsinh, asinh, RESULT_FIXER_MACRO)

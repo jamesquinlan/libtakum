@@ -5,26 +5,20 @@
 
 #include "../takum.h"
 
-takum8
-takum8_coth(takum8 t)
+/* no need to fix the result, as we do not overflow near the poles */
+#define RESULT_FIXER_MACRO(arg, res) (res)
+
+static long double
+cothl(long double f)
 {
-	return takum8_inversion(takum8_tanh(t));
+	return 1.0l / tanhl(f);
 }
 
-takum16
-takum16_coth(takum16 t)
+static double
+coth(double f)
 {
-	return takum16_inversion(takum16_tanh(t));
+	return (double)cothl((long double)f);
 }
 
-takum32
-takum32_coth(takum32 t)
-{
-	return takum32_inversion(takum32_tanh(t));
-}
-
-takum64
-takum64_coth(takum64 t)
-{
-	return takum64_inversion(takum64_tanh(t));
-}
+UTIL_UNARY_FLOAT_TAKUM_WRAPPER(coth, coth, RESULT_FIXER_MACRO)
+UTIL_UNARY_FLOAT_TAKUM_LINEAR_WRAPPER(coth, coth, RESULT_FIXER_MACRO)

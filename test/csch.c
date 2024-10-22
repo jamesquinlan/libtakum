@@ -4,10 +4,10 @@
 
 #include <math.h>
 
-long double
+static long double
 csch_reference(long double a)
 {
-	return 1.0L / sinhl(a);
+	return 1.0l / sinhl(a);
 }
 
 static const struct unit_test_block csch_utb = {
@@ -19,6 +19,10 @@ static const struct unit_test_block csch_utb = {
 		.takum16_function   = takum16_csch,
 		.takum32_function   = takum32_csch,
 		.takum64_function   = takum64_csch,
+		.takum_linear8_function    = takum_linear8_csch,
+		.takum_linear16_function   = takum_linear16_csch,
+		.takum_linear32_function   = takum_linear32_csch,
+		.takum_linear64_function   = takum_linear64_csch,
 	},
 };
 

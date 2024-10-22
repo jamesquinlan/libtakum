@@ -15,23 +15,20 @@
 #define RESULT_FIXER_MACRO(arg, res)                                           \
 	((isinf(res) && (res) > 0.0) ? DBL_MAX : (res))
 
-UTIL_UNARY_FLOAT_WRAPPER(lb, log2, RESULT_FIXER_MACRO)
-
-/*
- * This implementation is a bit of a hack by extending the arguments to long
- * double, however this is not enough to always get correct results as you would
- * need around 512 fraction bits to cover all cases.
- */
-static double
-log21p(double f)
-{
-	return (double)log2l(1.0L + (long double)f);
-}
+UTIL_UNARY_FLOAT_TAKUM_WRAPPER(lb, log2, RESULT_FIXER_MACRO)
+UTIL_UNARY_FLOAT_TAKUM_LINEAR_WRAPPER(lb, log2, RESULT_FIXER_MACRO)
 
 static long double
-log21pl(long double f)
+lb_1_plusl(long double f)
 {
-	return log2l(1.0L + (long double)f);
+	return LB_E * log1pl(f);
 }
 
-UTIL_UNARY_FLOAT_WRAPPER(lb_1_plus, log21p, RESULT_FIXER_MACRO)
+static double
+lb_1_plus(double f)
+{
+	return (double)lb_1_plusl((long double)f);
+}
+
+UTIL_UNARY_FLOAT_TAKUM_WRAPPER(lb_1_plus, lb_1_plus, RESULT_FIXER_MACRO)
+UTIL_UNARY_FLOAT_TAKUM_LINEAR_WRAPPER(lb_1_plus, lb_1_plus, RESULT_FIXER_MACRO)

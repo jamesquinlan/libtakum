@@ -1,3 +1,3 @@
-export BIT_COUNT="32"
+export TAKUM_TYPE_SUFFIX="32"
 
 $SH man/takum64_precision.sh

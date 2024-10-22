@@ -12,79 +12,11 @@ struct {
 	takum16 takum16_value;
 	takum32 takum32_value;
 	takum64 takum64_value;
+	takum_linear8 takum_linear8_value;
+	takum_linear16 takum_linear16_value;
+	takum_linear32 takum_linear32_value;
+	takum_linear64 takum_linear64_value;
 } constant_tests[] = {
-	{
-		.name = "γ",
-		.value = 0.5772156649015328606065120900824024310422L,
-		.takum8_value = TAKUM8_GAMMA,
-		.takum16_value = TAKUM16_GAMMA,
-		.takum32_value = TAKUM32_GAMMA,
-		.takum64_value = TAKUM64_GAMMA,
-	},
-	{
-		.name = "lb(10)",
-		.value = 3.3219280948873623478703194294893901758648L,
-		.takum8_value = TAKUM8_LB_10,
-		.takum16_value = TAKUM16_LB_10,
-		.takum32_value = TAKUM32_LB_10,
-		.takum64_value = TAKUM64_LB_10,
-	},
-	{
-		.name = "lb(e)",
-		.value = 1.4426950408889634073599246810018921374266L,
-		.takum8_value = TAKUM8_LB_E,
-		.takum16_value = TAKUM16_LB_E,
-		.takum32_value = TAKUM32_LB_E,
-		.takum64_value = TAKUM64_LB_E,
-	},
-	{
-		.name = "lg(2)",
-		.value = 0.3010299956639811952137388947244930267682L,
-		.takum8_value = TAKUM8_LG_2,
-		.takum16_value = TAKUM16_LG_2,
-		.takum32_value = TAKUM32_LG_2,
-		.takum64_value = TAKUM64_LG_2,
-	},
-	{
-		.name = "lg(e)",
-		.value = 0.4342944819032518276511289189166050822944L,
-		.takum8_value = TAKUM8_LG_E,
-		.takum16_value = TAKUM16_LG_E,
-		.takum32_value = TAKUM32_LG_E,
-		.takum64_value = TAKUM64_LG_E,
-	},
-	{
-		.name = "ln(10)",
-		.value = 2.3025850929940456840179914546843642076011L,
-		.takum8_value = TAKUM8_LN_10,
-		.takum16_value = TAKUM16_LN_10,
-		.takum32_value = TAKUM32_LN_10,
-		.takum64_value = TAKUM64_LN_10,
-	},
-	{
-		.name = "ln(2)",
-		.value = 0.6931471805599453094172321214581765680755L,
-		.takum8_value = TAKUM8_LN_2,
-		.takum16_value = TAKUM16_LN_2,
-		.takum32_value = TAKUM32_LN_2,
-		.takum64_value = TAKUM64_LN_2,
-	},
-	{
-		.name = "1",
-		.value = 1.0L,
-		.takum8_value = TAKUM8_ONE,
-		.takum16_value = TAKUM16_ONE,
-		.takum32_value = TAKUM32_ONE,
-		.takum64_value = TAKUM64_ONE,
-	},
-	{
-		.name = "φ",
-		.value = 1.6180339887498948482045868343656381177203L,
-		.takum8_value = TAKUM8_PHI,
-		.takum16_value = TAKUM16_PHI,
-		.takum32_value = TAKUM32_PHI,
-		.takum64_value = TAKUM64_PHI,
-	},
 	{
 		.name = "2π",
 		.value = 6.2831853071795864769252867665590057683943L,
@@ -92,6 +24,10 @@ struct {
 		.takum16_value = TAKUM16_2_PI,
 		.takum32_value = TAKUM32_2_PI,
 		.takum64_value = TAKUM64_2_PI,
+		.takum_linear8_value = TAKUM_LINEAR8_2_PI,
+		.takum_linear16_value = TAKUM_LINEAR16_2_PI,
+		.takum_linear32_value = TAKUM_LINEAR32_2_PI,
+		.takum_linear64_value = TAKUM_LINEAR64_2_PI,
 	},
 	{
 		.name = "2π/3",
@@ -100,6 +36,10 @@ struct {
 		.takum16_value = TAKUM16_2_PI_OVER_3,
 		.takum32_value = TAKUM32_2_PI_OVER_3,
 		.takum64_value = TAKUM64_2_PI_OVER_3,
+		.takum_linear8_value = TAKUM_LINEAR8_2_PI_OVER_3,
+		.takum_linear16_value = TAKUM_LINEAR16_2_PI_OVER_3,
+		.takum_linear32_value = TAKUM_LINEAR32_2_PI_OVER_3,
+		.takum_linear64_value = TAKUM_LINEAR64_2_PI_OVER_3,
 	},
 	{
 		.name = "2π/5",
@@ -108,6 +48,10 @@ struct {
 		.takum16_value = TAKUM16_2_PI_OVER_5,
 		.takum32_value = TAKUM32_2_PI_OVER_5,
 		.takum64_value = TAKUM64_2_PI_OVER_5,
+		.takum_linear8_value = TAKUM_LINEAR8_2_PI_OVER_5,
+		.takum_linear16_value = TAKUM_LINEAR16_2_PI_OVER_5,
+		.takum_linear32_value = TAKUM_LINEAR32_2_PI_OVER_5,
+		.takum_linear64_value = TAKUM_LINEAR64_2_PI_OVER_5,
 	},
 	{
 		.name = "3π",
@@ -116,6 +60,10 @@ struct {
 		.takum16_value = TAKUM16_3_PI,
 		.takum32_value = TAKUM32_3_PI,
 		.takum64_value = TAKUM64_3_PI,
+		.takum_linear8_value = TAKUM_LINEAR8_3_PI,
+		.takum_linear16_value = TAKUM_LINEAR16_3_PI,
+		.takum_linear32_value = TAKUM_LINEAR32_3_PI,
+		.takum_linear64_value = TAKUM_LINEAR64_3_PI,
 	},
 	{
 		.name = "3π/2",
@@ -124,6 +72,10 @@ struct {
 		.takum16_value = TAKUM16_3_PI_OVER_2,
 		.takum32_value = TAKUM32_3_PI_OVER_2,
 		.takum64_value = TAKUM64_3_PI_OVER_2,
+		.takum_linear8_value = TAKUM_LINEAR8_3_PI_OVER_2,
+		.takum_linear16_value = TAKUM_LINEAR16_3_PI_OVER_2,
+		.takum_linear32_value = TAKUM_LINEAR32_3_PI_OVER_2,
+		.takum_linear64_value = TAKUM_LINEAR64_3_PI_OVER_2,
 	},
 	{
 		.name = "3π/4",
@@ -132,6 +84,10 @@ struct {
 		.takum16_value = TAKUM16_3_PI_OVER_4,
 		.takum32_value = TAKUM32_3_PI_OVER_4,
 		.takum64_value = TAKUM64_3_PI_OVER_4,
+		.takum_linear8_value = TAKUM_LINEAR8_3_PI_OVER_4,
+		.takum_linear16_value = TAKUM_LINEAR16_3_PI_OVER_4,
+		.takum_linear32_value = TAKUM_LINEAR32_3_PI_OVER_4,
+		.takum_linear64_value = TAKUM_LINEAR64_3_PI_OVER_4,
 	},
 	{
 		.name = "3π/5",
@@ -140,6 +96,10 @@ struct {
 		.takum16_value = TAKUM16_3_PI_OVER_5,
 		.takum32_value = TAKUM32_3_PI_OVER_5,
 		.takum64_value = TAKUM64_3_PI_OVER_5,
+		.takum_linear8_value = TAKUM_LINEAR8_3_PI_OVER_5,
+		.takum_linear16_value = TAKUM_LINEAR16_3_PI_OVER_5,
+		.takum_linear32_value = TAKUM_LINEAR32_3_PI_OVER_5,
+		.takum_linear64_value = TAKUM_LINEAR64_3_PI_OVER_5,
 	},
 	{
 		.name = "4π",
@@ -148,6 +108,10 @@ struct {
 		.takum16_value = TAKUM16_4_PI,
 		.takum32_value = TAKUM32_4_PI,
 		.takum64_value = TAKUM64_4_PI,
+		.takum_linear8_value = TAKUM_LINEAR8_4_PI,
+		.takum_linear16_value = TAKUM_LINEAR16_4_PI,
+		.takum_linear32_value = TAKUM_LINEAR32_4_PI,
+		.takum_linear64_value = TAKUM_LINEAR64_4_PI,
 	},
 	{
 		.name = "4π/3",
@@ -156,6 +120,10 @@ struct {
 		.takum16_value = TAKUM16_4_PI_OVER_3,
 		.takum32_value = TAKUM32_4_PI_OVER_3,
 		.takum64_value = TAKUM64_4_PI_OVER_3,
+		.takum_linear8_value = TAKUM_LINEAR8_4_PI_OVER_3,
+		.takum_linear16_value = TAKUM_LINEAR16_4_PI_OVER_3,
+		.takum_linear32_value = TAKUM_LINEAR32_4_PI_OVER_3,
+		.takum_linear64_value = TAKUM_LINEAR64_4_PI_OVER_3,
 	},
 	{
 		.name = "4π/5",
@@ -164,6 +132,10 @@ struct {
 		.takum16_value = TAKUM16_4_PI_OVER_5,
 		.takum32_value = TAKUM32_4_PI_OVER_5,
 		.takum64_value = TAKUM64_4_PI_OVER_5,
+		.takum_linear8_value = TAKUM_LINEAR8_4_PI_OVER_5,
+		.takum_linear16_value = TAKUM_LINEAR16_4_PI_OVER_5,
+		.takum_linear32_value = TAKUM_LINEAR32_4_PI_OVER_5,
+		.takum_linear64_value = TAKUM_LINEAR64_4_PI_OVER_5,
 	},
 	{
 		.name = "5π",
@@ -172,6 +144,10 @@ struct {
 		.takum16_value = TAKUM16_5_PI,
 		.takum32_value = TAKUM32_5_PI,
 		.takum64_value = TAKUM64_5_PI,
+		.takum_linear8_value = TAKUM_LINEAR8_5_PI,
+		.takum_linear16_value = TAKUM_LINEAR16_5_PI,
+		.takum_linear32_value = TAKUM_LINEAR32_5_PI,
+		.takum_linear64_value = TAKUM_LINEAR64_5_PI,
 	},
 	{
 		.name = "5π/2",
@@ -180,6 +156,10 @@ struct {
 		.takum16_value = TAKUM16_5_PI_OVER_2,
 		.takum32_value = TAKUM32_5_PI_OVER_2,
 		.takum64_value = TAKUM64_5_PI_OVER_2,
+		.takum_linear8_value = TAKUM_LINEAR8_5_PI_OVER_2,
+		.takum_linear16_value = TAKUM_LINEAR16_5_PI_OVER_2,
+		.takum_linear32_value = TAKUM_LINEAR32_5_PI_OVER_2,
+		.takum_linear64_value = TAKUM_LINEAR64_5_PI_OVER_2,
 	},
 	{
 		.name = "5π/3",
@@ -188,6 +168,10 @@ struct {
 		.takum16_value = TAKUM16_5_PI_OVER_3,
 		.takum32_value = TAKUM32_5_PI_OVER_3,
 		.takum64_value = TAKUM64_5_PI_OVER_3,
+		.takum_linear8_value = TAKUM_LINEAR8_5_PI_OVER_3,
+		.takum_linear16_value = TAKUM_LINEAR16_5_PI_OVER_3,
+		.takum_linear32_value = TAKUM_LINEAR32_5_PI_OVER_3,
+		.takum_linear64_value = TAKUM_LINEAR64_5_PI_OVER_3,
 	},
 	{
 		.name = "5π/4",
@@ -196,6 +180,10 @@ struct {
 		.takum16_value = TAKUM16_5_PI_OVER_4,
 		.takum32_value = TAKUM32_5_PI_OVER_4,
 		.takum64_value = TAKUM64_5_PI_OVER_4,
+		.takum_linear8_value = TAKUM_LINEAR8_5_PI_OVER_4,
+		.takum_linear16_value = TAKUM_LINEAR16_5_PI_OVER_4,
+		.takum_linear32_value = TAKUM_LINEAR32_5_PI_OVER_4,
+		.takum_linear64_value = TAKUM_LINEAR64_5_PI_OVER_4,
 	},
 	{
 		.name = "5π/6",
@@ -204,6 +192,10 @@ struct {
 		.takum16_value = TAKUM16_5_PI_OVER_6,
 		.takum32_value = TAKUM32_5_PI_OVER_6,
 		.takum64_value = TAKUM64_5_PI_OVER_6,
+		.takum_linear8_value = TAKUM_LINEAR8_5_PI_OVER_6,
+		.takum_linear16_value = TAKUM_LINEAR16_5_PI_OVER_6,
+		.takum_linear32_value = TAKUM_LINEAR32_5_PI_OVER_6,
+		.takum_linear64_value = TAKUM_LINEAR64_5_PI_OVER_6,
 	},
 	{
 		.name = "6π",
@@ -212,6 +204,10 @@ struct {
 		.takum16_value = TAKUM16_6_PI,
 		.takum32_value = TAKUM32_6_PI,
 		.takum64_value = TAKUM64_6_PI,
+		.takum_linear8_value = TAKUM_LINEAR8_6_PI,
+		.takum_linear16_value = TAKUM_LINEAR16_6_PI,
+		.takum_linear32_value = TAKUM_LINEAR32_6_PI,
+		.takum_linear64_value = TAKUM_LINEAR64_6_PI,
 	},
 	{
 		.name = "6π/5",
@@ -220,6 +216,118 @@ struct {
 		.takum16_value = TAKUM16_6_PI_OVER_5,
 		.takum32_value = TAKUM32_6_PI_OVER_5,
 		.takum64_value = TAKUM64_6_PI_OVER_5,
+		.takum_linear8_value = TAKUM_LINEAR8_6_PI_OVER_5,
+		.takum_linear16_value = TAKUM_LINEAR16_6_PI_OVER_5,
+		.takum_linear32_value = TAKUM_LINEAR32_6_PI_OVER_5,
+		.takum_linear64_value = TAKUM_LINEAR64_6_PI_OVER_5,
+	},
+	{
+		.name = "γ",
+		.value = 0.5772156649015328606065120900824024310422L,
+		.takum8_value = TAKUM8_GAMMA,
+		.takum16_value = TAKUM16_GAMMA,
+		.takum32_value = TAKUM32_GAMMA,
+		.takum64_value = TAKUM64_GAMMA,
+		.takum_linear8_value = TAKUM_LINEAR8_GAMMA,
+		.takum_linear16_value = TAKUM_LINEAR16_GAMMA,
+		.takum_linear32_value = TAKUM_LINEAR32_GAMMA,
+		.takum_linear64_value = TAKUM_LINEAR64_GAMMA,
+	},
+	{
+		.name = "lb(10)",
+		.value = 3.3219280948873623478703194294893901758648L,
+		.takum8_value = TAKUM8_LB_10,
+		.takum16_value = TAKUM16_LB_10,
+		.takum32_value = TAKUM32_LB_10,
+		.takum64_value = TAKUM64_LB_10,
+		.takum_linear8_value = TAKUM_LINEAR8_LB_10,
+		.takum_linear16_value = TAKUM_LINEAR16_LB_10,
+		.takum_linear32_value = TAKUM_LINEAR32_LB_10,
+		.takum_linear64_value = TAKUM_LINEAR64_LB_10,
+	},
+	{
+		.name = "lb(e)",
+		.value = 1.4426950408889634073599246810018921374266L,
+		.takum8_value = TAKUM8_LB_E,
+		.takum16_value = TAKUM16_LB_E,
+		.takum32_value = TAKUM32_LB_E,
+		.takum64_value = TAKUM64_LB_E,
+		.takum_linear8_value = TAKUM_LINEAR8_LB_E,
+		.takum_linear16_value = TAKUM_LINEAR16_LB_E,
+		.takum_linear32_value = TAKUM_LINEAR32_LB_E,
+		.takum_linear64_value = TAKUM_LINEAR64_LB_E,
+	},
+	{
+		.name = "lg(2)",
+		.value = 0.3010299956639811952137388947244930267682L,
+		.takum8_value = TAKUM8_LG_2,
+		.takum16_value = TAKUM16_LG_2,
+		.takum32_value = TAKUM32_LG_2,
+		.takum64_value = TAKUM64_LG_2,
+		.takum_linear8_value = TAKUM_LINEAR8_LG_2,
+		.takum_linear16_value = TAKUM_LINEAR16_LG_2,
+		.takum_linear32_value = TAKUM_LINEAR32_LG_2,
+		.takum_linear64_value = TAKUM_LINEAR64_LG_2,
+	},
+	{
+		.name = "lg(e)",
+		.value = 0.4342944819032518276511289189166050822944L,
+		.takum8_value = TAKUM8_LG_E,
+		.takum16_value = TAKUM16_LG_E,
+		.takum32_value = TAKUM32_LG_E,
+		.takum64_value = TAKUM64_LG_E,
+		.takum_linear8_value = TAKUM_LINEAR8_LG_E,
+		.takum_linear16_value = TAKUM_LINEAR16_LG_E,
+		.takum_linear32_value = TAKUM_LINEAR32_LG_E,
+		.takum_linear64_value = TAKUM_LINEAR64_LG_E,
+	},
+	{
+		.name = "ln(10)",
+		.value = 2.3025850929940456840179914546843642076011L,
+		.takum8_value = TAKUM8_LN_10,
+		.takum16_value = TAKUM16_LN_10,
+		.takum32_value = TAKUM32_LN_10,
+		.takum64_value = TAKUM64_LN_10,
+		.takum_linear8_value = TAKUM_LINEAR8_LN_10,
+		.takum_linear16_value = TAKUM_LINEAR16_LN_10,
+		.takum_linear32_value = TAKUM_LINEAR32_LN_10,
+		.takum_linear64_value = TAKUM_LINEAR64_LN_10,
+	},
+	{
+		.name = "ln(2)",
+		.value = 0.6931471805599453094172321214581765680755L,
+		.takum8_value = TAKUM8_LN_2,
+		.takum16_value = TAKUM16_LN_2,
+		.takum32_value = TAKUM32_LN_2,
+		.takum64_value = TAKUM64_LN_2,
+		.takum_linear8_value = TAKUM_LINEAR8_LN_2,
+		.takum_linear16_value = TAKUM_LINEAR16_LN_2,
+		.takum_linear32_value = TAKUM_LINEAR32_LN_2,
+		.takum_linear64_value = TAKUM_LINEAR64_LN_2,
+	},
+	{
+		.name = "1",
+		.value = 1.0L,
+		.takum8_value = TAKUM8_ONE,
+		.takum16_value = TAKUM16_ONE,
+		.takum32_value = TAKUM32_ONE,
+		.takum64_value = TAKUM64_ONE,
+		.takum_linear8_value = TAKUM_LINEAR8_ONE,
+		.takum_linear16_value = TAKUM_LINEAR16_ONE,
+		.takum_linear32_value = TAKUM_LINEAR32_ONE,
+		.takum_linear64_value = TAKUM_LINEAR64_ONE,
+	},
+	{
+		.name = "φ",
+		.value = 1.6180339887498948482045868343656381177203L,
+		.takum8_value = TAKUM8_PHI,
+		.takum16_value = TAKUM16_PHI,
+		.takum32_value = TAKUM32_PHI,
+		.takum64_value = TAKUM64_PHI,
+		.takum_linear8_value = TAKUM_LINEAR8_PHI,
+		.takum_linear16_value = TAKUM_LINEAR16_PHI,
+		.takum_linear32_value = TAKUM_LINEAR32_PHI,
+		.takum_linear64_value = TAKUM_LINEAR64_PHI,
 	},
 	{
 		.name = "π",
@@ -228,6 +336,10 @@ struct {
 		.takum16_value = TAKUM16_PI,
 		.takum32_value = TAKUM32_PI,
 		.takum64_value = TAKUM64_PI,
+		.takum_linear8_value = TAKUM_LINEAR8_PI,
+		.takum_linear16_value = TAKUM_LINEAR16_PI,
+		.takum_linear32_value = TAKUM_LINEAR32_PI,
+		.takum_linear64_value = TAKUM_LINEAR64_PI,
 	},
 	{
 		.name = "π/2",
@@ -236,6 +348,10 @@ struct {
 		.takum16_value = TAKUM16_PI_OVER_2,
 		.takum32_value = TAKUM32_PI_OVER_2,
 		.takum64_value = TAKUM64_PI_OVER_2,
+		.takum_linear8_value = TAKUM_LINEAR8_PI_OVER_2,
+		.takum_linear16_value = TAKUM_LINEAR16_PI_OVER_2,
+		.takum_linear32_value = TAKUM_LINEAR32_PI_OVER_2,
+		.takum_linear64_value = TAKUM_LINEAR64_PI_OVER_2,
 	},
 	{
 		.name = "π/3",
@@ -244,6 +360,10 @@ struct {
 		.takum16_value = TAKUM16_PI_OVER_3,
 		.takum32_value = TAKUM32_PI_OVER_3,
 		.takum64_value = TAKUM64_PI_OVER_3,
+		.takum_linear8_value = TAKUM_LINEAR8_PI_OVER_3,
+		.takum_linear16_value = TAKUM_LINEAR16_PI_OVER_3,
+		.takum_linear32_value = TAKUM_LINEAR32_PI_OVER_3,
+		.takum_linear64_value = TAKUM_LINEAR64_PI_OVER_3,
 	},
 	{
 		.name = "π/4",
@@ -252,6 +372,10 @@ struct {
 		.takum16_value = TAKUM16_PI_OVER_4,
 		.takum32_value = TAKUM32_PI_OVER_4,
 		.takum64_value = TAKUM64_PI_OVER_4,
+		.takum_linear8_value = TAKUM_LINEAR8_PI_OVER_4,
+		.takum_linear16_value = TAKUM_LINEAR16_PI_OVER_4,
+		.takum_linear32_value = TAKUM_LINEAR32_PI_OVER_4,
+		.takum_linear64_value = TAKUM_LINEAR64_PI_OVER_4,
 	},
 	{
 		.name = "π/5",
@@ -260,6 +384,10 @@ struct {
 		.takum16_value = TAKUM16_PI_OVER_5,
 		.takum32_value = TAKUM32_PI_OVER_5,
 		.takum64_value = TAKUM64_PI_OVER_5,
+		.takum_linear8_value = TAKUM_LINEAR8_PI_OVER_5,
+		.takum_linear16_value = TAKUM_LINEAR16_PI_OVER_5,
+		.takum_linear32_value = TAKUM_LINEAR32_PI_OVER_5,
+		.takum_linear64_value = TAKUM_LINEAR64_PI_OVER_5,
 	},
 	{
 		.name = "π/6",
@@ -268,6 +396,10 @@ struct {
 		.takum16_value = TAKUM16_PI_OVER_6,
 		.takum32_value = TAKUM32_PI_OVER_6,
 		.takum64_value = TAKUM64_PI_OVER_6,
+		.takum_linear8_value = TAKUM_LINEAR8_PI_OVER_6,
+		.takum_linear16_value = TAKUM_LINEAR16_PI_OVER_6,
+		.takum_linear32_value = TAKUM_LINEAR32_PI_OVER_6,
+		.takum_linear64_value = TAKUM_LINEAR64_PI_OVER_6,
 	},
 	{
 		.name = "√2",
@@ -276,6 +408,10 @@ struct {
 		.takum16_value = TAKUM16_SQUARE_ROOT_2,
 		.takum32_value = TAKUM32_SQUARE_ROOT_2,
 		.takum64_value = TAKUM64_SQUARE_ROOT_2,
+		.takum_linear8_value = TAKUM_LINEAR8_SQUARE_ROOT_2,
+		.takum_linear16_value = TAKUM_LINEAR16_SQUARE_ROOT_2,
+		.takum_linear32_value = TAKUM_LINEAR32_SQUARE_ROOT_2,
+		.takum_linear64_value = TAKUM_LINEAR64_SQUARE_ROOT_2,
 	},
 	{
 		.name = "√3",
@@ -284,6 +420,10 @@ struct {
 		.takum16_value = TAKUM16_SQUARE_ROOT_3,
 		.takum32_value = TAKUM32_SQUARE_ROOT_3,
 		.takum64_value = TAKUM64_SQUARE_ROOT_3,
+		.takum_linear8_value = TAKUM_LINEAR8_SQUARE_ROOT_3,
+		.takum_linear16_value = TAKUM_LINEAR16_SQUARE_ROOT_3,
+		.takum_linear32_value = TAKUM_LINEAR32_SQUARE_ROOT_3,
+		.takum_linear64_value = TAKUM_LINEAR64_SQUARE_ROOT_3,
 	},
 	{
 		.name = "√5",
@@ -292,6 +432,10 @@ struct {
 		.takum16_value = TAKUM16_SQUARE_ROOT_5,
 		.takum32_value = TAKUM32_SQUARE_ROOT_5,
 		.takum64_value = TAKUM64_SQUARE_ROOT_5,
+		.takum_linear8_value = TAKUM_LINEAR8_SQUARE_ROOT_5,
+		.takum_linear16_value = TAKUM_LINEAR16_SQUARE_ROOT_5,
+		.takum_linear32_value = TAKUM_LINEAR32_SQUARE_ROOT_5,
+		.takum_linear64_value = TAKUM_LINEAR64_SQUARE_ROOT_5,
 	},
 	{
 		.name = "√6",
@@ -300,6 +444,10 @@ struct {
 		.takum16_value = TAKUM16_SQUARE_ROOT_6,
 		.takum32_value = TAKUM32_SQUARE_ROOT_6,
 		.takum64_value = TAKUM64_SQUARE_ROOT_6,
+		.takum_linear8_value = TAKUM_LINEAR8_SQUARE_ROOT_6,
+		.takum_linear16_value = TAKUM_LINEAR16_SQUARE_ROOT_6,
+		.takum_linear32_value = TAKUM_LINEAR32_SQUARE_ROOT_6,
+		.takum_linear64_value = TAKUM_LINEAR64_SQUARE_ROOT_6,
 	},
 };
 
@@ -311,6 +459,10 @@ main(int argc, char *argv[])
 	takum16 takum16_reference_value;
 	takum32 takum32_reference_value;
 	takum64 takum64_reference_value;
+	takum_linear8 takum_linear8_reference_value;
+	takum_linear16 takum_linear16_reference_value;
+	takum_linear32 takum_linear32_reference_value;
+	takum_linear64 takum_linear64_reference_value;
 
 	(void)argc;
 	argv0 = argv[0];
@@ -374,10 +526,74 @@ main(int argc, char *argv[])
 			        takum64_reference_value);
 			failed_count++;
 		}
+
+		takum_linear8_reference_value =
+			takum_linear8_from_extended_float(
+				constant_tests[i].value);
+
+		if (constant_tests[i].takum_linear8_value !=
+		    takum_linear8_reference_value) {
+			fprintf(stderr,
+			        "%s: %s: Failed takum_linear8 unit test "
+			        "(constant wrongly defined as %" PRIi8
+			        " instead of %" PRIi8 ")\n",
+			        argv0, constant_tests[i].name,
+			        constant_tests[i].takum_linear8_value,
+			        takum_linear8_reference_value);
+			failed_count++;
+		}
+
+		takum_linear16_reference_value =
+			takum_linear16_from_extended_float(
+				constant_tests[i].value);
+
+		if (constant_tests[i].takum_linear16_value !=
+		    takum_linear16_reference_value) {
+			fprintf(stderr,
+			        "%s: %s: Failed takum_linear16 unit test "
+			        "(constant wrongly defined as %" PRIi16
+			        " instead of %" PRIi16 ")\n",
+			        argv0, constant_tests[i].name,
+			        constant_tests[i].takum_linear16_value,
+			        takum_linear16_reference_value);
+			failed_count++;
+		}
+
+		takum_linear32_reference_value =
+			takum_linear32_from_extended_float(
+				constant_tests[i].value);
+
+		if (constant_tests[i].takum_linear32_value !=
+		    takum_linear32_reference_value) {
+			fprintf(stderr,
+			        "%s: %s: Failed takum_linear32 unit test "
+			        "(constant wrongly defined as %" PRIi32
+			        " instead of %" PRIi32 ")\n",
+			        argv0, constant_tests[i].name,
+			        constant_tests[i].takum_linear32_value,
+			        takum_linear32_reference_value);
+			failed_count++;
+		}
+
+		takum_linear64_reference_value =
+			takum_linear64_from_extended_float(
+				constant_tests[i].value);
+
+		if (constant_tests[i].takum_linear64_value !=
+		    takum_linear64_reference_value) {
+			fprintf(stderr,
+			        "%s: %s: Failed takum_linear64 unit test "
+			        "(constant wrongly defined as %" PRIi64
+			        " instead of %" PRIi64 ")\n",
+			        argv0, constant_tests[i].name,
+			        constant_tests[i].takum_linear64_value,
+			        takum_linear64_reference_value);
+			failed_count++;
+		}
 	}
 
 	printf("%s: %zu/%zu unit tests passed.\n", argv0,
-	       4 * LEN(constant_tests) - failed_count, 4 * LEN(constant_tests));
+	       8 * LEN(constant_tests) - failed_count, 8 * LEN(constant_tests));
 
 	return failed_count;
 }

@@ -19,13 +19,17 @@ static const struct unit_test_block lb_utb = {
 		.takum16_function   = takum16_lb,
 		.takum32_function   = takum32_lb,
 		.takum64_function   = takum64_lb,
+		.takum_linear8_function    = takum_linear8_lb,
+		.takum_linear16_function   = takum_linear16_lb,
+		.takum_linear32_function   = takum_linear32_lb,
+		.takum_linear64_function   = takum_linear64_lb,
 	},
 };
 
 long double
 lb_1_plus_reference(long double a)
 {
-	return log2l(1.0L + a);
+	return LB_E * log1pl(a);
 }
 
 static const struct unit_test_block lb_1_plus_utb = {
@@ -37,6 +41,10 @@ static const struct unit_test_block lb_1_plus_utb = {
 		.takum16_function   = takum16_lb_1_plus,
 		.takum32_function   = takum32_lb_1_plus,
 		.takum64_function   = takum64_lb_1_plus,
+		.takum_linear8_function    = takum_linear8_lb_1_plus,
+		.takum_linear16_function   = takum_linear16_lb_1_plus,
+		.takum_linear32_function   = takum_linear32_lb_1_plus,
+		.takum_linear64_function   = takum_linear64_lb_1_plus,
 	},
 };
 

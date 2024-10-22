@@ -5,50 +5,36 @@
 
 #include "../takum.h"
 
-takum8
-takum8_cot(takum8 t)
+/* no need to fix the result, as we do not overflow near the poles */
+#define RESULT_FIXER_MACRO(arg, res) (res)
+
+static long double
+cotl(long double f)
 {
-	return takum8_inversion(takum8_tan(t));
+	return 1.0l / tanl(f);
 }
 
-takum16
-takum16_cot(takum16 t)
+static double
+cot(double f)
 {
-	return takum16_inversion(takum16_tan(t));
+	return (double)cotl((long double)f);
 }
 
-takum32
-takum32_cot(takum32 t)
+UTIL_UNARY_FLOAT_TAKUM_WRAPPER(cot, cot, RESULT_FIXER_MACRO)
+UTIL_UNARY_FLOAT_TAKUM_LINEAR_WRAPPER(cot, cot, RESULT_FIXER_MACRO)
+
+static long double
+cot_pi_timesl(long double f)
 {
-	return takum32_inversion(takum32_tan(t));
+	return 1.0l / tanl(PI * f);
 }
 
-takum64
-takum64_cot(takum64 t)
+static double
+cot_pi_times(double f)
 {
-	return takum64_inversion(takum64_tan(t));
+	return (double)cot_pi_timesl((long double)f);
 }
 
-takum8
-takum8_cot_pi_times(takum8 t)
-{
-	return takum8_inversion(takum8_tan_pi_times(t));
-}
-
-takum16
-takum16_cot_pi_times(takum16 t)
-{
-	return takum16_inversion(takum16_tan_pi_times(t));
-}
-
-takum32
-takum32_cot_pi_times(takum32 t)
-{
-	return takum32_inversion(takum32_tan_pi_times(t));
-}
-
-takum64
-takum64_cot_pi_times(takum64 t)
-{
-	return takum64_inversion(takum64_tan_pi_times(t));
-}
+UTIL_UNARY_FLOAT_TAKUM_WRAPPER(cot_pi_times, cot_pi_times, RESULT_FIXER_MACRO)
+UTIL_UNARY_FLOAT_TAKUM_LINEAR_WRAPPER(cot_pi_times, cot_pi_times,
+                                      RESULT_FIXER_MACRO)

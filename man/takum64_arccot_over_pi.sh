@@ -1,4 +1,4 @@
-export BIT_COUNT=$(if [ -n "$BIT_COUNT" ]; then printf "$BIT_COUNT"; else printf "64"; fi)
+export TAKUM_TYPE_SUFFIX=$(if [ -n "$TAKUM_TYPE_SUFFIX" ]; then printf "$TAKUM_TYPE_SUFFIX"; else printf "64"; fi)
 export COMPUTE_DESCRIPTION="the arccotangent of a takum, divided by π"
 export COMPUTE_LONG_DESCRIPTION="the arccotangent of\n.Va a ,\ndivided by π"
 export FUNCTION_NAME="arccot_over_pi"

@@ -19,6 +19,10 @@ static const struct unit_test_block multiplication_utb = {
 		.takum16_function   = takum16_multiplication,
 		.takum32_function   = takum32_multiplication,
 		.takum64_function   = takum64_multiplication,
+		.takum_linear8_function    = takum_linear8_multiplication,
+		.takum_linear16_function   = takum_linear16_multiplication,
+		.takum_linear32_function   = takum_linear32_multiplication,
+		.takum_linear64_function   = takum_linear64_multiplication,
 	},
 };
 

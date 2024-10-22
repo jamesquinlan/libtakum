@@ -8,7 +8,11 @@
 long double
 integer_power_reference(long double a, int64_t b)
 {
-	return powl(a, (long double)b);
+	if (isnan(a) || (a == 0.0 && b == 0)) {
+		return NAN;
+	} else {
+		return powl(a, (long double)b);
+	}
 }
 
 static const int64_t integer_test_cases[] = {
@@ -24,6 +28,10 @@ static const struct unit_test_block integer_power_utb = {
 		.takum16_function        = takum16_integer_power,
 		.takum32_function        = takum32_integer_power,
 		.takum64_function        = takum64_integer_power,
+		.takum_linear8_function         = takum_linear8_integer_power,
+		.takum_linear16_function        = takum_linear16_integer_power,
+		.takum_linear32_function        = takum_linear32_integer_power,
+		.takum_linear64_function        = takum_linear64_integer_power,
 		.integer_test_cases      = integer_test_cases,
 		.integer_test_case_count = LEN(integer_test_cases),
 	},

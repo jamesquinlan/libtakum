@@ -19,6 +19,10 @@ static const struct unit_test_block two_raised_utb = {
 		.takum16_function   = takum16_2_raised,
 		.takum32_function   = takum32_2_raised,
 		.takum64_function   = takum64_2_raised,
+		.takum_linear8_function    = takum_linear8_2_raised,
+		.takum_linear16_function   = takum_linear16_2_raised,
+		.takum_linear32_function   = takum_linear32_2_raised,
+		.takum_linear64_function   = takum_linear64_2_raised,
 	},
 };
 
@@ -37,6 +41,10 @@ static const struct unit_test_block two_raised_minus_1_utb = {
 		.takum16_function   = takum16_2_raised_minus_1,
 		.takum32_function   = takum32_2_raised_minus_1,
 		.takum64_function   = takum64_2_raised_minus_1,
+		.takum_linear8_function    = takum_linear8_2_raised_minus_1,
+		.takum_linear16_function   = takum_linear16_2_raised_minus_1,
+		.takum_linear32_function   = takum_linear32_2_raised_minus_1,
+		.takum_linear64_function   = takum_linear64_2_raised_minus_1,
 	},
 };
 

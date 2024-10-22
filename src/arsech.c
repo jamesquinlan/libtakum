@@ -5,26 +5,20 @@
 
 #include "../takum.h"
 
-takum8
-takum8_arsech(takum8 t)
+/* no need to fix the result */
+#define RESULT_FIXER_MACRO(arg, res) (res)
+
+static long double
+arsechl(long double f)
 {
-	return takum8_arcosh(takum8_inversion(t));
+	return acoshl(1.0l / f);
 }
 
-takum16
-takum16_arsech(takum16 t)
+static double
+arsech(double f)
 {
-	return takum16_arcosh(takum16_inversion(t));
+	return (double)arsechl((long double)f);
 }
 
-takum32
-takum32_arsech(takum32 t)
-{
-	return takum32_arcosh(takum32_inversion(t));
-}
-
-takum64
-takum64_arsech(takum64 t)
-{
-	return takum64_arcosh(takum64_inversion(t));
-}
+UTIL_UNARY_FLOAT_TAKUM_WRAPPER(arsech, arsech, RESULT_FIXER_MACRO)
+UTIL_UNARY_FLOAT_TAKUM_LINEAR_WRAPPER(arsech, arsech, RESULT_FIXER_MACRO)
