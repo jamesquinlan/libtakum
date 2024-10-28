@@ -29,7 +29,17 @@ static const struct unit_test_block cot_utb = {
 long double
 cot_pi_times_reference(long double a)
 {
-	return 1.0L / tanl(PI * a);
+	long double a_mod_1;
+
+	a_mod_1 = fmodl(a, 1.0l);
+
+	if (a_mod_1 == 0.0l) {
+		return NAN;
+	} else if (a_mod_1 == 0.5) {
+		return 0.0;
+	} else {
+		return cot_reference(PI * a);
+	}
 }
 
 static const struct unit_test_block cot_pi_times_utb = {

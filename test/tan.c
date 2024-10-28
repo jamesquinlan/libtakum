@@ -29,7 +29,17 @@ static const struct unit_test_block tan_utb = {
 long double
 tan_pi_times_reference(long double a)
 {
-	return (fmodl(a, 1.0) == 0.5) ? NAN : tanl(PI * a);
+	long double a_mod_1;
+
+	a_mod_1 = fmodl(a, 1.0l);
+
+	if (a_mod_1 == 0.0l) {
+		return 0.0;
+	} else if (a_mod_1 == 0.5) {
+		return NAN;
+	} else {
+		return tan_reference(PI * a);
+	}
 }
 
 static const struct unit_test_block tan_pi_times_utb = {

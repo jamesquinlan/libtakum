@@ -28,7 +28,17 @@ UTIL_UNARY_FLOAT_TAKUM_LINEAR_WRAPPER(tan, tan, RESULT_FIXER_MACRO)
 static long double
 tanpil(long double f)
 {
-	return (fmodl(f, 1.0) == 0.5) ? NAN : tanl(PI * f);
+	long double f_mod_1;
+
+	f_mod_1 = fmodl(f, 1.0l);
+
+	if (f_mod_1 == 0.0l) {
+		return 0.0;
+	} else if (f_mod_1 == 0.5) {
+		return NAN;
+	} else {
+		return tanl(PI * f);
+	}
 }
 
 static double

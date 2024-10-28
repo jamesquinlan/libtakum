@@ -26,7 +26,17 @@ UTIL_UNARY_FLOAT_TAKUM_LINEAR_WRAPPER(cot, cot, RESULT_FIXER_MACRO)
 static long double
 cot_pi_timesl(long double f)
 {
-	return 1.0l / tanl(PI * f);
+	long double f_mod_1;
+
+	f_mod_1 = fmodl(f, 1.0l);
+
+	if (f_mod_1 == 0.0l) {
+		return NAN;
+	} else if (f_mod_1 == 0.5) {
+		return 0.0;
+	} else {
+		return cotl(PI * f);
+	}
 }
 
 static double
