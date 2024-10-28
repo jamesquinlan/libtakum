@@ -29,7 +29,21 @@ UTIL_UNARY_FLOAT_TAKUM_LINEAR_WRAPPER(csc, csc, RESULT_FIXER_MACRO)
 static long double
 csc_pi_timesl(long double f)
 {
-	return cscl(PI * f);
+	long double f_mod_2;
+
+	f_mod_2 = fmodl(f, 2.0l);
+
+	if (f_mod_2 == 0.0l) {
+		return NAN;
+	} else if (f_mod_2 == 0.5l) {
+		return 1.0l;
+	} else if (f_mod_2 == 1.0l) {
+		return NAN;
+	} else if (f_mod_2 == 1.5l) {
+		return -1.0l;
+	} else {
+		return cscl(PI * f);
+	}
 }
 
 static double

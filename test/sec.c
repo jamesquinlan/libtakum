@@ -29,7 +29,21 @@ static const struct unit_test_block sec_utb = {
 long double
 sec_pi_times_reference(long double a)
 {
-	return 1.0L / cosl(PI * a);
+	long double a_mod_2;
+
+	a_mod_2 = fmodl(a, 2.0l);
+
+	if (a_mod_2 == 0.0l) {
+		return 1.0l;
+	} else if (a_mod_2 == 0.5l) {
+		return NAN;
+	} else if (a_mod_2 == 1.0l) {
+		return -1.0l;
+	} else if (a_mod_2 == 1.5l) {
+		return NAN;
+	} else {
+		return sec_reference(PI * a);
+	}
 }
 
 static const struct unit_test_block sec_pi_times_utb = {

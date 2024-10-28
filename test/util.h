@@ -18,8 +18,6 @@
 #define LG_E 0.4342944819032518276511289189166050822944L
 #define PI   3.1415926535897932384626433832795028841972L
 
-extern char *argv0;
-
 enum takum_type {
 	TAKUM8,
 	TAKUM16,
@@ -37,13 +35,10 @@ struct takum_type_parameters {
 	int64_t nar;
 	int64_t positive_minimum;
 	int64_t positive_maximum;
-	int64_t stride_1d;
-	int64_t stride_2d;
+	uint64_t count;
 	long double (*int64_takum_to_extended_float)(int64_t);
 	int64_t (*int64_takum_from_extended_float)(long double);
 };
-
-extern const struct takum_type_parameters takum_type_parameters[];
 
 enum unit_test_block_type {
 	UNIT_TEST_BLOCK_TYPE_ROUNDTRIP,         /* roundtrip conversion */
@@ -136,6 +131,9 @@ struct unit_test_block {
 		} takum_uint8;
 	} data;
 };
+
+extern char *argv0;
+extern const struct takum_type_parameters takum_type_parameters[];
 
 int next_sample(int64_t *, enum unit_test_block_type, enum takum_type);
 int run_unit_test_block(const struct unit_test_block *);

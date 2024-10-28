@@ -12,7 +12,9 @@
 	(((res) == 0.0) ? (a == 0.0)   ? 0.0 :                                 \
 	                  signbit(res) ? -DBL_MIN :                            \
 	                                 DBL_MIN :                             \
-	 isinf(res)     ? signbit(res) ? -DBL_MAX : DBL_MAX :                  \
+	 isinf(res)     ? (a == 0.0)   ? NAN :                                 \
+	                  signbit(res) ? -DBL_MAX :                            \
+	                                 DBL_MAX :                             \
 	                  (res))
 
 UTIL_BINARY_FLOAT_TAKUM_WRAPPER(power, pow, RESULT_FIXER_MACRO)

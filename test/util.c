@@ -14,6 +14,230 @@
 
 char *argv0;
 
+enum sampler_mode {
+	SAMPLER_MODE_TAKUM_FULL,
+	SAMPLER_MODE_TAKUM_RANDOM,
+	SAMPLER_MODE_TAKUM_TAKUM_FULL,
+	SAMPLER_MODE_TAKUM_TAKUM_RANDOM,
+	SAMPLER_MODE_TAKUM_INT64_FULL,
+	SAMPLER_MODE_TAKUM_INT64_RANDOM,
+};
+
+struct sampler {
+	enum sampler_mode mode;
+	enum takum_type takum_type;
+	const struct unit_test_block *utb;
+	int64_t value_x;
+	int64_t value_y;
+	uint64_t current_count;
+	uint64_t target_count;
+};
+
+static int8_t
+random_int8_next(int8_t previous_state)
+{
+	uint8_t feedback_bit;
+
+	union {
+		int8_t value;
+		uint8_t bits;
+	} state;
+
+	/* Take our previous state as a starting point */
+	state.value = previous_state;
+
+	/*
+	 * We will use a LFSR with feedback polynomial
+	 * 	x⁸ + x⁶ + x⁵ + x⁴ + 1
+	 * that has a period of 2^8-1.
+	 */
+
+	/*
+	 * Check if the input state is zero, which an LFSR can neither
+	 * handle nor output. We make use of this fact by defining a
+	 * zero-state as the seed, which means that we cover all numbers
+	 * in the uint8_t interval [0,2^8-1].
+	 */
+	if (state.bits == 0) {
+		/* set our 'real' starting seed */
+		state.bits = (uint8_t)(intptr_t)(&state.bits);
+	}
+
+	/* Determine the feedback bit with the feedback polynomial */
+	feedback_bit = ((state.bits >> 0) ^ (state.bits >> 2) ^
+	                (state.bits >> 3) ^ (state.bits >> 4)) &
+	               UINT8_C(1);
+
+	/*
+	 * Generate the next state by shifting one to the right and
+	 * shifting 'in' the feedback bit from the left.
+	 */
+	state.bits = (feedback_bit << 7) | (state.bits >> 1);
+
+	/* We actually want the signed value */
+	return state.value;
+}
+
+static int16_t
+random_int16_next(int16_t previous_state)
+{
+	uint16_t feedback_bit;
+
+	union {
+		int16_t value;
+		uint16_t bits;
+	} state;
+
+	/* Take our previous state as a starting point */
+	state.value = previous_state;
+
+	/*
+	 * We will use a LFSR with feedback polynomial
+	 * 	x¹⁶ + x¹⁵ + x¹³ + x⁴ + 1
+	 * that has a period of 2^16-1.
+	 */
+
+	/*
+	 * Check if the input state is zero, which an LFSR can neither
+	 * handle nor output. We make use of this fact by defining a
+	 * zero-state as the seed, which means that we cover all numbers
+	 * in the uint16_t interval [0,2^16-1].
+	 */
+	if (state.bits == 0) {
+		/* set our 'real' starting seed */
+		state.bits = (uint16_t)(intptr_t)(&state.bits);
+	}
+
+	/* Determine the feedback bit with the feedback polynomial */
+	feedback_bit = ((state.bits >> 0) ^ (state.bits >> 1) ^
+	                (state.bits >> 3) ^ (state.bits >> 12)) &
+	               UINT16_C(1);
+
+	/*
+	 * Generate the next state by shifting one to the right and
+	 * shifting 'in' the feedback bit from the left.
+	 */
+	state.bits = (feedback_bit << (16 - 1)) | (state.bits >> 1);
+
+	/* We actually want the signed value */
+	return state.value;
+}
+
+static int32_t
+random_int32_next(int32_t previous_state)
+{
+	uint32_t feedback_bit;
+
+	union {
+		int32_t value;
+		uint32_t bits;
+	} state;
+
+	/* Take our previous state as a starting point */
+	state.value = previous_state;
+
+	/*
+	 * We will use a LFSR with feedback polynomial
+	 * 	x³² + x²² + x² + x¹ + 1
+	 * that has a period of 2^32-1.
+	 */
+
+	/*
+	 * Check if the input state is zero, which an LFSR can neither
+	 * handle nor output. We make use of this fact by defining a
+	 * zero-state as the seed, which means that we cover all numbers
+	 * in the uint16_t interval [0,2^32-1].
+	 */
+	if (state.bits == 0) {
+		/* set our 'real' starting seed */
+		state.bits = (uint32_t)(intptr_t)(&state.bits);
+	}
+
+	/* Determine the feedback bit with the feedback polynomial */
+	feedback_bit = ((state.bits >> 0) ^ (state.bits >> 10) ^
+	                (state.bits >> 30) ^ (state.bits >> 31)) &
+	               UINT32_C(1);
+
+	/*
+	 * Generate the next state by shifting one to the right and
+	 * shifting 'in' the feedback bit from the left.
+	 */
+	state.bits = (feedback_bit << (32 - 1)) | (state.bits >> 1);
+
+	/* We actually want the signed value */
+	return state.value;
+}
+
+static int64_t
+random_int64_next(int64_t previous_state)
+{
+	uint64_t feedback_bit;
+
+	union {
+		int64_t value;
+		uint64_t bits;
+	} state;
+
+	/* Take our previous state as a starting point */
+	state.value = previous_state;
+
+	/*
+	 * We will use a LFSR with feedback polynomial
+	 * 	x⁶⁴ + x⁶³ + x⁶¹ + x⁶⁰ + 1
+	 * that has a period of 2^64-1.
+	 */
+
+	/*
+	 * Check if the input state is zero, which an LFSR can neither
+	 * handle nor output. We make use of this fact by defining a
+	 * zero-state as the seed, which means that we cover all numbers
+	 * in the uint16_t interval [0,2^64-1].
+	 */
+	if (state.bits == 0) {
+		/* set our 'real' starting seed */
+		state.bits = (uint64_t)(&state.bits);
+	}
+
+	/* Determine the feedback bit with the feedback polynomial */
+	feedback_bit = ((state.bits >> 0) ^ (state.bits >> 1) ^
+	                (state.bits >> 3) ^ (state.bits >> 4)) &
+	               UINT32_C(1);
+
+	/*
+	 * Generate the next state by shifting one to the right and
+	 * shifting 'in' the feedback bit from the left.
+	 */
+	state.bits = (feedback_bit << (64 - 1)) | (state.bits >> 1);
+
+	/* We actually want the signed value */
+	return state.value;
+}
+
+static int64_t
+random_next(int64_t previous_state, enum takum_type takum_type)
+{
+	switch (takum_type) {
+	case TAKUM8:
+	case TAKUM_LINEAR8:
+		return (int64_t)random_int8_next((int8_t)previous_state);
+		break;
+	case TAKUM16:
+	case TAKUM_LINEAR16:
+		return (int64_t)random_int16_next((int16_t)previous_state);
+		break;
+	case TAKUM32:
+	case TAKUM_LINEAR32:
+		return (int64_t)random_int32_next((int32_t)previous_state);
+		break;
+	case TAKUM64:
+	case TAKUM_LINEAR64:
+		return random_int64_next(previous_state);
+		break;
+	}
+
+	return 0;
+}
+
 static long double
 int64_takum8_to_extended_float(int64_t t)
 {
@@ -117,8 +341,7 @@ const struct takum_type_parameters takum_type_parameters[] = {
 		.nar              = TAKUM8_NAR,
 		.positive_minimum = TAKUM8_POSITIVE_MINIMUM,
 		.positive_maximum = TAKUM8_POSITIVE_MAXIMUM,
-		.stride_1d        = INT64_C(1),
-		.stride_2d        = INT64_C(1),
+		.count            = (uint64_t)UINT8_MAX + 1,
 		.int64_takum_to_extended_float = int64_takum8_to_extended_float,
 		.int64_takum_from_extended_float = int64_takum8_from_extended_float,
 	},
@@ -128,8 +351,7 @@ const struct takum_type_parameters takum_type_parameters[] = {
 		.nar              = TAKUM16_NAR,
 		.positive_minimum = TAKUM16_POSITIVE_MINIMUM,
 		.positive_maximum = TAKUM16_POSITIVE_MAXIMUM,
-		.stride_1d        = INT64_C(1),
-		.stride_2d        = (INT64_C(1) << 6) - 1,
+		.count            = (uint64_t)UINT16_MAX + 1,
 		.int64_takum_to_extended_float = int64_takum16_to_extended_float,
 		.int64_takum_from_extended_float = int64_takum16_from_extended_float,
 	},
@@ -139,8 +361,7 @@ const struct takum_type_parameters takum_type_parameters[] = {
 		.nar              = TAKUM32_NAR,
 		.positive_minimum = TAKUM32_POSITIVE_MINIMUM,
 		.positive_maximum = TAKUM32_POSITIVE_MAXIMUM,
-		.stride_1d        = (INT64_C(1) << 16) - 1,
-		.stride_2d        = (INT64_C(1) << 20) - 1,
+		.count            = (uint64_t)UINT32_MAX + 1,
 		.int64_takum_to_extended_float = int64_takum32_to_extended_float,
 		.int64_takum_from_extended_float = int64_takum32_from_extended_float,
 	},
@@ -150,8 +371,7 @@ const struct takum_type_parameters takum_type_parameters[] = {
 		.nar              = TAKUM64_NAR,
 		.positive_minimum = TAKUM64_POSITIVE_MINIMUM,
 		.positive_maximum = TAKUM64_POSITIVE_MAXIMUM,
-		.stride_1d        = (INT64_C(1) << 48) - 1,
-		.stride_2d        = (INT64_C(1) << 52) - 1,
+		.count            = UINT64_MAX /* + 1, but would overflow */,
 		.int64_takum_to_extended_float = int64_takum64_to_extended_float,
 		.int64_takum_from_extended_float = int64_takum64_from_extended_float,
 	},
@@ -161,8 +381,7 @@ const struct takum_type_parameters takum_type_parameters[] = {
 		.nar              = TAKUM_LINEAR8_NAR,
 		.positive_minimum = TAKUM_LINEAR8_POSITIVE_MINIMUM,
 		.positive_maximum = TAKUM_LINEAR8_POSITIVE_MAXIMUM,
-		.stride_1d        = INT64_C(1),
-		.stride_2d        = INT64_C(1),
+		.count            = (uint64_t)UINT8_MAX + 1,
 		.int64_takum_to_extended_float = int64_takum_linear8_to_extended_float,
 		.int64_takum_from_extended_float = int64_takum_linear8_from_extended_float,
 	},
@@ -172,8 +391,7 @@ const struct takum_type_parameters takum_type_parameters[] = {
 		.nar              = TAKUM_LINEAR16_NAR,
 		.positive_minimum = TAKUM_LINEAR16_POSITIVE_MINIMUM,
 		.positive_maximum = TAKUM_LINEAR16_POSITIVE_MAXIMUM,
-		.stride_1d        = INT64_C(1),
-		.stride_2d        = (INT64_C(1) << 6) - 1,
+		.count            = (uint64_t)UINT16_MAX + 1,
 		.int64_takum_to_extended_float = int64_takum_linear16_to_extended_float,
 		.int64_takum_from_extended_float = int64_takum_linear16_from_extended_float,
 	},
@@ -183,8 +401,7 @@ const struct takum_type_parameters takum_type_parameters[] = {
 		.nar              = TAKUM_LINEAR32_NAR,
 		.positive_minimum = TAKUM_LINEAR32_POSITIVE_MINIMUM,
 		.positive_maximum = TAKUM_LINEAR32_POSITIVE_MAXIMUM,
-		.stride_1d        = (INT64_C(1) << 16) - 1,
-		.stride_2d        = (INT64_C(1) << 20) - 1,
+		.count            = (uint64_t)UINT32_MAX + 1,
 		.int64_takum_to_extended_float = int64_takum_linear32_to_extended_float,
 		.int64_takum_from_extended_float = int64_takum_linear32_from_extended_float,
 	},
@@ -194,8 +411,7 @@ const struct takum_type_parameters takum_type_parameters[] = {
 		.nar              = TAKUM_LINEAR64_NAR,
 		.positive_minimum = TAKUM_LINEAR64_POSITIVE_MINIMUM,
 		.positive_maximum = TAKUM_LINEAR64_POSITIVE_MAXIMUM,
-		.stride_1d        = (INT64_C(1) << 48) - 1,
-		.stride_2d        = (INT64_C(1) << 52) - 1,
+		.count            = UINT64_MAX /* + 1, but would overflow */,
 		.int64_takum_to_extended_float = int64_takum_linear64_to_extended_float,
 		.int64_takum_from_extended_float = int64_takum_linear64_from_extended_float,
 	},
@@ -292,7 +508,7 @@ evaluate_reference_function(const struct unit_test_block *utb, int64_t a,
 
 int
 check_unary_binary_case(const struct unit_test_block *utb, int64_t a, int64_t b,
-                        enum takum_type takum_type, size_t test_number)
+                        enum takum_type takum_type, uint64_t test_number)
 {
 	int64_t reference_output = 0, output = 1;
 	bool failed = true;
@@ -571,7 +787,7 @@ check_unary_binary_case(const struct unit_test_block *utb, int64_t a, int64_t b,
 		switch (utb->type) {
 		case UNIT_TEST_BLOCK_TYPE_ROUNDTRIP:
 			fprintf(stderr,
-			        "%s: %s_%s: Failed unit test %zu "
+			        "%s: %s_%s: Failed unit test %" PRIu64 " "
 			        "(roundtrip of %.20Le(%" PRIi64
 			        ") returned %.20Le(%" PRIi64 "))\n",
 			        argv0, takum_type_parameters[takum_type].name,
@@ -585,7 +801,7 @@ check_unary_binary_case(const struct unit_test_block *utb, int64_t a, int64_t b,
 			break;
 		case UNIT_TEST_BLOCK_TYPE_TAKUM_INT64_TAKUM:
 			fprintf(stderr,
-			        "%s: %s_%s: Failed unit test %zu "
+			        "%s: %s_%s: Failed unit test %" PRIu64 " "
 			        "(%s_%s(%.20Le, %" PRIi64
 			        ") returned %.20Le(%" PRIi64 ") "
 			        "instead "
@@ -608,7 +824,7 @@ check_unary_binary_case(const struct unit_test_block *utb, int64_t a, int64_t b,
 			break;
 		case UNIT_TEST_BLOCK_TYPE_TAKUM_TAKUM:
 			fprintf(stderr,
-			        "%s: %s_%s: Failed unit test %zu "
+			        "%s: %s_%s: Failed unit test %" PRIu64 " "
 			        "(%s_%s(%.20Le) returned %.20Le(%" PRIi64 ") "
 			        "instead "
 			        "of "
@@ -629,7 +845,7 @@ check_unary_binary_case(const struct unit_test_block *utb, int64_t a, int64_t b,
 			break;
 		case UNIT_TEST_BLOCK_TYPE_TAKUM_TAKUM_TAKUM:
 			fprintf(stderr,
-			        "%s: %s_%s: Failed unit test %zu "
+			        "%s: %s_%s: Failed unit test %" PRIu64 " "
 			        "(%s_%s(%.20Le, %.20Le) returned "
 			        "%.20Le(%" PRIi64 ") "
 			        "instead "
@@ -653,7 +869,7 @@ check_unary_binary_case(const struct unit_test_block *utb, int64_t a, int64_t b,
 			break;
 		case UNIT_TEST_BLOCK_TYPE_TAKUM_UINT8:
 			fprintf(stderr,
-			        "%s: %s_%s: Failed unit test %zu "
+			        "%s: %s_%s: Failed unit test %" PRIu64 " "
 			        "(%s_%s(%.20Le) returned %" PRIi64 " "
 			        "instead of %" PRIi64 ")\n",
 			        argv0, takum_type_parameters[takum_type].name,
@@ -672,46 +888,309 @@ check_unary_binary_case(const struct unit_test_block *utb, int64_t a, int64_t b,
 	}
 }
 
-int
-next_sample(int64_t *i, enum unit_test_block_type utb_type,
-            enum takum_type takum_type)
+uint64_t
+safe_uint64_multiplication(uint64_t a, uint64_t b)
 {
-	int64_t stride = 0;
+	if (a >= UINT64_MAX / b) {
+		return UINT64_MAX;
+	} else {
+		return a * b;
+	}
+}
 
-	switch (utb_type) {
+static void
+sampler_init(const struct unit_test_block *utb, enum takum_type takum_type,
+             size_t maximum_sample_count, struct sampler *sampler)
+{
+	uint64_t full_count;
+
+	sampler->takum_type = takum_type;
+	sampler->utb = utb;
+
+	switch (utb->type) {
 	case UNIT_TEST_BLOCK_TYPE_ROUNDTRIP:
 	case UNIT_TEST_BLOCK_TYPE_TAKUM_TAKUM:
 	case UNIT_TEST_BLOCK_TYPE_TAKUM_UINT8:
-		stride = takum_type_parameters[takum_type].stride_1d;
+		/* 1D */
+		full_count = takum_type_parameters[takum_type].count;
+
+		if (full_count <= maximum_sample_count) {
+			sampler->mode = SAMPLER_MODE_TAKUM_FULL;
+			sampler->target_count = full_count;
+
+			/* Initialise the x value to NaR to make a full sweep */
+			sampler->value_x =
+				takum_type_parameters[takum_type].nar;
+
+			/* Initialise the y value to NaR as it is not used in 1D
+			 */
+			sampler->value_y =
+				takum_type_parameters[takum_type].nar;
+		} else {
+			sampler->mode = SAMPLER_MODE_TAKUM_RANDOM;
+			sampler->target_count = maximum_sample_count;
+
+			/*
+			 * The start value is chosen such that the bit
+			 * representation is all zeros. This is because
+			 * the LFSR PRNG cannot cover the all-zero-state.
+			 * If it is given the all-zero-state to generate
+			 * the next state, it will automatically set the
+			 * 'real' starting seed.
+			 */
+			sampler->value_x = 0;
+
+			/* Initialise the y value to NaR as it is not used in 1D
+			 */
+			sampler->value_y =
+				takum_type_parameters[takum_type].nar;
+		}
+
 		break;
 	case UNIT_TEST_BLOCK_TYPE_TAKUM_INT64_TAKUM:
+		/* 1D with given second argument integer test cases */
+		full_count = safe_uint64_multiplication(
+			takum_type_parameters[takum_type].count,
+			utb->data.takum_int64_takum.integer_test_case_count);
+
+		if (full_count <= maximum_sample_count) {
+			sampler->mode = SAMPLER_MODE_TAKUM_INT64_FULL;
+			sampler->target_count = full_count;
+
+			/* Initialise the x value to NaR to make a full sweep */
+			sampler->value_x =
+				takum_type_parameters[takum_type].nar;
+
+			/* Initialise the y value to the first integer test case
+			 */
+			sampler->value_y = utb->data.takum_int64_takum
+			                           .integer_test_cases[0];
+		} else {
+			sampler->mode = SAMPLER_MODE_TAKUM_INT64_RANDOM;
+			sampler->target_count = maximum_sample_count;
+
+			/*
+			 * The start value is chosen such that the bit
+			 * representation is all zeros. This is because
+			 * the LFSR PRNG cannot cover the all-zero-state.
+			 * If it is given the all-zero-state to generate
+			 * the next state, it will automatically set the
+			 * 'real' starting seed.
+			 */
+			sampler->value_x = 0;
+
+			/* Initialise the y value to the first integer test case
+			 */
+			sampler->value_y = utb->data.takum_int64_takum
+			                           .integer_test_cases[0];
+		}
+
+		break;
 	case UNIT_TEST_BLOCK_TYPE_TAKUM_TAKUM_TAKUM:
-		stride = takum_type_parameters[takum_type].stride_2d;
+		/* 2D */
+		full_count = safe_uint64_multiplication(
+			takum_type_parameters[takum_type].count,
+			takum_type_parameters[takum_type].count);
+
+		if (full_count <= maximum_sample_count) {
+			sampler->mode = SAMPLER_MODE_TAKUM_TAKUM_FULL;
+			sampler->target_count = full_count;
+
+			/*
+			 * Initialise the x and y values to NaR to make a
+			 * full sweep
+			 */
+			sampler->value_x =
+				takum_type_parameters[takum_type].nar;
+			sampler->value_y =
+				takum_type_parameters[takum_type].nar;
+		} else {
+			sampler->mode = SAMPLER_MODE_TAKUM_TAKUM_RANDOM;
+			sampler->target_count = maximum_sample_count;
+
+			/*
+			 * The start values are chosen such that the bit
+			 * representation is all zeros. This is because
+			 * the LFSR PRNG cannot cover the all-zero-state.
+			 * If it is given the all-zero-state to generate
+			 * the next state, it will automatically set the
+			 * 'real' starting seed.
+			 */
+			sampler->value_x = 0;
+			sampler->value_y = 0;
+		}
+
 		break;
 	}
 
-	/* check the distance from the 'finish', but do that only when
-	 * *i is larger than or equal to 0 to avoid an overflow */
-	if (*i >= 0 &&
-	    (uint64_t)takum_type_parameters[takum_type].positive_maximum -
-	                    (uint64_t)*i <
-	            (uint64_t)stride) {
-		/* the stride would overflow, don't increase i, return 1 */
-		return 1;
-	} else {
-		/* we are safe, apply the stride and return 0 */
-		*i += stride;
-		return 0;
+	sampler->current_count = 1;
+}
+
+static int
+sampler_next(struct sampler *sampler)
+{
+	size_t i;
+
+	switch (sampler->mode) {
+	case SAMPLER_MODE_TAKUM_FULL:
+		if (sampler->value_x ==
+		    takum_type_parameters[sampler->takum_type]
+		            .positive_maximum) {
+			/* we are done */
+			return 1;
+		} else {
+			sampler->value_x++;
+		}
+
+		break;
+	case SAMPLER_MODE_TAKUM_RANDOM:
+		if (sampler->current_count >= sampler->target_count) {
+			/* we are done */
+			return 1;
+		} else {
+			sampler->value_x = random_next(sampler->value_x,
+			                               sampler->takum_type);
+		}
+
+		break;
+	case SAMPLER_MODE_TAKUM_TAKUM_FULL:
+		if (sampler->value_y ==
+		    takum_type_parameters[sampler->takum_type]
+		            .positive_maximum) {
+			/* we have completed a full iteration of the y
+			 * coordinates */
+			if (sampler->value_x ==
+			    takum_type_parameters[sampler->takum_type]
+			            .positive_maximum) {
+				/* the x coordinates are also done, we are done
+				 */
+				return 1;
+			} else {
+				sampler->value_y = takum_type_parameters
+				                           [sampler->takum_type]
+				                                   .nar;
+				sampler->value_x += 1;
+			}
+		} else {
+			sampler->value_y += 1;
+		}
+
+		break;
+	case SAMPLER_MODE_TAKUM_TAKUM_RANDOM:
+		if (sampler->current_count >= sampler->target_count) {
+			/* we are done */
+			return 1;
+		} else {
+			sampler->value_x = random_next(sampler->value_x,
+			                               sampler->takum_type);
+			sampler->value_y = random_next(sampler->value_y,
+			                               sampler->takum_type);
+		}
+
+		break;
+	case SAMPLER_MODE_TAKUM_INT64_FULL:
+		/* determine the offset of the current y-value integer test case
+		 */
+		for (i = 0; i < sampler->utb->data.takum_int64_takum
+		                        .integer_test_case_count;
+		     i++) {
+			if (sampler->value_y ==
+			    sampler->utb->data.takum_int64_takum
+			            .integer_test_cases[i]) {
+				break;
+			}
+		}
+		if (i == sampler->utb->data.takum_int64_takum
+		                 .integer_test_case_count) {
+			fprintf(stderr,
+			        "%s: sampler_next: Unexpected integer test "
+			        "case mismatch\n",
+			        argv0);
+			exit(1);
+		} else if (i == sampler->utb->data.takum_int64_takum
+		                                .integer_test_case_count -
+		                        1) {
+			/* we have completed a full iteration of the integer
+			 * test cases */
+			if (sampler->value_x ==
+			    takum_type_parameters[sampler->takum_type]
+			            .positive_maximum) {
+				/* the x coordinates are also done, we are done
+				 */
+				return 1;
+			} else {
+				sampler->value_y =
+					sampler->utb->data.takum_int64_takum
+						.integer_test_cases[0];
+				sampler->value_x += 1;
+			}
+		} else {
+			/* get the next integer sample */
+			sampler->value_y = sampler->utb->data.takum_int64_takum
+			                           .integer_test_cases[i + 1];
+		}
+
+		break;
+	case SAMPLER_MODE_TAKUM_INT64_RANDOM:
+		if (sampler->current_count >= sampler->target_count) {
+			/* we are done */
+			return 1;
+		} else {
+			/* determine the offset of the current y-value integer
+			 * test case */
+			for (i = 0; i < sampler->utb->data.takum_int64_takum
+			                        .integer_test_case_count;
+			     i++) {
+				if (sampler->value_y ==
+				    sampler->utb->data.takum_int64_takum
+				            .integer_test_cases[i]) {
+					break;
+				}
+			}
+			if (i == sampler->utb->data.takum_int64_takum
+			                 .integer_test_case_count) {
+				fprintf(stderr,
+				        "%s: sampler_next: Unexpected integer "
+				        "test case mismatch\n",
+				        argv0);
+				exit(1);
+			} else if (i ==
+			           sampler->utb->data.takum_int64_takum
+			                           .integer_test_case_count -
+			                   1) {
+				/*
+				 * we have completed a full iteration of the
+				 * integer test cases, reset and get a new x
+				 * value
+				 */
+				sampler->value_y =
+					sampler->utb->data.takum_int64_takum
+						.integer_test_cases[0];
+				sampler->value_x = random_next(
+					sampler->value_x, sampler->takum_type);
+			} else {
+				/* get the next integer sample */
+				sampler->value_y =
+					sampler->utb->data.takum_int64_takum
+						.integer_test_cases[i + 1];
+			}
+		}
+
+		break;
 	}
+
+	sampler->current_count++;
+
+	return 0;
 }
 
 static int
 run_unit_test_on_type(const struct unit_test_block *utb,
-                      enum takum_type takum_type)
+                      enum takum_type takum_type, uint64_t maximum_sample_count)
 
 {
-	size_t failed_count = 0, coverage_test_count = 0, i;
-	int64_t a, b;
+	struct sampler sampler = { 0 };
+	size_t failed_count = 0;
 
 	/*
 	 * We iterate over (almost) all takums of the given type,
@@ -723,61 +1202,17 @@ run_unit_test_on_type(const struct unit_test_block *utb,
 	 * takum and float are correct, which is a valid assumption
 	 * given we test those separately.
 	 */
-	for (a = takum_type_parameters[takum_type].nar;;) {
-		switch (utb->type) {
-		case UNIT_TEST_BLOCK_TYPE_ROUNDTRIP:
-		case UNIT_TEST_BLOCK_TYPE_TAKUM_TAKUM:
-		case UNIT_TEST_BLOCK_TYPE_TAKUM_UINT8:
-			failed_count += check_unary_binary_case(
-				utb, a, 0, takum_type, coverage_test_count);
-			coverage_test_count++;
+	sampler_init(utb, takum_type, maximum_sample_count, &sampler);
 
-			if (next_sample(&a, utb->type, takum_type)) {
-				goto done;
-			}
-
-			break;
-		case UNIT_TEST_BLOCK_TYPE_TAKUM_INT64_TAKUM:
-			for (i = 0; i < utb->data.takum_int64_takum
-			                        .integer_test_case_count;
-			     i++) {
-				failed_count += check_unary_binary_case(
-					utb, a,
-					utb->data.takum_int64_takum
-						.integer_test_cases[i],
-					takum_type, coverage_test_count);
-				coverage_test_count++;
-			}
-
-			if (next_sample(&a, utb->type, takum_type)) {
-				goto done;
-			}
-
-			break;
-		case UNIT_TEST_BLOCK_TYPE_TAKUM_TAKUM_TAKUM:
-			for (b = a;;) {
-				failed_count += check_unary_binary_case(
-					utb, a, b, takum_type,
-					coverage_test_count);
-				coverage_test_count++;
-
-				if (next_sample(&b, utb->type, takum_type)) {
-					break;
-				}
-			}
-
-			if (next_sample(&a, utb->type, takum_type)) {
-				goto done;
-			}
-
-			break;
-		}
-	}
-done:
+	do {
+		failed_count += check_unary_binary_case(
+			utb, sampler.value_x, sampler.value_y, takum_type,
+			sampler.current_count);
+	} while (!sampler_next(&sampler));
 
 	printf("%s: %s_%s: %zu/%zu unit tests passed.\n", argv0,
 	       takum_type_parameters[takum_type].name, utb->function_name,
-	       coverage_test_count - failed_count, coverage_test_count);
+	       sampler.target_count - failed_count, sampler.target_count);
 
 	return (failed_count > 0) ? 1 : 0;
 }
@@ -785,12 +1220,16 @@ done:
 int
 run_unit_test_block(const struct unit_test_block *utb)
 {
-	return run_unit_test_on_type(utb, TAKUM8) +
-	       run_unit_test_on_type(utb, TAKUM16) +
-	       run_unit_test_on_type(utb, TAKUM32) +
-	       run_unit_test_on_type(utb, TAKUM64) +
-	       run_unit_test_on_type(utb, TAKUM_LINEAR8) +
-	       run_unit_test_on_type(utb, TAKUM_LINEAR16) +
-	       run_unit_test_on_type(utb, TAKUM_LINEAR32) +
-	       run_unit_test_on_type(utb, TAKUM_LINEAR64);
+	uint64_t maximum_sample_count = UINT64_C(1) << 22;
+
+	return run_unit_test_on_type(utb, TAKUM8, maximum_sample_count) +
+	       run_unit_test_on_type(utb, TAKUM16, maximum_sample_count) +
+	       run_unit_test_on_type(utb, TAKUM32, maximum_sample_count) +
+	       run_unit_test_on_type(utb, TAKUM64, maximum_sample_count) +
+	       run_unit_test_on_type(utb, TAKUM_LINEAR8, maximum_sample_count) +
+	       run_unit_test_on_type(utb, TAKUM_LINEAR16,
+	                             maximum_sample_count) +
+	       run_unit_test_on_type(utb, TAKUM_LINEAR32,
+	                             maximum_sample_count) +
+	       run_unit_test_on_type(utb, TAKUM_LINEAR64, maximum_sample_count);
 }

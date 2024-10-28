@@ -21,7 +21,21 @@ UTIL_UNARY_FLOAT_TAKUM_LINEAR_WRAPPER(cos, cos, RESULT_FIXER_MACRO)
 static long double
 cospil(long double f)
 {
-	return cosl(PI * f);
+	long double f_mod_2;
+
+	f_mod_2 = fmodl(f, 2.0l);
+
+	if (f_mod_2 == 0.0l) {
+		return 1.0l;
+	} else if (f_mod_2 == 0.5l) {
+		return 0.0l;
+	} else if (f_mod_2 == 1.0l) {
+		return -1.0l;
+	} else if (f_mod_2 == 1.5l) {
+		return 0.0l;
+	} else {
+		return cosl(PI * f);
+	}
 }
 
 static double

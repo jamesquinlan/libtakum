@@ -29,7 +29,21 @@ static const struct unit_test_block sin_utb = {
 long double
 sin_pi_times_reference(long double a)
 {
-	return sinl(PI * a);
+	long double a_mod_2;
+
+	a_mod_2 = fmodl(a, 2.0l);
+
+	if (a_mod_2 == 0.0l) {
+		return 0.0l;
+	} else if (a_mod_2 == 0.5l) {
+		return 1.0l;
+	} else if (a_mod_2 == 1.0l) {
+		return 0.0l;
+	} else if (a_mod_2 == 1.5l) {
+		return -1.0l;
+	} else {
+		return sinl(PI * a);
+	}
 }
 
 static const struct unit_test_block sin_pi_times_utb = {
