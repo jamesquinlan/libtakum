@@ -11,6 +11,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 char *argv0;
 
@@ -60,7 +61,7 @@ random_int8_next(int8_t previous_state)
 	 */
 	if (state.bits == 0) {
 		/* set our 'real' starting seed */
-		state.bits = (uint8_t)(intptr_t)(&state.bits);
+		state.bits = (uint8_t)rand();
 	}
 
 	/* Determine the feedback bit with the feedback polynomial */
@@ -105,7 +106,7 @@ random_int16_next(int16_t previous_state)
 	 */
 	if (state.bits == 0) {
 		/* set our 'real' starting seed */
-		state.bits = (uint16_t)(intptr_t)(&state.bits);
+		state.bits = (uint16_t)rand();
 	}
 
 	/* Determine the feedback bit with the feedback polynomial */
@@ -150,7 +151,7 @@ random_int32_next(int32_t previous_state)
 	 */
 	if (state.bits == 0) {
 		/* set our 'real' starting seed */
-		state.bits = (uint32_t)(intptr_t)(&state.bits);
+		state.bits = (uint32_t)rand();
 	}
 
 	/* Determine the feedback bit with the feedback polynomial */
@@ -195,7 +196,7 @@ random_int64_next(int64_t previous_state)
 	 */
 	if (state.bits == 0) {
 		/* set our 'real' starting seed */
-		state.bits = (uint64_t)(&state.bits);
+		state.bits = (uint64_t)rand();
 	}
 
 	/* Determine the feedback bit with the feedback polynomial */
@@ -1221,6 +1222,9 @@ int
 run_unit_test_block(const struct unit_test_block *utb)
 {
 	uint64_t maximum_sample_count = UINT64_C(1) << 22;
+
+	/* seed the random number generator */
+	srand(time(NULL));
 
 	return run_unit_test_on_type(utb, TAKUM8, maximum_sample_count) +
 	       run_unit_test_on_type(utb, TAKUM16, maximum_sample_count) +
