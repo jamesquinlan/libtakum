@@ -338,7 +338,7 @@ static inline uint32_t
 float32_fraction_to_rounded_bits(float f, uint_fast8_t num_bits, bool *carry)
 {
 	uint32_t F;
-	bool round_up;
+	bool rounding_bit, is_tied;
 
 	/*
 	 * This function converts f in [0,1) to a num_bit fixed
@@ -379,13 +379,37 @@ float32_fraction_to_rounded_bits(float f, uint_fast8_t num_bits, bool *carry)
 		F = (-q < 32) ? (F >> -q) : UINT32_C(0);
 
 		/*
-		 * Round F to num_bit bits, rounding up when the
-		 * num_bit+1'th bit is set. The result will
-		 * never be zero (under- or overflow) as we ensured this
-		 * before with clamping
+		 * Round F to num_bit bits, possibly rounding up when the
+		 * num_bit+1'th bit is set, but resolving a tie to even.
+		 * The result will never be zero (under- or overflow) as we
+		 * ensured this before with clamping
 		 */
-		round_up = ((F & (UINT32_C(1) << (32 - num_bits - 1))) != 0);
-		F = (F >> (32 - num_bits)) + round_up;
+
+		/*
+		 * Check if we have a tie (lowest (32 - num_bits) bits
+		 * are 10...0) by shifting the input by num_bits bits to
+		 * the left and comparing the whole bit string against 10...0
+		 */
+		is_tied = ((uint32_t)(F << num_bits) ==
+		           (UINT32_C(1) << (32 - 1)));
+
+		/*
+		 * we obtain the rounding bit with a mask 10...0 of length
+		 * 32 - num_bits - 1
+		 */
+		rounding_bit =
+			((F & (UINT32_C(1) << (32 - num_bits - 1))) != 0);
+
+		/*
+		 * shift F to the right to the desired length of num_bits
+		 */
+		F >>= (32 - num_bits);
+
+		/*
+		 * Round up if the rounding bit is set, but treat a tie
+		 * by rounding to even
+		 */
+		F += rounding_bit && (!is_tied || (F % 2 == 1));
 
 		/* detect carry */
 		*carry = F & (UINT32_C(1) << num_bits);
@@ -401,7 +425,7 @@ static inline uint64_t
 float64_fraction_to_rounded_bits(double f, uint_fast8_t num_bits, bool *carry)
 {
 	uint64_t F;
-	bool round_up;
+	bool rounding_bit, is_tied;
 
 	/*
 	 * This function converts f in [0,1) to a num_bit fixed
@@ -442,13 +466,37 @@ float64_fraction_to_rounded_bits(double f, uint_fast8_t num_bits, bool *carry)
 		F = (-q < 64) ? (F >> -q) : UINT64_C(0);
 
 		/*
-		 * Round F to num_bit bits, rounding up when the
-		 * num_bit+1'th bit is set. The result will
-		 * never be zero (under- or overflow) as we ensured this
-		 * before with clamping
+		 * Round F to num_bit bits, possibly rounding up when the
+		 * num_bit+1'th bit is set, but resolving a tie to even.
+		 * The result will never be zero (under- or overflow) as we
+		 * ensured this before with clamping
 		 */
-		round_up = ((F & (UINT64_C(1) << (64 - num_bits - 1))) != 0);
-		F = (F >> (64 - num_bits)) + round_up;
+
+		/*
+		 * Check if we have a tie (lowest (64 - num_bits) bits
+		 * are 10...0) by shifting the input by num_bits bits to
+		 * the left and comparing the whole bit string against 10...0
+		 */
+		is_tied = ((uint64_t)(F << num_bits) ==
+		           (UINT64_C(1) << (64 - 1)));
+
+		/*
+		 * we obtain the rounding bit with a mask 10...0 of length
+		 * 64 - num_bits - 1
+		 */
+		rounding_bit =
+			((F & (UINT64_C(1) << (64 - num_bits - 1))) != 0);
+
+		/*
+		 * shift F to the right to the desired length of num_bits
+		 */
+		F >>= (64 - num_bits);
+
+		/*
+		 * Round up if the rounding bit is set, but treat a tie
+		 * by rounding to even
+		 */
+		F += rounding_bit && (!is_tied || (F % 2 == 1));
 
 		/* detect carry */
 		*carry = F & (UINT64_C(1) << num_bits);
@@ -465,7 +513,7 @@ extended_float_fraction_to_rounded_bits(long double f, uint_fast8_t num_bits,
                                         bool *carry)
 {
 	uint64_t F;
-	bool round_up;
+	bool rounding_bit, is_tied;
 
 	/*
 	 * This function converts f in [0,1) to a num_bit fixed
@@ -568,13 +616,37 @@ extended_float_fraction_to_rounded_bits(long double f, uint_fast8_t num_bits,
 		F = (-q < 64) ? (F >> -q) : UINT64_C(0);
 
 		/*
-		 * Round F to num_bit bits, rounding up when the
-		 * num_bit+1'th bit is set. The result will
-		 * never be zero (under- or overflow) as we ensured this
-		 * before with clamping
+		 * Round F to num_bit bits, possibly rounding up when the
+		 * num_bit+1'th bit is set, but resolving a tie to even.
+		 * The result will never be zero (under- or overflow) as we
+		 * ensured this before with clamping
 		 */
-		round_up = ((F & (UINT64_C(1) << (64 - num_bits - 1))) != 0);
-		F = (F >> (64 - num_bits)) + round_up;
+
+		/*
+		 * Check if we have a tie (lowest (64 - num_bits) bits
+		 * are 10...0) by shifting the input by num_bits bits to
+		 * the left and comparing the whole bit string against 10...0
+		 */
+		is_tied = ((uint64_t)(F << num_bits) ==
+		           (UINT64_C(1) << (64 - 1)));
+
+		/*
+		 * we obtain the rounding bit with a mask 10...0 of length
+		 * 64 - num_bits - 1
+		 */
+		rounding_bit =
+			((F & (UINT64_C(1) << (64 - num_bits - 1))) != 0);
+
+		/*
+		 * shift F to the right to the desired length of num_bits
+		 */
+		F >>= (64 - num_bits);
+
+		/*
+		 * Round up if the rounding bit is set, but treat a tie
+		 * by rounding to even
+		 */
+		F += rounding_bit && (!is_tied || (F % 2 == 1));
 
 		/* detect carry */
 		*carry = F & (UINT64_C(1) << num_bits);

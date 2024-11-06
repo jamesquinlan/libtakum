@@ -2,6 +2,7 @@
 #ifndef TAKUM_H
 #define TAKUM_H
 
+#include <stdbool.h>
 #include <stdint.h>
 
 /* Type definitions (availability of int*_t infers two's complement) */
@@ -973,11 +974,27 @@ takum_linear64 takum_linear64_from_float64(double);
 			.value = t,                                            \
 		};                                                             \
 		union takum_internal_takum##TO##_union out = {                 \
-			.bits = (in.bits >> (FROM - TO)) +                     \
-			        ((in.bits & UINT##FROM##_C(0x80)               \
-			                            << (FROM - TO - 8)) ==     \
-			         UINT##FROM##_C(0x80) << (FROM - TO - 8)),     \
+			.bits = (in.bits >> (FROM - TO))                       \
 		};                                                             \
+		bool is_tied, rounding_bit;                                    \
+                                                                               \
+		/*                                                             \
+		 * Check if we have a tie (lowest FROM - TO bits are 10...0)   \
+		 * by shifting the input by TO bits to the left and comparing  \
+		 * the whole bit string against 10...0                         \
+		 */                                                            \
+		is_tied = (uint##FROM##_t)(in.bits << TO) ==                   \
+		          (UINT##FROM##_C(1) << (FROM - 1));                   \
+                                                                               \
+		/*                                                             \
+		 * we obtain the rounding bit with a mask 10...0 of length     \
+		 * FROM - TO - 1                                               \
+		 */                                                            \
+		rounding_bit =                                                 \
+			in.bits & (UINT##FROM##_C(1) << (FROM - TO - 1));      \
+                                                                               \
+		/* round up if the rounding bit is 1, but tie to even */       \
+		out.bits += rounding_bit && (!is_tied || (out.bits % 2 == 1)); \
                                                                                \
 		/* saturate over-/underflows */                                \
 		out.bits += (((out.bits == 0) & (in.bits != 0)) -              \
