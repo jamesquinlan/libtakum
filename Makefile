@@ -24,6 +24,7 @@ GEN =\
 SRC =\
 	src/10_raised\
 	src/2_raised\
+	src/absolute\
 	src/addition\
 	src/arccos\
 	src/arccot\
@@ -60,6 +61,7 @@ SRC =\
 	src/root\
 	src/sec\
 	src/sech\
+	src/sign\
 	src/sin\
 	src/sinh\
 	src/square_root\
@@ -1325,6 +1327,6 @@ dist:
 	rm -rf "libtakum-$(VERSION)"
 
 format:
-	clang-format -i takum.h $(BENCHMARK:=.c) benchmark/util.c benchmark/util.h $(EXAMPLE:=.c) example/util.c example/util.h $(GEN:=.c) gen/util.c gen/util.h $(SRC:=.c) src/util.h $(TEST:=.c) test/util.c test/util.h
+	clang-format -i takum.h $(BENCHMARK:=.c) benchmark/util.c benchmark/util.h $(EXAMPLE:=.c) example/util.c example/util.h $(GEN:=.c) gen/util.c gen/util.h $(SRC:=.c) src/util.c src/util.h $(TEST:=.c) test/util.c test/util.h
 
 .PHONY: all benchmark check clean dist example format install test uninstall

@@ -32,7 +32,7 @@ static const uint8_t p_lut[] = {
 uint8_t
 takum8_precision(takum8 t)
 {
-	const union takum_internal_takum8_union in = {
+	const union util_takum8_union in = {
 		.value = t,
 	};
 	uint_fast8_t DR;
@@ -55,7 +55,7 @@ takum8_precision(takum8 t)
 uint8_t
 takum16_precision(takum16 t)
 {
-	const union takum_internal_takum16_union in = {
+	const union util_takum16_union in = {
 		.value = t,
 	};
 	uint_fast8_t DR;
@@ -77,7 +77,7 @@ takum16_precision(takum16 t)
 uint8_t
 takum32_precision(takum32 t)
 {
-	const union takum_internal_takum32_union in = {
+	const union util_takum32_union in = {
 		.value = t,
 	};
 	uint_fast8_t DR;
@@ -100,7 +100,7 @@ takum32_precision(takum32 t)
 uint8_t
 takum64_precision(takum64 t)
 {
-	const union takum_internal_takum64_union in = {
+	const union util_takum64_union in = {
 		.value = t,
 	};
 	uint_fast8_t DR;

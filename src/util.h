@@ -200,4 +200,25 @@
 			RESULT_FIXER_MACRO(fa, fb, res));                      \
 	}
 
+/* type punning unions */
+union util_takum8_union {
+	int8_t value;
+	uint8_t bits;
+};
+
+union util_takum16_union {
+	int16_t value;
+	uint16_t bits;
+};
+
+union util_takum32_union {
+	int32_t value;
+	uint32_t bits;
+};
+
+union util_takum64_union {
+	int64_t value;
+	uint64_t bits;
+};
+
 #endif

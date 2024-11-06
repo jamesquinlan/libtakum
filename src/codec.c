@@ -83,7 +83,7 @@ get_c_and_return_shift(uint16_t in, int_fast16_t *c)
 float
 codec_takum8_to_l(takum8 t)
 {
-	const union takum_internal_takum8_union in = {
+	const union util_takum8_union in = {
 		.value = t,
 	};
 	int_fast16_t c;
@@ -115,7 +115,7 @@ codec_takum8_to_l(takum8 t)
 float
 codec_takum16_to_l(takum16 t)
 {
-	const union takum_internal_takum16_union in = {
+	const union util_takum16_union in = {
 		.value = t,
 	};
 	int_fast16_t c;
@@ -147,7 +147,7 @@ codec_takum16_to_l(takum16 t)
 double
 codec_takum32_to_l(takum32 t)
 {
-	const union takum_internal_takum32_union in = {
+	const union util_takum32_union in = {
 		.value = t,
 	};
 	int_fast16_t c;
@@ -179,7 +179,7 @@ long double
 codec_takum64_to_l(takum64 t)
 {
 #if LDBL_MANT_DIG >= 64
-	const union takum_internal_takum64_union in = {
+	const union util_takum64_union in = {
 		.value = t,
 	};
 	int_fast16_t c;

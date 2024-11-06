@@ -2,7 +2,6 @@
 #ifndef TAKUM_H
 #define TAKUM_H
 
-#include <stdbool.h>
 #include <stdint.h>
 
 /* Type definitions (availability of int*_t infers two's complement) */
@@ -15,27 +14,6 @@ typedef int8_t takum_linear8;
 typedef int16_t takum_linear16;
 typedef int32_t takum_linear32;
 typedef int64_t takum_linear64;
-
-/* type punning unions */
-union takum_internal_takum8_union {
-	int8_t value;
-	uint8_t bits;
-};
-
-union takum_internal_takum16_union {
-	int16_t value;
-	uint16_t bits;
-};
-
-union takum_internal_takum32_union {
-	int32_t value;
-	uint32_t bits;
-};
-
-union takum_internal_takum64_union {
-	int64_t value;
-	uint64_t bits;
-};
 
 /* NaR (Not a Real) */
 #define TAKUM8_NAR  (INT8_C(-127) - INT8_C(1))
@@ -511,53 +489,15 @@ takum_linear32 takum_linear32_2_raised_minus_1(takum_linear32);
 takum_linear64 takum_linear64_2_raised_minus_1(takum_linear64);
 
 /* Absolute */
-static inline takum8
-takum8_absolute(takum8 t)
-{
-	return (t < 0) * (-t) + (t >= 0) * t;
-}
+takum8 takum8_absolute(takum8 t);
+takum16 takum16_absolute(takum16 t);
+takum32 takum32_absolute(takum32 t);
+takum64 takum64_absolute(takum64 t);
 
-static inline takum16
-takum16_absolute(takum16 t)
-{
-	return (t < 0) * (-t) + (t >= 0) * t;
-}
-
-static inline takum32
-takum32_absolute(takum32 t)
-{
-	return (t < 0) * (-t) + (t >= 0) * t;
-}
-
-static inline takum64
-takum64_absolute(takum64 t)
-{
-	return (t < 0) * (-t) + (t >= 0) * t;
-}
-
-static inline takum_linear8
-takum_linear8_absolute(takum_linear8 t)
-{
-	return (t < 0) * (-t) + (t >= 0) * t;
-}
-
-static inline takum_linear16
-takum_linear16_absolute(takum_linear16 t)
-{
-	return (t < 0) * (-t) + (t >= 0) * t;
-}
-
-static inline takum_linear32
-takum_linear32_absolute(takum_linear32 t)
-{
-	return (t < 0) * (-t) + (t >= 0) * t;
-}
-
-static inline takum_linear64
-takum_linear64_absolute(takum_linear64 t)
-{
-	return (t < 0) * (-t) + (t >= 0) * t;
-}
+takum_linear8 takum_linear8_absolute(takum_linear8 t);
+takum_linear16 takum_linear16_absolute(takum_linear16 t);
+takum_linear32 takum_linear32_absolute(takum_linear32 t);
+takum_linear64 takum_linear64_absolute(takum_linear64 t);
 
 /* Addition */
 takum8 takum8_addition(takum8, takum8);
@@ -955,74 +895,10 @@ takum_linear16 takum_linear16_from_float64(double);
 takum_linear32 takum_linear32_from_float64(double);
 takum_linear64 takum_linear64_from_float64(double);
 
-/* Takum conversion helper macros */
-#define TAKUM_INTERNAL_CONVERT_EXPAND(FROM, TO)                                \
-	do {                                                                   \
-		const union takum_internal_takum##FROM##_union in = {          \
-			.value = t,                                            \
-		};                                                             \
-		union takum_internal_takum##TO##_union out = {                 \
-			.bits = ((uint##TO##_t)in.bits) << (TO - FROM),        \
-		};                                                             \
-                                                                               \
-		return out.value;                                              \
-	} while (0);
-
-#define TAKUM_INTERNAL_CONVERT_REDUCE(FROM, TO)                                \
-	do {                                                                   \
-		const union takum_internal_takum##FROM##_union in = {          \
-			.value = t,                                            \
-		};                                                             \
-		union takum_internal_takum##TO##_union out = {                 \
-			.bits = (in.bits >> (FROM - TO))                       \
-		};                                                             \
-		bool is_tied, rounding_bit;                                    \
-                                                                               \
-		/*                                                             \
-		 * Check if we have a tie (lowest FROM - TO bits are 10...0)   \
-		 * by shifting the input by TO bits to the left and comparing  \
-		 * the whole bit string against 10...0                         \
-		 */                                                            \
-		is_tied = (uint##FROM##_t)(in.bits << TO) ==                   \
-		          (UINT##FROM##_C(1) << (FROM - 1));                   \
-                                                                               \
-		/*                                                             \
-		 * we obtain the rounding bit with a mask 10...0 of length     \
-		 * FROM - TO - 1                                               \
-		 */                                                            \
-		rounding_bit =                                                 \
-			in.bits & (UINT##FROM##_C(1) << (FROM - TO - 1));      \
-                                                                               \
-		/* round up if the rounding bit is 1, but tie to even */       \
-		out.bits += rounding_bit && (!is_tied || (out.bits % 2 == 1)); \
-                                                                               \
-		/* saturate over-/underflows */                                \
-		out.bits += (((out.bits == 0) & (in.bits != 0)) -              \
-		             ((out.value == TAKUM##TO##_NAR) &                 \
-		              (in.value != TAKUM##FROM##_NAR))) *              \
-		            (1 - 2 * (in.value < 0));                          \
-                                                                               \
-		return out.value;                                              \
-	} while (0);
-
 /* Conversion from takum8 */
-static inline takum16
-takum16_from_takum8(takum8 t)
-{
-	TAKUM_INTERNAL_CONVERT_EXPAND(8, 16);
-}
-
-static inline takum32
-takum32_from_takum8(takum8 t)
-{
-	TAKUM_INTERNAL_CONVERT_EXPAND(8, 32);
-}
-
-static inline takum64
-takum64_from_takum8(takum8 t)
-{
-	TAKUM_INTERNAL_CONVERT_EXPAND(8, 64);
-}
+takum16 takum16_from_takum8(takum8);
+takum32 takum32_from_takum8(takum8);
+takum64 takum64_from_takum8(takum8);
 
 takum_linear8 takum_linear8_from_takum8(takum8);
 takum_linear16 takum_linear16_from_takum8(takum8);
@@ -1030,23 +906,9 @@ takum_linear32 takum_linear32_from_takum8(takum8);
 takum_linear64 takum_linear64_from_takum8(takum8);
 
 /* Conversion from takum16 */
-static inline takum8
-takum8_from_takum16(takum16 t)
-{
-	TAKUM_INTERNAL_CONVERT_REDUCE(16, 8);
-}
-
-static inline takum32
-takum32_from_takum16(takum16 t)
-{
-	TAKUM_INTERNAL_CONVERT_EXPAND(16, 32);
-}
-
-static inline takum64
-takum64_from_takum16(takum16 t)
-{
-	TAKUM_INTERNAL_CONVERT_EXPAND(16, 64);
-}
+takum8 takum8_from_takum16(takum16);
+takum32 takum32_from_takum16(takum16);
+takum64 takum64_from_takum16(takum16);
 
 takum_linear8 takum_linear8_from_takum16(takum16);
 takum_linear16 takum_linear16_from_takum16(takum16);
@@ -1054,23 +916,9 @@ takum_linear32 takum_linear32_from_takum16(takum16);
 takum_linear64 takum_linear64_from_takum16(takum16);
 
 /* Conversion from takum32 */
-static inline takum8
-takum8_from_takum32(takum32 t)
-{
-	TAKUM_INTERNAL_CONVERT_REDUCE(32, 8);
-}
-
-static inline takum16
-takum16_from_takum32(takum32 t)
-{
-	TAKUM_INTERNAL_CONVERT_REDUCE(32, 16);
-}
-
-static inline takum64
-takum64_from_takum32(takum32 t)
-{
-	TAKUM_INTERNAL_CONVERT_EXPAND(32, 64);
-}
+takum8 takum8_from_takum32(takum32);
+takum16 takum16_from_takum32(takum32);
+takum64 takum64_from_takum32(takum32);
 
 takum_linear8 takum_linear8_from_takum32(takum32);
 takum_linear16 takum_linear16_from_takum32(takum32);
@@ -1078,23 +926,9 @@ takum_linear32 takum_linear32_from_takum32(takum32);
 takum_linear64 takum_linear64_from_takum32(takum32);
 
 /* Conversion from takum64 */
-static inline takum8
-takum8_from_takum64(takum64 t)
-{
-	TAKUM_INTERNAL_CONVERT_REDUCE(64, 8);
-}
-
-static inline takum16
-takum16_from_takum64(takum64 t)
-{
-	TAKUM_INTERNAL_CONVERT_REDUCE(64, 16);
-}
-
-static inline takum32
-takum32_from_takum64(takum64 t)
-{
-	TAKUM_INTERNAL_CONVERT_REDUCE(64, 32);
-}
+takum8 takum8_from_takum64(takum64);
+takum16 takum16_from_takum64(takum64);
+takum32 takum32_from_takum64(takum64);
 
 takum_linear8 takum_linear8_from_takum64(takum64);
 takum_linear16 takum_linear16_from_takum64(takum64);
@@ -1107,23 +941,9 @@ takum16 takum16_from_takum_linear8(takum_linear8 t);
 takum32 takum32_from_takum_linear8(takum_linear8 t);
 takum64 takum64_from_takum_linear8(takum_linear8 t);
 
-static inline takum_linear16
-takum_linear16_from_takum_linear8(takum_linear8 t)
-{
-	TAKUM_INTERNAL_CONVERT_EXPAND(8, 16);
-}
-
-static inline takum_linear32
-takum_linear32_from_takum_linear8(takum_linear8 t)
-{
-	TAKUM_INTERNAL_CONVERT_EXPAND(8, 32);
-}
-
-static inline takum_linear64
-takum_linear64_from_takum_linear8(takum_linear8 t)
-{
-	TAKUM_INTERNAL_CONVERT_EXPAND(8, 64);
-}
+takum_linear16 takum_linear16_from_takum_linear8(takum_linear8);
+takum_linear32 takum_linear32_from_takum_linear8(takum_linear8);
+takum_linear64 takum_linear64_from_takum_linear8(takum_linear8);
 
 /* Conversion from takum_linear16 */
 takum8 takum8_from_takum_linear16(takum_linear16 t);
@@ -1131,23 +951,9 @@ takum16 takum16_from_takum_linear16(takum_linear16 t);
 takum32 takum32_from_takum_linear16(takum_linear16 t);
 takum64 takum64_from_takum_linear16(takum_linear16 t);
 
-static inline takum_linear8
-takum_linear8_from_takum_linear16(takum_linear16 t)
-{
-	TAKUM_INTERNAL_CONVERT_REDUCE(16, 8);
-}
-
-static inline takum_linear32
-takum_linear32_from_takum_linear16(takum_linear16 t)
-{
-	TAKUM_INTERNAL_CONVERT_EXPAND(16, 32);
-}
-
-static inline takum_linear64
-takum_linear64_from_takum_linear16(takum_linear16 t)
-{
-	TAKUM_INTERNAL_CONVERT_EXPAND(16, 64);
-}
+takum_linear8 takum_linear8_from_takum_linear16(takum_linear16);
+takum_linear32 takum_linear32_from_takum_linear16(takum_linear16);
+takum_linear64 takum_linear64_from_takum_linear16(takum_linear16);
 
 /* Conversion from takum_linear32 */
 takum8 takum8_from_takum_linear32(takum_linear32 t);
@@ -1155,23 +961,9 @@ takum16 takum16_from_takum_linear32(takum_linear32 t);
 takum32 takum32_from_takum_linear32(takum_linear32 t);
 takum64 takum64_from_takum_linear32(takum_linear32 t);
 
-static inline takum_linear8
-takum_linear8_from_takum_linear32(takum_linear32 t)
-{
-	TAKUM_INTERNAL_CONVERT_REDUCE(32, 8);
-}
-
-static inline takum_linear16
-takum_linear16_from_takum_linear32(takum_linear32 t)
-{
-	TAKUM_INTERNAL_CONVERT_REDUCE(32, 16);
-}
-
-static inline takum_linear64
-takum_linear64_from_takum_linear32(takum_linear32 t)
-{
-	TAKUM_INTERNAL_CONVERT_EXPAND(32, 64);
-}
+takum_linear8 takum_linear8_from_takum_linear32(takum_linear32);
+takum_linear16 takum_linear16_from_takum_linear32(takum_linear32);
+takum_linear64 takum_linear64_from_takum_linear32(takum_linear32);
 
 /* Conversion from takum_linear64 */
 takum8 takum8_from_takum_linear64(takum_linear64 t);
@@ -1179,23 +971,9 @@ takum16 takum16_from_takum_linear64(takum_linear64 t);
 takum32 takum32_from_takum_linear64(takum_linear64 t);
 takum64 takum64_from_takum_linear64(takum_linear64 t);
 
-static inline takum_linear8
-takum_linear8_from_takum_linear64(takum_linear64 t)
-{
-	TAKUM_INTERNAL_CONVERT_REDUCE(64, 8);
-}
-
-static inline takum_linear16
-takum_linear16_from_takum_linear64(takum_linear64 t)
-{
-	TAKUM_INTERNAL_CONVERT_REDUCE(64, 16);
-}
-
-static inline takum_linear32
-takum_linear32_from_takum_linear64(takum_linear64 t)
-{
-	TAKUM_INTERNAL_CONVERT_REDUCE(64, 32);
-}
+takum_linear8 takum_linear8_from_takum_linear64(takum_linear64);
+takum_linear16 takum_linear16_from_takum_linear64(takum_linear64);
+takum_linear32 takum_linear32_from_takum_linear64(takum_linear64);
 
 /* Hypotenuse sqrt(a^2+b^2) */
 takum8 takum8_hypotenuse(takum8, takum8);
@@ -1231,53 +1009,10 @@ takum_linear32 takum_linear32_root(takum_linear32, int64_t);
 takum_linear64 takum_linear64_root(takum_linear64, int64_t);
 
 /* Inversion */
-static inline takum8
-takum8_inversion(takum8 t)
-{
-	union takum_internal_takum8_union out = {
-		.value = t,
-	};
-
-	out.bits = (out.bits ^ UINT8_C(0x7f)) + 1;
-
-	return (t == TAKUM8_NAR) ? TAKUM8_NAR : out.value;
-}
-
-static inline takum16
-takum16_inversion(takum16 t)
-{
-	union takum_internal_takum16_union out = {
-		.value = t,
-	};
-
-	out.bits = (out.bits ^ UINT16_C(0x7fff)) + 1;
-
-	return (t == TAKUM16_NAR) ? TAKUM16_NAR : out.value;
-}
-
-static inline takum32
-takum32_inversion(takum32 t)
-{
-	union takum_internal_takum32_union out = {
-		.value = t,
-	};
-
-	out.bits = (out.bits ^ UINT32_C(0x7fffffff)) + 1;
-
-	return (t == TAKUM32_NAR) ? TAKUM32_NAR : out.value;
-}
-
-static inline takum64
-takum64_inversion(takum64 t)
-{
-	union takum_internal_takum64_union out = {
-		.value = t,
-	};
-
-	out.bits = (out.bits ^ UINT64_C(0x7fffffffffffffff)) + 1;
-
-	return (t == TAKUM64_NAR) ? TAKUM64_NAR : out.value;
-}
+takum8 takum8_inversion(takum8);
+takum16 takum16_inversion(takum16);
+takum32 takum32_inversion(takum32);
+takum64 takum64_inversion(takum64);
 
 takum_linear8 takum_linear8_inversion(takum_linear8);
 takum_linear16 takum_linear16_inversion(takum_linear16);
@@ -1417,93 +1152,15 @@ takum_linear32 takum_linear32_sech(takum_linear32);
 takum_linear64 takum_linear64_sech(takum_linear64);
 
 /* Sign */
-static inline takum8
-takum8_sign(takum8 t)
-{
-	if (t == TAKUM8_NAR) {
-		return TAKUM8_NAR;
-	} else {
-		return (t != 0) *
-		       ((t < 0) * UINT8_C(0xc0) + (t >= 0) * UINT8_C(0x40));
-	}
-}
+takum8 takum8_sign(takum8);
+takum16 takum16_sign(takum16);
+takum32 takum32_sign(takum32);
+takum64 takum64_sign(takum64);
 
-static inline takum16
-takum16_sign(takum16 t)
-{
-	if (t == TAKUM16_NAR) {
-		return TAKUM16_NAR;
-	} else {
-		return (t != 0) * ((t < 0) * UINT16_C(0xc000) +
-		                   (t >= 0) * UINT16_C(0x4000));
-	}
-}
-
-static inline takum32
-takum32_sign(takum32 t)
-{
-	if (t == TAKUM32_NAR) {
-		return TAKUM32_NAR;
-	} else {
-		return (t != 0) * ((t < 0) * UINT32_C(0xc0000000) +
-		                   (t >= 0) * UINT32_C(0x40000000));
-	}
-}
-
-static inline takum64
-takum64_sign(takum64 t)
-{
-	if (t == TAKUM64_NAR) {
-		return TAKUM64_NAR;
-	} else {
-		return (t != 0) * ((t < 0) * UINT64_C(0xc000000000000000) +
-		                   (t >= 0) * UINT64_C(0x4000000000000000));
-	}
-}
-
-static inline takum_linear8
-takum_linear8_sign(takum_linear8 t)
-{
-	if (t == TAKUM_LINEAR8_NAR) {
-		return TAKUM_LINEAR8_NAR;
-	} else {
-		return (t != 0) *
-		       ((t < 0) * UINT8_C(0xc0) + (t >= 0) * UINT8_C(0x40));
-	}
-}
-
-static inline takum_linear16
-takum_linear16_sign(takum_linear16 t)
-{
-	if (t == TAKUM_LINEAR16_NAR) {
-		return TAKUM_LINEAR16_NAR;
-	} else {
-		return (t != 0) * ((t < 0) * UINT16_C(0xc000) +
-		                   (t >= 0) * UINT16_C(0x4000));
-	}
-}
-
-static inline takum_linear32
-takum_linear32_sign(takum_linear32 t)
-{
-	if (t == TAKUM_LINEAR32_NAR) {
-		return TAKUM_LINEAR32_NAR;
-	} else {
-		return (t != 0) * ((t < 0) * UINT32_C(0xc0000000) +
-		                   (t >= 0) * UINT32_C(0x40000000));
-	}
-}
-
-static inline takum_linear64
-takum_linear64_sign(takum_linear64 t)
-{
-	if (t == TAKUM_LINEAR64_NAR) {
-		return TAKUM_LINEAR64_NAR;
-	} else {
-		return (t != 0) * ((t < 0) * UINT64_C(0xc000000000000000) +
-		                   (t >= 0) * UINT64_C(0x4000000000000000));
-	}
-}
+takum_linear8 takum_linear8_sign(takum_linear8);
+takum_linear16 takum_linear16_sign(takum_linear16);
+takum_linear32 takum_linear32_sign(takum_linear32);
+takum_linear64 takum_linear64_sign(takum_linear64);
 
 /* Sine */
 takum8 takum8_sin(takum8);

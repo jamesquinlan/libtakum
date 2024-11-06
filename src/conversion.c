@@ -1,10 +1,60 @@
 /* See LICENSE file for copyright and license details. */
 #include <math.h>
+#include <stdbool.h>
 
 #include "../takum.h"
 
 #include "codec.h"
 #include "util.h"
+
+/* Takum conversion helper macros */
+#define TAKUM_INTERNAL_CONVERT_EXPAND(FROM, TO)                                \
+	do {                                                                   \
+		const union util_takum##FROM##_union in = {                    \
+			.value = t,                                            \
+		};                                                             \
+		union util_takum##TO##_union out = {                           \
+			.bits = ((uint##TO##_t)in.bits) << (TO - FROM),        \
+		};                                                             \
+                                                                               \
+		return out.value;                                              \
+	} while (0);
+
+#define TAKUM_INTERNAL_CONVERT_REDUCE(FROM, TO)                                \
+	do {                                                                   \
+		const union util_takum##FROM##_union in = {                    \
+			.value = t,                                            \
+		};                                                             \
+		union util_takum##TO##_union out = { .bits = (in.bits >>       \
+			                                      (FROM - TO)) };  \
+		bool is_tied, rounding_bit;                                    \
+                                                                               \
+		/*                                                             \
+		 * Check if we have a tie (lowest FROM - TO bits are 10...0)   \
+		 * by shifting the input by TO bits to the left and comparing  \
+		 * the whole bit string against 10...0                         \
+		 */                                                            \
+		is_tied = ((uint##FROM##_t)(in.bits << TO) ==                  \
+		           (UINT##FROM##_C(1) << (FROM - 1)));                 \
+                                                                               \
+		/*                                                             \
+		 * we obtain the rounding bit with a mask 10...0 of length     \
+		 * FROM - TO - 1                                               \
+		 */                                                            \
+		rounding_bit = ((in.bits & (UINT##FROM##_C(1)                  \
+		                            << (FROM - TO - 1))) != 0);        \
+                                                                               \
+		/* round up if the rounding bit is 1, but tie to even */       \
+		out.bits += rounding_bit && (!is_tied || (out.bits % 2 == 1)); \
+                                                                               \
+		/* saturate over-/underflows */                                \
+		out.bits += (((out.bits == 0) & (in.bits != 0)) -              \
+		             ((out.value == TAKUM##TO##_NAR) &                 \
+		              (in.value != TAKUM##FROM##_NAR))) *              \
+		            (1 - 2 * (in.value < 0));                          \
+                                                                               \
+		return out.value;                                              \
+	} while (0);
 
 /* Conversion from float32 */
 takum8
@@ -249,6 +299,24 @@ takum_linear64_from_extended_float(long double f)
 }
 
 /* Conversion from takum8 */
+takum16
+takum16_from_takum8(takum8 t)
+{
+	TAKUM_INTERNAL_CONVERT_EXPAND(8, 16);
+}
+
+takum32
+takum32_from_takum8(takum8 t)
+{
+	TAKUM_INTERNAL_CONVERT_EXPAND(8, 32);
+}
+
+takum64
+takum64_from_takum8(takum8 t)
+{
+	TAKUM_INTERNAL_CONVERT_EXPAND(8, 64);
+}
+
 takum_linear8
 takum_linear8_from_takum8(takum8 t)
 {
@@ -274,6 +342,24 @@ takum_linear64_from_takum8(takum8 t)
 }
 
 /* Conversion from takum16 */
+takum8
+takum8_from_takum16(takum16 t)
+{
+	TAKUM_INTERNAL_CONVERT_REDUCE(16, 8);
+}
+
+takum32
+takum32_from_takum16(takum16 t)
+{
+	TAKUM_INTERNAL_CONVERT_EXPAND(16, 32);
+}
+
+takum64
+takum64_from_takum16(takum16 t)
+{
+	TAKUM_INTERNAL_CONVERT_EXPAND(16, 64);
+}
+
 takum_linear8
 takum_linear8_from_takum16(takum16 t)
 {
@@ -299,6 +385,24 @@ takum_linear64_from_takum16(takum16 t)
 }
 
 /* Conversion from takum32 */
+takum8
+takum8_from_takum32(takum32 t)
+{
+	TAKUM_INTERNAL_CONVERT_REDUCE(32, 8);
+}
+
+takum16
+takum16_from_takum32(takum32 t)
+{
+	TAKUM_INTERNAL_CONVERT_REDUCE(32, 16);
+}
+
+takum64
+takum64_from_takum32(takum32 t)
+{
+	TAKUM_INTERNAL_CONVERT_EXPAND(32, 64);
+}
+
 takum_linear8
 takum_linear8_from_takum32(takum32 t)
 {
@@ -324,6 +428,24 @@ takum_linear64_from_takum32(takum32 t)
 }
 
 /* Conversion from takum64 */
+takum8
+takum8_from_takum64(takum64 t)
+{
+	TAKUM_INTERNAL_CONVERT_REDUCE(64, 8);
+}
+
+takum16
+takum16_from_takum64(takum64 t)
+{
+	TAKUM_INTERNAL_CONVERT_REDUCE(64, 16);
+}
+
+takum32
+takum32_from_takum64(takum64 t)
+{
+	TAKUM_INTERNAL_CONVERT_REDUCE(64, 32);
+}
+
 takum_linear8
 takum_linear8_from_takum64(takum64 t)
 {
@@ -373,6 +495,24 @@ takum64_from_takum_linear8(takum_linear8 t)
 	return takum64_from_extended_float(takum_linear8_to_extended_float(t));
 }
 
+takum_linear16
+takum_linear16_from_takum_linear8(takum_linear8 t)
+{
+	TAKUM_INTERNAL_CONVERT_EXPAND(8, 16);
+}
+
+takum_linear32
+takum_linear32_from_takum_linear8(takum_linear8 t)
+{
+	TAKUM_INTERNAL_CONVERT_EXPAND(8, 32);
+}
+
+takum_linear64
+takum_linear64_from_takum_linear8(takum_linear8 t)
+{
+	TAKUM_INTERNAL_CONVERT_EXPAND(8, 64);
+}
+
 /* Conversion from takum_linear16 */
 takum8
 takum8_from_takum_linear16(takum_linear16 t)
@@ -396,6 +536,24 @@ takum64
 takum64_from_takum_linear16(takum_linear16 t)
 {
 	return takum64_from_extended_float(takum_linear16_to_extended_float(t));
+}
+
+takum_linear8
+takum_linear8_from_takum_linear16(takum_linear16 t)
+{
+	TAKUM_INTERNAL_CONVERT_REDUCE(16, 8);
+}
+
+takum_linear32
+takum_linear32_from_takum_linear16(takum_linear16 t)
+{
+	TAKUM_INTERNAL_CONVERT_EXPAND(16, 32);
+}
+
+takum_linear64
+takum_linear64_from_takum_linear16(takum_linear16 t)
+{
+	TAKUM_INTERNAL_CONVERT_EXPAND(16, 64);
 }
 
 /* Conversion from takum_linear32 */
@@ -423,6 +581,24 @@ takum64_from_takum_linear32(takum_linear32 t)
 	return takum64_from_extended_float(takum_linear32_to_extended_float(t));
 }
 
+takum_linear8
+takum_linear8_from_takum_linear32(takum_linear32 t)
+{
+	TAKUM_INTERNAL_CONVERT_REDUCE(32, 8);
+}
+
+takum_linear16
+takum_linear16_from_takum_linear32(takum_linear32 t)
+{
+	TAKUM_INTERNAL_CONVERT_REDUCE(32, 16);
+}
+
+takum_linear64
+takum_linear64_from_takum_linear32(takum_linear32 t)
+{
+	TAKUM_INTERNAL_CONVERT_EXPAND(32, 64);
+}
+
 /* Conversion from takum_linear64 */
 takum8
 takum8_from_takum_linear64(takum_linear64 t)
@@ -446,6 +622,24 @@ takum64
 takum64_from_takum_linear64(takum_linear64 t)
 {
 	return takum64_from_extended_float(takum_linear64_to_extended_float(t));
+}
+
+takum_linear8
+takum_linear8_from_takum_linear64(takum_linear64 t)
+{
+	TAKUM_INTERNAL_CONVERT_REDUCE(64, 8);
+}
+
+takum_linear16
+takum_linear16_from_takum_linear64(takum_linear64 t)
+{
+	TAKUM_INTERNAL_CONVERT_REDUCE(64, 16);
+}
+
+takum_linear32
+takum_linear32_from_takum_linear64(takum_linear64 t)
+{
+	TAKUM_INTERNAL_CONVERT_REDUCE(64, 32);
 }
 
 /* Conversion to float32 */
