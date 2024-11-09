@@ -17,7 +17,7 @@ precision_reference(long double a, enum takum_type takum_type)
 			return takum_type_parameters[takum_type].n - 12;
 		}
 	} else {
-		union takum_internal_takum64_union t = { 0 };
+		union util_takum64_union t = { 0 };
 		uint16_t prefix;
 		uint8_t R, r;
 
