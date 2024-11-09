@@ -221,4 +221,9 @@ union util_takum64_union {
 	uint64_t bits;
 };
 
+uint8_t util_round_uint8_to_number_of_bits(uint8_t, uint8_t);
+uint16_t util_round_uint16_to_number_of_bits(uint16_t, uint8_t);
+uint32_t util_round_uint32_to_number_of_bits(uint32_t, uint8_t);
+uint64_t util_round_uint64_to_number_of_bits(uint64_t, uint8_t);
+
 #endif
