@@ -223,27 +223,27 @@ codec_takum64_to_l(takum64 t)
  * the final floating point.
  */
 double
-codec_s_and_linear_l_to_float64(bool s, double l)
+codec_s_and_linear_l_to_float64(bool s, long double l)
 {
-	double cpm, m, f, g;
+	long double cpm, m, f, g;
 	int16_t c, e, h;
 
 	/* catch special cases */
-	if (isnan(l) || (isinf(l) && l > 0.0)) {
+	if (isnan(l) || (isinf(l) && l > 0.0L)) {
 		return NAN;
-	} else if (isinf(l) && l < 0.0) {
+	} else if (isinf(l) && l < 0.0L) {
 		return 0.0;
 	}
 
 	/* obtain c and m from l */
 	cpm = (s == 0) ? l : -l;
-	c = floor(cpm);
+	c = floorl(cpm);
 	m = cpm - c;
 
 	/* m could have overflowed to 1.0 */
-	if (m == 1.0) {
+	if (m == 1.0L) {
 		c += 1;
-		m = 0.0;
+		m = 0.0L;
 	}
 
 	/* convert c and m to f and e */
@@ -257,15 +257,15 @@ codec_s_and_linear_l_to_float64(bool s, double l)
 	} else {
 		if (f == 0.0) {
 			h = e + 1;
-			g = 0.0;
+			g = 0.0L;
 		} else {
 			h = e;
-			g = 1.0 - f;
+			g = 1.0L - f;
 		}
 	}
 
 	/* (-1)^s (1 + g) 2^h is our final floating-point number */
-	return (1 - 2 * s) * ldexp(1.0 + g, h);
+	return (double)((1 - 2 * s) * ldexpl(1.0L + g, h));
 }
 
 long double
@@ -564,11 +564,11 @@ extended_float_fraction_to_rounded_bits(long double f, uint_fast8_t num_bits)
  * get c and m from f and e, which in turn are derived from g and h
  * via Algorithm 4 in the takum paper.
  */
-float
+double
 codec_linear_l_from_float32(float f)
 {
 	bool s;
-	float g, m;
+	double g, m;
 	int h;
 	int16_t c;
 
@@ -595,7 +595,7 @@ codec_linear_l_from_float32(float f)
 	 * decrement h to obtain g in the range [1,2). Then we subtract
 	 * 1.0 to obtain the final g in the range [0,1)
 	 */
-	g = 2 * g - 1.0f;
+	g = 2 * g - 1.0;
 	h--;
 
 	/*
@@ -608,10 +608,10 @@ codec_linear_l_from_float32(float f)
 	} else {
 		if (g == 0.0f) {
 			c = -h;
-			m = 0.0f;
+			m = 0.0;
 		} else {
 			c = -h - 1;
-			m = 1.0f - g;
+			m = 1.0 - g;
 		}
 	}
 
@@ -619,11 +619,11 @@ codec_linear_l_from_float32(float f)
 	return (1 - 2 * s) * (c + m);
 }
 
-double
+long double
 codec_linear_l_from_float64(double f)
 {
 	bool s;
-	double g, m;
+	long double g, m;
 	int h;
 	int16_t c;
 
@@ -787,7 +787,8 @@ codec_takum16_from_s_and_l(bool s, float l)
 	 * not to yield NaR as we bounded l earlier and return
 	 */
 	return ((((uint16_t)s) << (16 - 1)) | (((uint16_t)DR) << (16 - 5)) |
-	        (((uint16_t)(c - c_bias_lut[DR])) << p)) + (uint16_t)M;
+	        (((uint16_t)(c - c_bias_lut[DR])) << p)) +
+	       (uint16_t)M;
 }
 
 takum32
@@ -839,7 +840,8 @@ codec_takum32_from_s_and_l(bool s, double l)
 
 	/* Assemble and return */
 	return ((((uint32_t)s) << (32 - 1)) | (((uint32_t)DR) << (32 - 5)) |
-	        (((uint32_t)(c - c_bias_lut[DR])) << p)) + (uint32_t)M;
+	        (((uint32_t)(c - c_bias_lut[DR])) << p)) +
+	       (uint32_t)M;
 }
 
 takum64
@@ -895,7 +897,8 @@ codec_takum64_from_s_and_l(bool s, long double l)
 
 	/* Assemble and return */
 	return ((((uint64_t)s) << (64 - 1)) | (((uint64_t)DR) << (64 - 5)) |
-	        (((uint64_t)(c - c_bias_lut[DR])) << p)) + (uint64_t)M;
+	        (((uint64_t)(c - c_bias_lut[DR])) << p)) +
+	       (uint64_t)M;
 #else
 #pragma message                                                                \
 	"Unimplemented extended float format, takum64 encoding is stubbed"
