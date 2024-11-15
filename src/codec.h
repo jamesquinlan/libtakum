@@ -11,11 +11,11 @@ float codec_takum16_to_l(takum16);
 double codec_takum32_to_l(takum32);
 long double codec_takum64_to_l(takum64);
 
-double codec_s_and_linear_l_to_float64(bool, double);
+double codec_s_and_linear_l_to_float64(bool, long double);
 long double codec_s_and_linear_l_to_extended_float(bool, long double);
 
-float codec_linear_l_from_float32(float);
-double codec_linear_l_from_float64(double);
+double codec_linear_l_from_float32(float);
+long double codec_linear_l_from_float64(double);
 long double codec_linear_l_from_extended_float(long double);
 
 takum8 codec_takum8_from_s_and_l(bool, float);
