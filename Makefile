@@ -12,9 +12,6 @@ include config.mk
 
 VERSION = $(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH)
 
-BENCHMARK =\
-	benchmark/float_to_takum\
-
 EXAMPLE =\
 	example/calculator\
 
@@ -737,8 +734,6 @@ MAN7 = man/libtakum
 
 all: $(MAN3:=.3) $(MAN7:=.7) $(ANAME) $(SONAME)
 
-benchmark/float_to_takum.o: benchmark/float_to_takum.c Makefile config.mk takum.h benchmark/util.h
-benchmark/util.o: benchmark/util.c Makefile config.mk takum.h benchmark/util.h
 example/calculator.o: example/calculator.c Makefile config.mk takum.h example/util.h
 example/util.o: example/util.c Makefile config.mk takum.h example/util.h
 gen/addition.o: gen/addition.c Makefile config.mk gen/util.h
@@ -834,9 +829,7 @@ test/tan.o: test/tan.c Makefile config.mk takum.h test/util.h
 test/tanh.o: test/tanh.c Makefile config.mk takum.h test/util.h
 test/util.o: test/util.c Makefile config.mk takum.h test/util.h
 
-benchmark/float_to_takum$(BINSUFFIX): benchmark/float_to_takum.o benchmark/util.o $(ANAME)
 example/calculator$(BINSUFFIX): example/calculator.o example/util.o $(ANAME)
-gen/addition$(BINSUFFIX): gen/addition.o gen/util.o $(ANAME)
 test/10_raised$(BINSUFFIX): test/10_raised.o test/util.o $(ANAME)
 test/2_raised$(BINSUFFIX): test/2_raised.o test/util.o $(ANAME)
 test/absolute$(BINSUFFIX): test/absolute.o test/util.o $(ANAME)
@@ -1226,32 +1219,20 @@ man/takum64_to_float64.3: man/takum64_to_float64.sh man/template/conversion_to_f
 
 man/libtakum.7: man/libtakum.sh Makefile config.mk
 
-$(GEN:=.o) gen/util.o:
-	$(BUILD_CC) -c -o $@ $(BUILD_CPPFLAGS) $(BUILD_CFLAGS) $(@:.o=.c)
-
-$(BENCHMARK:=.o) benchmark/util.o $(EXAMPLE:=.o) example/util.o $(TEST:=.o) test/util.o:
+$(EXAMPLE:=.o) example/util.o $(TEST:=.o) test/util.o:
 	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) $(@:.o=.c)
 
 $(SRC:=.o) src/util.o:
 	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) $(SHFLAGS) $(@:.o=.c)
 
-$(BENCHMARK:=$(BINSUFFIX)):
-	$(CC) -o $@ $(LDFLAGS) $(@:$(BINSUFFIX)=.o) benchmark/util.o $(ANAME) $(LDLIBS)
-
 $(EXAMPLE:=$(BINSUFFIX)):
 	$(CC) -o $@ $(LDFLAGS) $(@:$(BINSUFFIX)=.o) example/util.o $(ANAME) $(LDLIBS)
-
-$(GEN:=$(BINSUFFIX)):
-	$(BUILD_CC) -o $@ $(BUILD_LDFLAGS) $(@:$(BINSUFFIX)=.o) gen/util.o $(BUILD_LDLIBS)
 
 $(TEST:=$(BINSUFFIX)):
 	$(CC) -o $@ $(LDFLAGS) $(@:$(BINSUFFIX)=.o) test/util.o $(ANAME) $(LDLIBS)
 
 $(TEST:=.success):
 	./$(@:.success=$(BINSUFFIX)) && touch $@
-
-$(GEN:=.h):
-	$(@:.h=$(BINSUFFIX)) > $@
 
 $(ANAME): $(SRC:=.o) src/util.o
 	$(AR) -rc $@ $?
@@ -1265,9 +1246,6 @@ $(MAN3:=.3):
 
 $(MAN7:=.7):
 	env -i SH="$(SH)" MAN_DATE="$(MAN_DATE)" MAN3_LIST="$(MAN3)" $(SH) $(@:.7=.sh) > $@
-
-benchmark: $(BENCHMARK:=$(BINSUFFIX))
-	for m in $(BENCHMARK:=$(BINSUFFIX)); do ./$$m; done
 
 example: $(EXAMPLE:=$(BINSUFFIX))
 
@@ -1308,17 +1286,15 @@ uninstall:
 	if ! [ -z "$(PCPREFIX)" ]; then rm -f "$(DESTDIR)$(PCPREFIX)/libtakum.pc"; fi
 
 clean:
-	rm -f $(BENCHMARK:=.o) benchmark/util.o $(BENCHMARK:=$(BINSUFFIX)) $(EXAMPLE:=.o) example/util.o $(EXAMPLE:=$(BINSUFFIX)) $(GEN:=.h) $(GEN:=.o) gen/util.o $(GEN:=$(BINSUFFIX)) $(SRC:=.o) src/util.o $(TEST:=.o) test/util.o $(TEST:=$(BINSUFFIX)) $(TEST:=.success) $(ANAME) $(SONAME) $(MAN3:=.3) $(MAN7:=.7)
+	rm -f $(EXAMPLE:=.o) example/util.o $(EXAMPLE:=$(BINSUFFIX)) $(SRC:=.o) src/util.o $(TEST:=.o) test/util.o $(TEST:=$(BINSUFFIX)) $(TEST:=.success) $(ANAME) $(SONAME) $(MAN3:=.3) $(MAN7:=.7)
 
 dist:
 	rm -rf "libtakum-$(VERSION)"
 	mkdir "libtakum-$(VERSION)"
-	for m in benchmark example gen man man/template src test; do mkdir "libtakum-$(VERSION)/$$m"; done
+	for m in example man man/template src test; do mkdir "libtakum-$(VERSION)/$$m"; done
 	cp config.mk configure takum.h LICENSE Makefile README "libtakum-$(VERSION)"
-	cp $(BENCHMARK:=.c) benchmark/util.c benchmark/util.h "libtakum-$(VERSION)/benchmark"
 	cp $(DATA) "libtakum-$(VERSION)/data"
 	cp $(EXAMPLE:=.c) example/util.c example/util.h "libtakum-$(VERSION)/example"
-	cp $(GEN:=.c) gen/util.c gen/types.h gen/util.h "libtakum-$(VERSION)/gen"
 	cp $(MAN3:=.sh) $(MAN7:=.sh) "libtakum-$(VERSION)/man"
 	cp $(MAN_TEMPLATE) "libtakum-$(VERSION)/man/template"
 	cp $(SRC:=.c) src/util.h "libtakum-$(VERSION)/src"
@@ -1327,6 +1303,6 @@ dist:
 	rm -rf "libtakum-$(VERSION)"
 
 format:
-	clang-format -i takum.h $(BENCHMARK:=.c) benchmark/util.c benchmark/util.h $(EXAMPLE:=.c) example/util.c example/util.h $(GEN:=.c) gen/util.c gen/util.h $(SRC:=.c) src/util.c src/util.h $(TEST:=.c) test/util.c test/util.h
+	clang-format -i takum.h $(EXAMPLE:=.c) example/util.c example/util.h $(SRC:=.c) src/util.c src/util.h $(TEST:=.c) test/util.c test/util.h
 
-.PHONY: all benchmark check clean dist example format install test uninstall
+.PHONY: all check clean dist example format install test uninstall
