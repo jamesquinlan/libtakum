@@ -516,43 +516,78 @@ check_unary_binary_case(const struct unit_test_block *utb, int64_t a, int64_t b,
 
 	switch (utb->type) {
 	case UNIT_TEST_BLOCK_TYPE_ROUNDTRIP:
-		/* Determine the output of the roundtrip function */
+		/*
+		 * Determine the output of the roundtrip function, but
+		 * exit early if the function is unspecified (NULL)
+		 */
 		switch (takum_type) {
 		case TAKUM8:
-			output = (int64_t)utb->data.roundtrip.takum8_function(
-				(takum8)a);
+			if (utb->data.roundtrip.takum8_function) {
+				output = (int64_t)utb->data.roundtrip
+				                 .takum8_function((takum8)a);
+			} else {
+				return 0;
+			}
 			break;
 		case TAKUM16:
-			output = (int64_t)utb->data.roundtrip.takum16_function(
-				(takum16)a);
+			if (utb->data.roundtrip.takum16_function) {
+				output = (int64_t)utb->data.roundtrip
+				                 .takum16_function((takum16)a);
+			} else {
+				return 0;
+			}
 			break;
 		case TAKUM32:
-			output = (int64_t)utb->data.roundtrip.takum32_function(
-				(takum32)a);
+			if (utb->data.roundtrip.takum32_function) {
+				output = (int64_t)utb->data.roundtrip
+				                 .takum32_function((takum32)a);
+			} else {
+				return 0;
+			}
 			break;
 		case TAKUM64:
-			output = (int64_t)utb->data.roundtrip.takum64_function(
-				(takum64)a);
+			if (utb->data.roundtrip.takum64_function) {
+				output = (int64_t)utb->data.roundtrip
+				                 .takum64_function((takum64)a);
+			} else {
+				return 0;
+			}
 			break;
 		case TAKUM_LINEAR8:
-			output = (int64_t)utb->data.roundtrip
-			                 .takum_linear8_function(
-						 (takum_linear8)a);
+			if (utb->data.roundtrip.takum_linear8_function) {
+				output = (int64_t)utb->data.roundtrip
+				                 .takum_linear8_function(
+							 (takum_linear8)a);
+			} else {
+				return 0;
+			}
 			break;
 		case TAKUM_LINEAR16:
-			output = (int64_t)utb->data.roundtrip
-			                 .takum_linear16_function(
-						 (takum_linear16)a);
+			if (utb->data.roundtrip.takum_linear16_function) {
+				output = (int64_t)utb->data.roundtrip
+				                 .takum_linear16_function(
+							 (takum_linear16)a);
+			} else {
+				return 0;
+			}
 			break;
 		case TAKUM_LINEAR32:
-			output = (int64_t)utb->data.roundtrip
-			                 .takum_linear32_function(
-						 (takum_linear32)a);
+			if (utb->data.roundtrip.takum_linear32_function) {
+				output = (int64_t)utb->data.roundtrip
+				                 .takum_linear32_function(
+							 (takum_linear32)a);
+			} else {
+				return 0;
+			}
 			break;
 		case TAKUM_LINEAR64:
-			output = (int64_t)utb->data.roundtrip
-			                 .takum_linear64_function(
-						 (takum_linear64)a);
+			if (utb->data.roundtrip.takum_linear64_function) {
+				output = (int64_t)utb->data.roundtrip
+				                 .takum_linear64_function(
+							 (takum_linear64)a);
+			} else {
+				return 0;
+			}
 			break;
 		}
 

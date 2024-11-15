@@ -24,13 +24,6 @@ takum32_conversion_float64_roundtrip(takum32 t)
 	return takum32_from_float64(takum32_to_float64(t));
 }
 
-takum64
-takum64_conversion_float64_roundtrip(takum64 t)
-{
-	/* this would not be a lossless roundtrip */
-	return t;
-}
-
 takum_linear8
 takum_linear8_conversion_float64_roundtrip(takum_linear8 t)
 {
@@ -49,13 +42,6 @@ takum_linear32_conversion_float64_roundtrip(takum_linear32 t)
 	return takum_linear32_from_float64(takum_linear32_to_float64(t));
 }
 
-takum_linear64
-takum_linear64_conversion_float64_roundtrip(takum_linear64 t)
-{
-	/* this would not be a lossless roundtrip */
-	return t;
-}
-
 static const struct unit_test_block conversion_float64_utb = {
 	.type = UNIT_TEST_BLOCK_TYPE_ROUNDTRIP,
 	.function_name = "to_float64/from_float64",
@@ -63,11 +49,11 @@ static const struct unit_test_block conversion_float64_utb = {
 		.takum8_function    = takum8_conversion_float64_roundtrip,
 		.takum16_function   = takum16_conversion_float64_roundtrip,
 		.takum32_function   = takum32_conversion_float64_roundtrip,
-		.takum64_function   = takum64_conversion_float64_roundtrip,
+		.takum64_function   = NULL,
 		.takum_linear8_function    = takum_linear8_conversion_float64_roundtrip,
 		.takum_linear16_function   = takum_linear16_conversion_float64_roundtrip,
 		.takum_linear32_function   = takum_linear32_conversion_float64_roundtrip,
-		.takum_linear64_function   = takum_linear64_conversion_float64_roundtrip,
+		.takum_linear64_function   = NULL,
 	},
 };
 
@@ -138,55 +124,6 @@ static const struct unit_test_block conversion_extended_float_utb = {
 	},
 };
 
-takum8
-float64_conversion_takum8_roundtrip(takum8 t)
-{
-	/* no-op */
-	return t;
-}
-
-takum16
-float64_conversion_takum16_roundtrip(takum16 t)
-{
-	/* no-op */
-	return t;
-}
-
-takum32
-float64_conversion_takum32_roundtrip(takum32 t)
-{
-	/* no-op */
-	return t;
-}
-
-takum64
-float64_conversion_takum64_roundtrip(takum64 t)
-{
-	/* no-op */
-	return t;
-}
-
-takum_linear8
-float64_conversion_takum_linear8_roundtrip(takum_linear8 t)
-{
-	/* no-op */
-	return t;
-}
-
-takum_linear16
-float64_conversion_takum_linear16_roundtrip(takum_linear16 t)
-{
-	/* no-op */
-	return t;
-}
-
-takum_linear32
-float64_conversion_takum_linear32_roundtrip(takum_linear32 t)
-{
-	/* no-op */
-	return t;
-}
-
 takum_linear64
 float64_conversion_takum_linear64_roundtrip(takum_linear64 t)
 {
@@ -226,13 +163,13 @@ static const struct unit_test_block conversion_float64_full_utb = {
 	.type = UNIT_TEST_BLOCK_TYPE_ROUNDTRIP,
 	.function_name = "from_float64/to_float64",
 	.data.roundtrip = {
-		.takum8_function    = float64_conversion_takum8_roundtrip,
-		.takum16_function   = float64_conversion_takum16_roundtrip,
-		.takum32_function   = float64_conversion_takum32_roundtrip,
-		.takum64_function   = float64_conversion_takum64_roundtrip,
-		.takum_linear8_function    = float64_conversion_takum_linear8_roundtrip,
-		.takum_linear16_function   = float64_conversion_takum_linear16_roundtrip,
-		.takum_linear32_function   = float64_conversion_takum_linear32_roundtrip,
+		.takum8_function    = NULL,
+		.takum16_function   = NULL,
+		.takum32_function   = NULL,
+		.takum64_function   = NULL,
+		.takum_linear8_function    = NULL,
+		.takum_linear16_function   = NULL,
+		.takum_linear32_function   = NULL,
 		.takum_linear64_function   = float64_conversion_takum_linear64_roundtrip,
 	},
 };
