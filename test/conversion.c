@@ -1,4 +1,5 @@
 /* See LICENSE file for copyright and license details. */
+#include <math.h>
 #include <stdint.h>
 #include <stdio.h>
 
@@ -137,6 +138,105 @@ static const struct unit_test_block conversion_extended_float_utb = {
 	},
 };
 
+takum8
+float64_conversion_takum8_roundtrip(takum8 t)
+{
+	/* no-op */
+	return t;
+}
+
+takum16
+float64_conversion_takum16_roundtrip(takum16 t)
+{
+	/* no-op */
+	return t;
+}
+
+takum32
+float64_conversion_takum32_roundtrip(takum32 t)
+{
+	/* no-op */
+	return t;
+}
+
+takum64
+float64_conversion_takum64_roundtrip(takum64 t)
+{
+	/* no-op */
+	return t;
+}
+
+takum_linear8
+float64_conversion_takum_linear8_roundtrip(takum_linear8 t)
+{
+	/* no-op */
+	return t;
+}
+
+takum_linear16
+float64_conversion_takum_linear16_roundtrip(takum_linear16 t)
+{
+	/* no-op */
+	return t;
+}
+
+takum_linear32
+float64_conversion_takum_linear32_roundtrip(takum_linear32 t)
+{
+	/* no-op */
+	return t;
+}
+
+takum_linear64
+float64_conversion_takum_linear64_roundtrip(takum_linear64 t)
+{
+	union {
+		takum_linear64 takum_linear64_value;
+		double float64_value;
+	} helper_union = {
+		.takum_linear64_value = t,
+	};
+
+	double f;
+
+	/* Interpretthe input as a float64 */
+	f = helper_union.float64_value;
+
+	/*
+	 * Check if it is real and in the range of numbers representable
+	 * with takum_linear64
+	 */
+	if (!isfinite(f) || fabs(f) >= exp2(255) || fabs(f) <= exp2(-255)) {
+		/* skip this test case */
+		return t;
+	} else {
+		/*
+		 * Convert to a takum_linear64 and back and reinterpret
+		 * the result as a takum_linear64 that is returned as
+		 * output
+		 */
+		helper_union.float64_value = takum_linear64_to_float64(
+			takum_linear64_from_float64(f));
+
+		return helper_union.takum_linear64_value;
+	}
+}
+
+static const struct unit_test_block conversion_float64_full_utb = {
+	.type = UNIT_TEST_BLOCK_TYPE_ROUNDTRIP,
+	.function_name = "from_float64/to_float64",
+	.data.roundtrip = {
+		.takum8_function    = float64_conversion_takum8_roundtrip,
+		.takum16_function   = float64_conversion_takum16_roundtrip,
+		.takum32_function   = float64_conversion_takum32_roundtrip,
+		.takum64_function   = float64_conversion_takum64_roundtrip,
+		.takum_linear8_function    = float64_conversion_takum_linear8_roundtrip,
+		.takum_linear16_function   = float64_conversion_takum_linear16_roundtrip,
+		.takum_linear32_function   = float64_conversion_takum_linear32_roundtrip,
+		.takum_linear64_function   = float64_conversion_takum_linear64_roundtrip,
+	},
+};
+
 int
 main(int argc, char *argv[])
 {
@@ -144,5 +244,6 @@ main(int argc, char *argv[])
 	argv0 = argv[0];
 
 	return run_unit_test_block(&conversion_float64_utb) +
-	       run_unit_test_block(&conversion_extended_float_utb);
+	       run_unit_test_block(&conversion_extended_float_utb) +
+	       run_unit_test_block(&conversion_float64_full_utb);
 }
