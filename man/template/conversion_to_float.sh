@@ -24,7 +24,7 @@ and in particular
 if
 .Va t
 is
-.Dv TAKUM${TAKUM_TYPE_SUFFIX}_NAR .
+.Dv TAKUM$(printf "%s" "$TAKUM_TYPE_SUFFIX" | tr [:lower:] [:upper:])_NAR .
 .Sh SEE ALSO
 .Xr libtakum 7
 .Sh AUTHORS

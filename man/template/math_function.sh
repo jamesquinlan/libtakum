@@ -19,7 +19,7 @@ function computes $(printf "${COMPUTE_LONG_DESCRIPTION}").
 The
 .Fn ${FULL_FUNCTION_NAME}
 function returns $(printf "${COMPUTE_LONG_DESCRIPTION}")
-as a takum${TAKUM_TYPE_SUFFIX}.$(if [ -n "$NAN_CONDITION" ]; then printf " If $NAN_CONDITION, the function returns\n.Dv TAKUM${TAKUM_TYPE_SUFFIX}_NAR ."; fi)
+as a takum${TAKUM_TYPE_SUFFIX}.$(if [ -n "$NAN_CONDITION" ]; then printf " If $NAN_CONDITION, the function returns\n.Dv TAKUM$(printf "%s" "$TAKUM_TYPE_SUFFIX" | tr [:lower:] [:upper:])_NAR ."; fi)
 .Sh SEE ALSO$(if [ -n "$SEE_ALSO" ]; then printf "\n.Xr takum%s_%s 3 ," "$TAKUM_TYPE_SUFFIX" "$SEE_ALSO"; fi)
 .Xr libtakum 7
 .Sh AUTHORS

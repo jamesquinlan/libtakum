@@ -20,11 +20,11 @@ rounding and adhering to saturation arithmetic.
 The
 .Fn ${FULL_FUNCTION_NAME}
 function returns a takum${TAKUM_TYPE_SUFFIX}, and in particular
-.Dv TAKUM${TAKUM_TYPE_SUFFIX}_NAR
+.Dv TAKUM$(printf "%s" "$TAKUM_TYPE_SUFFIX" | tr [:lower:] [:upper:])_NAR
 if
 .Va t
 is
-.Dv TAKUM${TAKUM_TYPE_SUFFIX_INPUT}_NAR .
+.Dv TAKUM$(printf "%s" "$TAKUM_TYPE_SUFFIX_INPUT" | tr [:lower:] [:upper:])_NAR .
 .Sh SEE ALSO
 .Xr libtakum 7
 .Sh AUTHORS
