@@ -40,7 +40,7 @@ The suite of unit tests is run with
 make -j test
 ```
 
-The manual pages are accessed via man(7). Every function is fully
+The manual pages are accessed via man(1). Every function is fully
 documented.
 
 ```sh
