@@ -26,20 +26,34 @@ via
 
 ```sh
 ./configure
-make install
+make -j install
 ```
+
+The `-j` flag is optional and enables the parallel processing of the make
+rules, yielding a significant speedup. You can also specify it as `-j N`
+(where N is, for example, the number of CPU threads) for more fine-grained
+control.
 
 The suite of unit tests is run with
 
 ```sh
-make test
+make -j test
+```
+
+The manual pages are accessed via man(7). Every function is fully
+documented.
+
+```sh
+man libtakum
+man takum16_from_float64
+man takum_linear32_csch
 ```
 
 The library also comes with examples. One example is a full-fledged
 multi-precision RPN calculator which is run via
 
 ```sh
-make example
+make -j example
 ./example/calculator
 ```
 
