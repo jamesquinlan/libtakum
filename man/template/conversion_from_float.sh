@@ -19,7 +19,7 @@ converts ${FLOAT_LONG_NAME} to a takum${TAKUM_TYPE_SUFFIX}.
 The
 .Fn ${FULL_FUNCTION_NAME}
 function returns a takum${TAKUM_TYPE_SUFFIX}, and in particular
-.Dv TAKUM${TAKUM_TYPE_SUFFIX}_NAR
+.Dv TAKUM$(printf "%s" "$TAKUM_TYPE_SUFFIX" | tr [:lower:] [:upper:])_NAR
 if
 .Va f
 is

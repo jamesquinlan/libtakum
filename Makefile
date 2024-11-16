@@ -3,10 +3,10 @@
 .POSIX:
 .SUFFIXES:
 
-VERSION_MAJOR = 0
-VERSION_MINOR = 5
-VERSION_PATCH = 1
-MAN_DATE = 2024-11-09
+VERSION_MAJOR = 1
+VERSION_MINOR = 0
+VERSION_PATCH = 0
+MAN_DATE = 2024-11-16
 
 include config.mk
 
@@ -14,9 +14,6 @@ VERSION = $(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH)
 
 EXAMPLE =\
 	example/calculator\
-
-GEN =\
-	gen/addition\
 
 SRC =\
 	src/10_raised\
@@ -736,8 +733,6 @@ all: $(MAN3:=.3) $(MAN7:=.7) $(ANAME) $(SONAME)
 
 example/calculator.o: example/calculator.c Makefile config.mk takum.h example/util.h
 example/util.o: example/util.c Makefile config.mk takum.h example/util.h
-gen/addition.o: gen/addition.c Makefile config.mk gen/util.h
-gen/util.o: gen/util.c Makefile config.mk gen/util.h
 src/addition.o: src/addition.c Makefile config.mk takum.h src/util.h
 src/arccos.o: src/arccos.c Makefile config.mk takum.h src/util.h
 src/arccot.o: src/arccot.c Makefile config.mk takum.h src/util.h
@@ -925,8 +920,6 @@ test/square_root.success: test/square_root$(BINSUFFIX)
 test/subtraction.success: test/subtraction$(BINSUFFIX)
 test/tan.success: test/tan$(BINSUFFIX)
 test/tanh.success: test/tanh$(BINSUFFIX)
-
-gen/addition.h: gen/addition$(BINSUFFIX)
 
 man/takum8_10_raised.3: man/takum8_10_raised.sh man/takum64_10_raised.sh man/template/math_function.sh Makefile config.mk
 man/takum16_10_raised.3: man/takum16_10_raised.sh man/takum64_10_raised.sh man/template/math_function.sh Makefile config.mk
