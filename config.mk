@@ -25,7 +25,7 @@ BUILD_CFLAGS   = $(CFLAGS)
 BUILD_LDFLAGS  = $(LDFLAGS)
 BUILD_LDLIBS  = $(LDLIBS)
 
-SHFLAGS   = -fPIC #-ffreestanding; SOFLAGS: -nostdlib after shared
+SHFLAGS   = -fPIC
 SOFLAGS   = -shared -Wl,--soname=libtakum.so.$(VERSION_MAJOR).$(VERSION_MINOR)
 SOSYMLINK = true
 
