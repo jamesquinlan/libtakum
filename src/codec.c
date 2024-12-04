@@ -344,7 +344,7 @@ float32_fraction_to_rounded_bits(float f, uint_fast8_t num_bits)
 	 * point representation, returning the correctly rounded
 	 * num_bit LSB's
 	 */
-	if (f == 0) {
+	if (f == 0 || num_bits == 0) {
 		F = 0;
 	} else {
 		union {
@@ -398,7 +398,7 @@ float64_fraction_to_rounded_bits(double f, uint_fast8_t num_bits)
 	 * point representation, returning the correctly rounded
 	 * num_bit LSB's
 	 */
-	if (f == 0) {
+	if (f == 0 || num_bits == 0) {
 		F = 0;
 	} else {
 		union {
@@ -452,7 +452,7 @@ extended_float_fraction_to_rounded_bits(long double f, uint_fast8_t num_bits)
 	 * point representation, returning the correctly rounded
 	 * num_bit LSB's
 	 */
-	if (f == 0) {
+	if (f == 0 || num_bits == 0) {
 		F = 0;
 	} else {
 		union {
