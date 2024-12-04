@@ -22,8 +22,8 @@ precision_reference(long double a, enum takum_type takum_type)
 		uint8_t R, r;
 
 		/* obtain the clean takum from the long double in the
-		 * native type, then shift it such that the lowest 16
-		 * bits are the prefix */
+		 * native type, then shift it such that the highest 16
+		 * bits are the prefix, yielding a 64-bit takum */
 		switch (takum_type) {
 		case TAKUM8:
 			t.value = (int64_t)takum8_from_extended_float(a);
