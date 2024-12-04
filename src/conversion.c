@@ -185,14 +185,14 @@ takum_linear16
 takum_linear16_from_float64(double f)
 {
 	return (takum_linear16)codec_takum16_from_s_and_l(
-		f < 0, (float)codec_linear_l_from_float64(f));
+		f < 0, (double)codec_linear_l_from_float64(f));
 }
 
 takum_linear32
 takum_linear32_from_float64(double f)
 {
 	return (takum_linear32)codec_takum32_from_s_and_l(
-		f < 0, (double)codec_linear_l_from_float64(f));
+		f < 0, codec_linear_l_from_float64(f));
 }
 
 takum_linear64
@@ -265,14 +265,14 @@ takum_linear16
 takum_linear16_from_extended_float(long double f)
 {
 	return (takum_linear16)codec_takum16_from_s_and_l(
-		f < 0, (float)codec_linear_l_from_extended_float(f));
+		f < 0, (double)codec_linear_l_from_extended_float(f));
 }
 
 takum_linear32
 takum_linear32_from_extended_float(long double f)
 {
 	return (takum_linear32)codec_takum32_from_s_and_l(
-		f < 0, (double)codec_linear_l_from_extended_float(f));
+		f < 0, codec_linear_l_from_extended_float(f));
 }
 
 takum_linear64
